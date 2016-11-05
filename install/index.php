@@ -1,7 +1,7 @@
 <?php
 
 /********************************************
-* PHP Newsletter 4.0.16
+* PHP Newsletter 4.1.3
 * Copyright (c) 2006-2015 Alexander Yanitsky
 * Website: http://janicky.com
 * E-mail: janickiy@mail.ru
@@ -12,13 +12,13 @@ error_reporting(0);
 session_start();
 
 $INSTALL = array();
-$INSTALL["version"] = '4.0.16';
+$INSTALL["version"] = '4.1.3';
 
 $INSTALL["system"]["dir_config"] = 'config/';
 $SCRIPT_URL = substr($_SERVER['SCRIPT_NAME'], 0, strpos($_SERVER['SCRIPT_NAME'],"install/"));
 
 // Step
-$INSTALL['step_count'] = 6;
+$INSTALL['step_count'] = 7;
 $INSTALL['step'] = 1;
 
 if(!empty($_POST['step']) and is_numeric($_POST['step'])){
@@ -39,6 +39,13 @@ $INSTALL['available_langs'] = array(
 
 if($INSTALL['step'] == 1 and isset($_POST['forward'])){
 	$_SESSION['language'] = $_POST['language'];
+}
+
+if($INSTALL['step'] == 2) {
+	if($_POST['license_key'])
+		$_SESSION['license_key'] = trim($_POST['license_key']);
+	else
+		$_SESSION['license_key'] = 'DEMO';
 }
 
 $INSTALL['language'] = !empty($_SESSION['language']) ? $_SESSION['language'] : null;
@@ -77,11 +84,12 @@ else
 
 $INSTALL['step_title'] = array(
 	1 => $INSTALL["lang"]["str"]["install_lang_select"],
-	2 => $INSTALL["lang"]["str"]["license"],
-	3 => $INSTALL["lang"]["str"]["system_req"],
-	4 => $INSTALL["lang"]["str"]["db_and_product_settings"],
+	2 => $INSTALL["lang"]["str"]["license_key"],
+	3 => $INSTALL["lang"]["str"]["license"],	
+	4 => $INSTALL["lang"]["str"]["system_req"],
 	5 => $INSTALL["lang"]["str"]["db_and_product_settings"],
-	6 => $INSTALL["lang"]["str"]["install_completion"],
+	6 => $INSTALL["lang"]["str"]["db_and_product_settings"],
+	7 => $INSTALL["lang"]["str"]["install_completion"],
 );
 
 $INSTALL['tables'] = array(
@@ -115,7 +123,12 @@ if($INSTALL['step'] == 3 and isset($_POST['forward'])){
 	$INSTALL['step'] = 4;
 }
 
-if($INSTALL['step'] == 4){
+if($INSTALL['step'] == 4 and isset($_POST['forward'])){
+	$_POST = array();
+	$INSTALL['step'] = 5;
+}
+
+if($INSTALL['step'] == 5){
 	$INSTALL['type'] = null;
 	$INSTALL['version_detect'] = null;
 	
@@ -192,6 +205,11 @@ if($INSTALL['step'] == 4){
 			if($exists_tables) {
 				$INSTALL['version_detect'] = '4.0.0';
                 $INSTALL['version_code'] = 40000;
+				
+				if (in_array('require_confirmation', $tables['settings'])) {
+					$INSTALL['version_detect'] = '4.1.0';
+					$INSTALL['version_code'] = 40100;
+                }				
 			}	
 			
 			$INSTALL['type'] = 'install';
@@ -211,7 +229,47 @@ if($INSTALL['step'] == 4){
 			$_POST['action'] = isset($_POST['action']) ? $_POST['action'] : '';
 			
 			if($INSTALL['type'] == 'update'){
-			
+				if ($_POST['action'] == 'update') {
+					if ($INSTALL['version_code'] == 40000) {
+                        import_data('update/update_4_0_'.$INSTALL['language'].'.sql', $_POST['prefix']);
+                    }
+					
+					if(count($INSTALL['errors']) == 0){
+					$_SESSION['name'] = $_POST["name"];
+						$_SESSION['host'] = $_POST['host'];
+						$_SESSION['user'] = $_POST['user'];
+						$_SESSION['password'] = $_POST['password'];						
+						$_SESSION['prefix'] = $_POST['prefix'];
+					
+					
+						$_POST = array();
+						$INSTALL['step'] = 6;
+					}	
+				} elseif ($_POST['action'] == 'clear') {
+					$tables_drop = array();
+        
+					foreach($INSTALL['tables'] as $table) {
+						$tables_drop[] = '`'.$_POST['prefix'].$table.'`';
+					}
+
+					if(count($tables_drop) > 0) {
+						$dbh->query('DROP TABLE IF EXISTS '.implode(',', $tables_drop));
+					}
+
+					import_scheme('sql/phpnewsletter.sql', $_POST['prefix']);
+					import_data('sql/phpnewsletter_data_'.$INSTALL['language'].'.sql', $_POST['prefix']);
+            
+					if(count($INSTALL['errors']) == 0){
+						$_SESSION['name'] = $_POST["name"];
+						$_SESSION['host'] = $_POST['host'];
+						$_SESSION['user'] = $_POST['user'];
+						$_SESSION['password'] = $_POST['password'];						
+						$_SESSION['prefix'] = $_POST['prefix'];
+        
+						$_POST = array();
+						$INSTALL['step'] = 6;
+					}
+				}
 			}
 			else if($_POST['action'] == 'clear'){
 				if($INSTALL['version_detect'] and $_POST['action'] == 'clear'){
@@ -236,7 +294,7 @@ if($INSTALL['step'] == 4){
 						$_SESSION['prefix'] = $_POST['prefix'];
 					
                         $_POST = array();
-                        $INSTALL['step'] = 5;
+                        $INSTALL['step'] = 6;
                     }
 				} else if($_POST['action'] == 'clear') {
 					$tables_drop = array();
@@ -251,7 +309,7 @@ if($INSTALL['step'] == 4){
 
 					import_scheme('sql/phpnewsletter.sql', $_POST['prefix']);
             
-					if(!$INSTALL['errors']) {
+					if(count($INSTALL['errors']) == 0){
 						$_SESSION['name'] = $_POST["name"];
 						$_SESSION['host'] = $_POST['host'];
 						$_SESSION['user'] = $_POST['user'];
@@ -259,7 +317,7 @@ if($INSTALL['step'] == 4){
 						$_SESSION['prefix'] = $_POST['prefix'];
         
 						$_POST = array();
-						$INSTALL['step'] = 5;
+						$INSTALL['step'] = 6;
 					}
                 }
 			}else if($INSTALL['type'] == 'install'){
@@ -275,7 +333,7 @@ if($INSTALL['step'] == 4){
 						$_SESSION['prefix'] = $_POST['prefix'];
 					
 						$_POST = array();
-						$INSTALL['step'] = 5;
+						$INSTALL['step'] = 6;
                     }
                 }
             }			
@@ -288,7 +346,7 @@ if($INSTALL['step'] == 4){
     }
 }
 
-if($INSTALL['step'] == 5 and isset($_POST['forward'])){
+if($INSTALL['step'] == 6 and isset($_POST['forward'])){
 	$_POST['passw'] = trim($_POST['passw']);
 	$_POST['confirm_passw'] = trim($_POST['confirm_passw']);
 	
@@ -304,8 +362,9 @@ if($INSTALL['step'] == 5 and isset($_POST['forward'])){
 		$dbh = new mysqli($_SESSION['host'], $_SESSION['user'], $_SESSION['password'], $_SESSION['name']);
 		$result1 = $dbh->query("TRUNCATE TABLE `".$_SESSION['prefix']."aut`"); 
 		$result2 = $dbh->query("INSERT INTO `".$_SESSION['prefix']."aut` (`passw`) VALUES ('".$passw."')"); 
+		$result3 = $dbh->query("INSERT INTO `".$_SESSION['prefix']."licensekey` (`licensekey`) VALUES ('".$_SESSION['license_key']."')"); 
 	
-		if($result1 and $result2){
+		if($result1 and $result2 and $result3){
 			$string = "<?php\n";
 			$string .= "\$PNSL[\"config\"][\"db\"][\"host\"] = \"".str_replace("\"", "\\\"", $_SESSION['host'])."\";\n";
 			$string .= "\$PNSL[\"config\"][\"db\"][\"name\"] = \"".str_replace("\"", "\\\"", $_SESSION['name'])."\";\n";
@@ -319,20 +378,20 @@ if($INSTALL['step'] == 5 and isset($_POST['forward'])){
 
 			if(fwrite($f,$string) === FALSE){
 				$_POST = array();
-				$INSTALL['step'] = 5;
+				$INSTALL['step'] = 6;
 		
 				$INSTALL['errors'][] = $INSTALL["lang"]["error"]["unwritabl_config"];						
 			}
 			else{
 				$_POST = array();
-				$INSTALL['step'] = 6;
+				$INSTALL['step'] = 7;
 			}
 	
 			fclose($f);
 		}
 		else{
 			$_POST = array();
-			$INSTALL['step'] = 5;
+			$INSTALL['step'] = 6;
 			
 			$INSTALL['errors'][] = $INSTALL["lang"]["error"]["setting_product"];
 		}
@@ -340,12 +399,12 @@ if($INSTALL['step'] == 5 and isset($_POST['forward'])){
 }
 
 $step_name = ''.$INSTALL["lang"]["str"]["install"].' %SCRIPT_NAME% %VERSION% %STEP% %NUM%/%COUNT% - %STEP_TITLE%';
-$step_name = str_replace('%SCRIPT_NAME%',$INSTALL["lang"]["script"]["name"],$step_name);
-$step_name = str_replace('%VERSION%',$INSTALL["version"],$step_name);
-$step_name = str_replace('%STEP%',$INSTALL["lang"]["str"]["step"],$step_name);
-$step_name = str_replace('%NUM%',$INSTALL['step'],$step_name);
-$step_name = str_replace('%COUNT%',$INSTALL['step_count'],$step_name);
-$step_name = str_replace('%STEP_TITLE%',$INSTALL['step_title'][$INSTALL['step']],$step_name);
+$step_name = str_replace('%SCRIPT_NAME%', $INSTALL["lang"]["script"]["name"], $step_name);
+$step_name = str_replace('%VERSION%', $INSTALL["version"], $step_name);
+$step_name = str_replace('%STEP%', $INSTALL["lang"]["str"]["step"], $step_name);
+$step_name = str_replace('%NUM%', $INSTALL['step'], $step_name);
+$step_name = str_replace('%COUNT%', $INSTALL['step_count'], $step_name);
+$step_name = str_replace('%STEP_TITLE%', $INSTALL['step_title'][$INSTALL['step']], $step_name);
 
 header('Content-Type: text/html; charset=utf-8');
 
@@ -357,6 +416,8 @@ header('Content-Type: text/html; charset=utf-8');
 <title><?php echo "".$INSTALL["lang"]["script"]["name"]."  ".$INSTALL["version"]." | ".$INSTALL["lang"]["str"]["install"].""; ?></title>
 <link href="../styles/bootstrap.min.css" rel="stylesheet" media="screen">
 <link href="../styles/styles.css" rel="stylesheet" media="screen">
+<script type="text/javascript" src="../js/jquery.min.js"></script>
+<script type="text/javascript" src="../js/jquery.hide_alertblock.js"></script>
 </head>
 <body>
 <div class="navbar navbar-fixed-top">
@@ -373,7 +434,7 @@ header('Content-Type: text/html; charset=utf-8');
       <div class="muted pull-left"> <a target="_blank" href="http://janicky.com/">PHP Newsletter</a> | <a target="_blank" href="<?php echo $INSTALL["lang"]["str"]["url_info"]; ?>"><?php echo $INSTALL["lang"]["str"]["install_manual"]; ?></a> </div>
     </div>
     <div class="block-content collapse in">
-      <?php
+<?php
 
 if($INSTALL['step'] == 1){
 
@@ -390,13 +451,13 @@ if($INSTALL['step'] == 1){
             <label class="control-label" for="lang"><?php echo $INSTALL["lang"]["str"]["language"]; ?>:</label>
             <div class="controls">
               <select name="language">
-                <?php
+<?php
 
     foreach ($INSTALL['available_langs'] as $code => $lang){
 	
 ?>
-                <option value="<?php echo $code; ?>"<?php echo $INSTALL['language'] == $code ? ' selected="selected"' : ''?>><?php echo $lang; ?></option>
-                <?php
+                <option value="<?php echo $code; ?>"<?php echo $INSTALL['language'] == $code ? ' selected="selected"' : ''; ?>><?php echo $lang; ?></option>
+<?php
 
     }
 	
@@ -410,14 +471,83 @@ if($INSTALL['step'] == 1){
           <input type="button" class="btn" value="<?php echo $INSTALL["lang"]["str"]["cancel"]; ?>" onclick="location.href='../'" />
         </div>
       </form>
-      <?php
+<?php
 
 }
-
 else if($INSTALL['step'] == 2){
 
 	/*********
 	  Step 2
+	*********/
+
+?>
+<script type="text/javascript">
+$(document).ready(function(){
+	$("#license_key").change(function(){ 
+
+		var licensekey = $("#license_key").val();
+	
+		$.ajax({
+			type: "POST",
+			url: "./check_license.php",
+			data: "licensekey=" + licensekey,
+			dataType: "xml",
+			success: function(xml){
+				$(xml).find("document").each(function () {
+					var result = $(this).find("result").text();				
+
+					if(result == 'no'){
+						$(".alert-error").show();
+						$("#error_msg").text('<?php echo $INSTALL["lang"]["error"]["wrong_license_key"]; ?>');
+						$(".btn-primary").attr("disabled","disabled");
+					}
+					else{
+						//$("#error_msg").text('');
+						setTimeout(function(){$('.alert-error').fadeOut('700')},500);
+						$('.btn-primary').removeAttr("disabled");
+					}
+				});
+			}
+		});		
+	});	
+});			
+</script>
+<div style="display:none;" class="alert alert-error">
+<button  class="close" data-dismiss="alert">×</button>
+<span id="error_msg"></span>
+</div>
+<form class="form-horizontal" action="?" method="post">
+	<input type="hidden" name="step" value="2" />
+        <fieldset>
+          <legend><?php echo $INSTALL["lang"]["str"]["license_key"]; ?></legend>
+          <div class="control-group">
+            <div class="controls">
+              <label class="radio">
+				<input type="radio" onclick="document.getElementById('license_key').disabled='disabled'; this.form.forward.disabled=!this.checked;" name="license_key_type" value="demo" checked="checked"> <?php echo $INSTALL["lang"]["str"]["demo_version"]; ?>
+              </label>
+              <label class="radio">
+                <input type="radio" onclick="document.getElementById('license_key').disabled=''; this.form.forward.disabled=this.checked;" name="license_key_type" value="license_key"> <?php echo $INSTALL["lang"]["str"]["commercial_version"]; ?>
+              </label>
+            </div>
+			<div class="control-group">
+               <label class="control-label-large" for="license_key"><?php echo $INSTALL["lang"]["str"]["license_key"]; ?></label>
+			   <div class="controls-large">
+                 <input id="license_key" class="span4 focused" type="text" name="license_key" disabled='disabled' value="DEMO">
+               </div>			   
+		    </div>			
+          </div>
+        <div class="form-actions">
+          <input type="submit" name="forward" class="btn btn-primary" value="<?php echo $INSTALL["lang"]["str"]["next"]; ?>" />
+          <input type="button" class="btn" value="<?php echo $INSTALL["lang"]["str"]["cancel"]; ?>" onclick="location.href='../'" />
+        </div>
+</form> 
+<?php
+
+}
+else if($INSTALL['step'] == 3){
+
+	/*********
+	  Step 3
 	*********/
 	
 	$filename = '../LICENSE_'.strtoupper($INSTALL['language']);
@@ -429,13 +559,13 @@ else if($INSTALL['step'] == 2){
 
 ?>
       <form class="form-horizontal" action="?" method="post">
-        <input type="hidden" name="step" value="2" />
+        <input type="hidden" name="step" value="3" />
         <fieldset>
           <legend><?php echo $INSTALL["lang"]["str"]["license"]; ?></legend>
           <div class="control-group">
             <div class="controls">
               <h5><?php echo $INSTALL["lang"]["str"]["read_license"]; ?></h5>
-              <textarea class="span7" name="readonly" rows="25"><?php echo $contents; ?></textarea>
+              <textarea class="span7" name="readonly" rows="20"><?php echo $contents; ?></textarea>
             </div>
           </div>
           <div class="control-group">
@@ -446,28 +576,29 @@ else if($INSTALL['step'] == 2){
           </div>
         </fieldset>
         <div class="form-actions">
-          <input type="submit" name="forward" class="btn btn-primary" value="<?php echo $INSTALL["lang"]["str"]["next"]; ?>" disabled="disabled"/>
+          <input type="submit" name="forward" class="btn btn-primary"  value="<?php echo $INSTALL["lang"]["str"]["next"]; ?>" disabled="disabled"/>
           <input type="button" class="btn" value="<?php echo $INSTALL["lang"]["str"]["cancel"]; ?>" onclick="location.href='../'" />
         </div>
       </form>
-      <?php
+<?php
 
 }
-else if($INSTALL['step'] == 3){
+else if($INSTALL['step'] == 4){
 
 	/*********
-	  Step 3
+	  Step 4
 	*********/
 
 	$check = array();
     $info = array();
     
-    $check["php_version"] = version_compare(PHP_VERSION, "5.2", ">=");
+    $check["php_version"] = version_compare(PHP_VERSION, "5.3", ">=");
     $info["php_version"] = PHP_VERSION;
 
     $check["php_mysql"] = extension_loaded("mysql");
     $check["php_mbstring"] = extension_loaded("mbstring");
 	$check["php_iconv"] = extension_loaded("iconv");
+	$check["php_zip"] = extension_loaded("zip");	
 	
     if (ini_get('register_globals') == 1) {
 	
@@ -476,7 +607,7 @@ else if($INSTALL['step'] == 3){
         <p><?php echo $INSTALL["lang"]["warning"]["register_globals_on"] ; ?></p>
         <p><strong><?php echo $INSTALL["lang"]["str"]["can_continue_install"]; ?></strong></p>
       </div>
-      <?php
+<?php
 
     }
 	
@@ -487,19 +618,19 @@ else if($INSTALL['step'] == 3){
         <p><?php echo $INSTALL["lang"]["warning"]["system_req_warning"]; ?></p>
         <p><strong><?php echo $INSTALL["lang"]["str"]["can_continue_install"]; ?></strong></p>
       </div>
-      <?php
+<?php
 
     }
 	
 ?>
       <form class="form-horizontal" action="?" method="post">
-        <input type="hidden" name="step" value="3" />
+        <input type="hidden" name="step" value="4" />
         <fieldset>
           <legend><?php echo $INSTALL["lang"]["str"]["check_result"]; ?></legend>
           <table class="table table-striped table-bordered table-hover dataTable" width="100%" cellspacing="0" cellpadding="0" border="0">
             <tbody>
               <tr>
-                <td width="250">PHP 5.2 + </td>
+                <td width="250">PHP 5.3 + </td>
                 <td><strong><?php echo $check["php_version"] ? '<span class="label label-success">'.$INSTALL["lang"]["str"]["yes"].'</span>' : '<span class="label label-important">'.$INSTALL["lang"]["str"]["no"].'</span>'; ?></strong></td>
               </tr>
               <tr>
@@ -514,6 +645,10 @@ else if($INSTALL['step'] == 3){
                 <td width="250">Iconv</td>
                 <td><strong><?php echo $check["php_iconv"] ? '<span class="label label-success">'.$INSTALL["lang"]["str"]["yes"].'</span>' : '<span class="label label-important">'.$INSTALL["lang"]["str"]["no"].'</span>'; ?></strong></td>
               </tr>
+			   <tr>
+                <td width="250">Zip</td>
+                <td><strong><?php echo $check["php_zip"] ? '<span class="label label-success">'.$INSTALL["lang"]["str"]["yes"].'</span>' : '<span class="label label-important">'.$INSTALL["lang"]["str"]["no"].'</span>'; ?></strong></td>
+              </tr>		  
             </tbody>
           </table>
         </fieldset>
@@ -522,13 +657,13 @@ else if($INSTALL['step'] == 3){
           <input type="button" class="btn" value="<?php echo $INSTALL["lang"]["str"]["cancel"]; ?>" onclick="location.href='../'" />
         </div>
       </form>
-      <?php
+<?php
 
 }
-else if($INSTALL['step'] == 4){
+else if($INSTALL['step'] == 5){
 
 	/*********
-	  Step 3
+	  Step 5
 	*********/
 	
 	if(count($INSTALL['errors']) > 0){
@@ -536,7 +671,7 @@ else if($INSTALL['step'] == 4){
 ?>
       <div class="alert alert-error alert-block">
         <h4 class="alert-heading"><?php echo $INSTALL["lang"]["str"]["error_after_process"]; ?>:</h4>
-        <?php
+<?php
 
     echo "<ul>\n";
 	
@@ -548,13 +683,13 @@ else if($INSTALL['step'] == 4){
 	
 ?>
       </div>
-      <?php
+<?php
 
     }	
 	
 ?>
       <form class="form-horizontal" action="?" method="post">
-        <input type="hidden" name="step" value="4" />
+        <input type="hidden" name="step" value="5" />
         <?php
     if($INSTALL['type'] == 'update') {
 	
@@ -564,14 +699,14 @@ else if($INSTALL['step'] == 4){
           <p><?php echo str_replace('%VERSION%', $INSTALL['version_detect'], $INSTALL["lang"]["warning"]["detect_old_version"]); ?></p>
           <label class="inline radio">
           <?php echo str_replace('%VERSION%', $INSTALL["version"], $INSTALL["lang"]["str"]["update_to_version"]); ?>
-          <input type="radio" name="action" value="update" id="update" checked="checked" />
-          <?php echo $INSTALL["lang"]["str"]["clear_and_reinstall"]; ?><br>
+          <input type="radio" name="action" value="update" id="update" checked="checked" /><br>
+		  </label>
           <div class="control-group error"><span class="help-inline"><?php echo $INSTALL["lang"]["warning"]["update_warning"]; ?></span></div>
-          <?php echo str_replace('%VERSION%', $INSTALL["version"], $INSTALL["lang"]["str"]["clear_and_install"]); ?>
+		  <label class="inline radio"><?php echo str_replace('%VERSION%', $INSTALL["version"], $INSTALL["lang"]["str"]["clear_and_install"]); ?>
           <input type="radio" name="action" value="clear" id="reinstall" />
           <?php echo $INSTALL["lang"]["str"]["clear_and_reinstall"]; ?><br>
-          <div class="control-group error"><span class="help-inline"><?php echo $INSTALL["lang"]["warning"]["reinstall_warning"]; ?></span></div>
           </label>
+		  <div class="control-group error"><span class="help-inline"><?php echo $INSTALL["lang"]["warning"]["reinstall_warning"]; ?></span></div>
         </div>
         <?php
 
@@ -593,7 +728,7 @@ else if($INSTALL['step'] == 4){
 	
 ?>
         <input type="hidden" name="action" value="install" />
-        <?php
+<?php
 
     }  
 	
@@ -638,22 +773,22 @@ else if($INSTALL['step'] == 4){
       </form>
       <?php
 
-} else if($INSTALL['step'] == 5) {
+} else if($INSTALL['step'] == 6) {
  
 	/*********
-	  Step 4
+	  Step 6
 	*********/
 	
 ?>
       <form  class="form-horizontal" action="?" method="post">
-        <input type="hidden" name="step" value="5" />
-        <?php
+        <input type="hidden" name="step" value="6" />
+<?php
 
     if(count($INSTALL['errors']) > 0){
-	?>
+?>
         <div class="alert alert-error alert-block">
           <h4 class="alert-heading"><?php echo $INSTALL["lang"]["str"]["error_after_process"]; ?>:</h4>
-          <?php
+<?php
 
 	echo "<ul>\n";
 	
@@ -664,7 +799,7 @@ else if($INSTALL['step'] == 4){
 	echo "</ul>\n";	
 ?>
         </div>
-        <?php
+<?php
 
     }
 	
@@ -689,9 +824,9 @@ else if($INSTALL['step'] == 4){
           <input type="button" class="btn" value="<?php echo $INSTALL["lang"]["str"]["cancel"]; ?>" onclick="location.href='../'" />
         </div>
       </form>
-      <?php
+<?php
 
-} else if($INSTALL['step'] == 6) {
+} else if($INSTALL['step'] == 7) {
 
 ?>
       <fieldset>
@@ -699,7 +834,7 @@ else if($INSTALL['step'] == 4){
         <p><?php echo str_replace("%VERSION%", $INSTALL["version"], $INSTALL["lang"]["str"]["install_complete"]); ?></p>
         <a href="<?php echo $SCRIPT_URL; ?>"><?php echo $INSTALL["lang"]["str"]["admin_area"]; ?> &gt;&gt;</a>
       </fieldset>
-      <?php
+<?php
 
 }
 

@@ -1,7 +1,7 @@
 <?php
 
 /********************************************
-* PHP Newsletter 4.0.16
+* PHP Newsletter 4.1.3
 * Copyright (c) 2006-2015 Alexander Yanitsky
 * Website: http://janicky.com
 * E-mail: janickiy@mail.ru
@@ -79,9 +79,9 @@ class Model_sendtest extends Model
 			$from = $settings['email_name'];
 
 		if($charset != 'utf-8') {
-			$from = iconv('utf-8',$charset,$from);
-			$subject = iconv('utf-8',$charset,$subject);
-			if($settings['organization']) $settings['organization'] = iconv('utf-8',$charset,$settings['organization']);
+			$from = iconv('utf-8', $charset, $from);
+			$subject = iconv('utf-8', $charset, $subject);
+			if($settings['organization']) $settings['organization'] = iconv('utf-8', $charset, $settings['organization']);
 		}	
 		
 		$m->Subject = $subject;
@@ -91,7 +91,8 @@ class Model_sendtest extends Model
 			$m->Priority = 1;
 		else if($prior == 2) 
 			$m->Priority = 2;
-		else $m->Priority = 3;
+		else 
+			$m->Priority = 3;
 
 		if($settings['show_email'] == "no") 
 			$m->From = "noreply@".$_SERVER['SERVER_NAME']."";
@@ -120,7 +121,7 @@ class Model_sendtest extends Model
 		else if($settings['precedence'] == 'list')
 			$m->addCustomHeader("Precedence: list");				
 				
-		$UNSUB = "http://".$_SERVER["SERVER_NAME"].root()."?task=unsubscribe&id=0&token=";
+		$UNSUB = "http://".$_SERVER["SERVER_NAME"].root()."?task=unsubscribe&id=test&token=test";
 		$unsublink = str_replace('%UNSUB%', $UNSUB, $settings['unsublink']);
 
 		if($settings['unsubscribe'] == "yes" and !empty($settings['unsublink'])) { 

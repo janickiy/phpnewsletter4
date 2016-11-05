@@ -1,7 +1,7 @@
 <?php
 
 /********************************************
-* PHP Newsletter 4.0.16
+* PHP Newsletter 4.1.3
 * Copyright (c) 2006-2015 Alexander Yanitsky
 * Website: http://janicky.com
 * E-mail: janickiy@mail.ru
@@ -13,7 +13,7 @@ class Model_update extends Model
 	private $data;
 
 	public function __construct() {
-		$this->get_data();
+		$this->get_data(); 
 	}
 
 	public function get_data()
@@ -49,6 +49,14 @@ class Model_update extends Model
 		$row = $this->data->getRow($result);
 		
 		return $row['licensekey'];
+	}
+	
+	public function getVersionCode($version)
+	{
+		preg_match("/(\d+)\.(\d+)\./", $version, $out);
+		$code = ($out[1] * 10000 + $out[2] * 100);
+		
+		return $code;
 	}
 }
 

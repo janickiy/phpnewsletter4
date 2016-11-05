@@ -1,7 +1,7 @@
 <?php
 
 /********************************************
-* PHP Newsletter 4.0.16
+* PHP Newsletter 4.1.3
 * Copyright (c) 2006-2015 Alexander Yanitsky
 * Website: http://janicky.com
 * E-mail: janickiy@mail.ru
@@ -15,9 +15,10 @@ Auth::authorization();
 require_once $PNSL["system"]["dir_root"].$PNSL["system"]["dir_libs"]."html_template/SeparateTemplate.php";
 $tpl = SeparateTemplate::instance()->loadSourceFromFile($PNSL["system"]["template"]."template.tpl");
 
-$tpl->assign('STR_WARNING',$PNSL["lang"]["str"]["warning"]);
-$tpl->assign('SCRIPT_VERSION',$PNSL["system"]["version"]);
-$tpl->assign('INFO_ALERT',$PNSL["lang"]["info"]["template"]);
+$tpl->assign('STR_WARNING', $PNSL["lang"]["str"]["warning"]);
+$tpl->assign('SCRIPT_VERSION', $PNSL["system"]["version"]);
+$tpl->assign('INFO_ALERT', $PNSL["lang"]["info"]["template"]);
+$tpl->assign('STR_ERROR', $PNSL["lang"]["str"]["error"]);
 
 if($_POST["action"]){
 	if($_POST["action"] == 2){
@@ -46,7 +47,9 @@ if($_GET['pos'] == 'up'){
 		header("Location: ./");
 		exit;
 	}
-	else $alert_error = $PNSL["lang"]["error"]["web_apps_error"];
+	else {
+		$alert_error = $PNSL["lang"]["error"]["web_apps_error"];
+	}	
 }
 
 if($_GET['pos'] == 'down'){
@@ -54,61 +57,71 @@ if($_GET['pos'] == 'down'){
 		header("Location: ./");
 		exit;
 	}
-	else $alert_error = $PNSL["lang"]["error"]["web_apps_error"];
+	else{
+		$alert_error = $PNSL["lang"]["error"]["web_apps_error"];
+	}	
 }
 
-$tpl->assign('TITLE_PAGE',$PNSL["lang"]["title_page"]["template"]);
-$tpl->assign('TITLE',$PNSL["lang"]["title"]["template"]);
+$tpl->assign('TITLE_PAGE', $PNSL["lang"]["title_page"]["template"]);
+$tpl->assign('TITLE', $PNSL["lang"]["title"]["template"]);
 
 //$tpl->assign('NAMESCRIPT',$PNSL["lang"]["script"]["name"]);
 
 //menu
 include_once "menu.php";
 
+$tpl->assign('MAILING_STATUS', getCurrentMailingStatus());
+$tpl->assign('STR_LAUNCHEDMAILING', $PNSL["lang"]["str"]["launchedmailing"]);
+$tpl->assign('STR_STOPMAILING', $PNSL["lang"]["str"]["stopmailing"]);
+
 //alert
 if($alert_error) {
-	$tpl->assign('STR_ERROR',$PNSL["lang"]["str"]["error"]);
-	$tpl->assign('ERROR_ALERT',$alert_error);
+	$tpl->assign('ERROR_ALERT', $alert_error);
 }
 
-$tpl->assign('TH_TABLE_ACTIVITY',$PNSL["lang"]["table"]["activity"]);
-$tpl->assign('TH_TABLE_CATEGORY',$PNSL["lang"]["table"]["category"]);
-$tpl->assign('TH_TABLE_MAILER',$PNSL["lang"]["table"]["mailer"]);
-$tpl->assign('TH_TABLE_POSITION',$PNSL["lang"]["table"]["position"]);
-$tpl->assign('TH_TABLE_EDIT',$PNSL["lang"]["table"]["edit"]);
-$tpl->assign('TH_TABLE_SEND',$PNSL["lang"]["table"]["send"]);
+$tpl->assign('TH_TABLE_ACTIVITY', $PNSL["lang"]["table"]["activity"]);
+$tpl->assign('TH_TABLE_CATEGORY', $PNSL["lang"]["table"]["category"]);
+$tpl->assign('TH_TABLE_MAILER', $PNSL["lang"]["table"]["mailer"]);
+$tpl->assign('TH_TABLE_POSITION', $PNSL["lang"]["table"]["position"]);
+$tpl->assign('TH_TABLE_EDIT', $PNSL["lang"]["table"]["edit"]);
+$tpl->assign('TH_TABLE_SEND', $PNSL["lang"]["table"]["send"]);
 
-$arr = $data->getListArr();
+if(isset($_COOKIE['pnumber'])) 
+	$pnumber = (int)$_COOKIE['pnumber'];
+else 
+	$pnumber = 5;
+
+$arr = $data->getListArr($pnumber);
 
 if(is_array($arr)){
 
 	//fetch row block from root template
 	$rowBlock = $tpl->fetch('row');
 	
-	for($i=0; $i<count($arr); $i++){
+	for($i = 0; $i < count($arr); $i++){
 	
 		//fetch column block from row block
 		$columnBlock = $rowBlock->fetch('column');
 		
 		if($arr[$i]['id_cat'] == 0) { $arr[$i]['catname'] = $PNSL["lang"]["str"]["general"]; }
 
-		$active = ($arr[$i]['active'] == 'yes' ? $PNSL["lang"]["str"]["yes"] : $PNSL["lang"]["str"]["no"]);
+		$active = $arr[$i]['active'] == 'yes' ? $PNSL["lang"]["str"]["yes"] : $PNSL["lang"]["str"]["no"];
         
 		$arr[$i]['body'] = preg_replace('/<br(\s\/)?>/siU', "\n", $arr[$i]['body']);
 		$arr[$i]['body'] = remove_html_tags($arr[$i]['body']);
 		$arr[$i]['body'] = preg_replace('/\n/sU', "<br>", $arr[$i]['body']);
 		$pos = strpos(substr($arr[$i]['body'],500), " ");			
 
-		if(strlen($arr[$i]['body'])>500) 
+		if(strlen($arr[$i]['body']) > 500) 
 			$srttmpend = "...";
 		else 
 			$strtmpend = "";
 			
 		$class_noactive = $arr[$i]['active'] == 'no' ? ' error' : '';	
 			
-		$columnBlock->assign('CLASS_NOACTIVE',$class_noactive);				
+		$columnBlock->assign('CLASS_NOACTIVE', $class_noactive);				
 		
-		$template = substr($arr[$i]['body'], 0, 500+$pos).$srttmpend; 		
+		$template = substr($arr[$i]['body'], 0, 500 + $pos).$srttmpend; 		
 		$columnBlock->assign('ROW_ID_TEMPLATE', $arr[$i]['id_template']);
 		$columnBlock->assign('ROW_CONTENT', $template);			
 		$columnBlock->assign('STR_SEND', $PNSL["lang"]["str"]["send"]);	
@@ -128,27 +141,27 @@ if(is_array($arr)){
 
 $tpl->assign('STR_CATEGORY', $PNSL["lang"]["table"]["category"]);	
 $tpl->assign('ALERT_SELECT_ACTION', $PNSL["lang"]["alert"]["select_action"]);
-$tpl->assign('ALERT_CONFIRM_REMOVE',$PNSL["lang"]["alert"]["confirm_remove"]);
-$tpl->assign('PHP_SELF',$_SERVER['REQUEST_URI']);
-$tpl->assign('STR_PAUSE_SENDING',$PNSL["lang"]["str"]["pause_sending"]);
-$tpl->assign('STR_STOP_SENDING',$PNSL["lang"]["str"]["stop_sending"]);
-$tpl->assign('STR_REFRESH_SENDING',$PNSL["lang"]["str"]["refresh_sending"]);
-$tpl->assign('ALERT_MALING_NOT_SELECTED',$PNSL["lang"]["alert"]["maling_not_selected"]);
+$tpl->assign('ALERT_CONFIRM_REMOVE', $PNSL["lang"]["alert"]["confirm_remove"]);
+$tpl->assign('ACTION', $_SERVER['REQUEST_URI']);
+$tpl->assign('STR_PAUSE_SENDING', $PNSL["lang"]["str"]["pause_sending"]);
+$tpl->assign('STR_STOP_SENDING', $PNSL["lang"]["str"]["stop_sending"]);
+$tpl->assign('STR_REFRESH_SENDING', $PNSL["lang"]["str"]["refresh_sending"]);
+$tpl->assign('ALERT_MALING_NOT_SELECTED', $PNSL["lang"]["alert"]["maling_not_selected"]);
 
-$tpl->assign('STR_SENT',$PNSL["lang"]["str"]["sent"]);
-$tpl->assign('STR_WASNT_SENT',$PNSL["lang"]["str"]["send_status_no"]);
+$tpl->assign('STR_SENT', $PNSL["lang"]["str"]["sent"]);
+$tpl->assign('STR_WASNT_SENT', $PNSL["lang"]["str"]["send_status_no"]);
 
 //modal window
-$tpl->assign('STR_TIME',$PNSL["lang"]["str"]["time"]);
-$tpl->assign('STR_TIME_LEFT',$PNSL["lang"]["str"]["time_left"]);
-$tpl->assign('STR_TIME_PASSED',$PNSL["lang"]["str"]["time_passed"]);
-$tpl->assign('STR_SEND_TEST_EMAIL',$PNSL["lang"]["str"]["send_test_email"]);
-$tpl->assign('STR_TOTAL',$PNSL["lang"]["str"]["total"]);
-$tpl->assign('STR_GOOD',$PNSL["lang"]["str"]["good"]);
-$tpl->assign('STR_BAD',$PNSL["lang"]["str"]["bad"]);
-$tpl->assign('STR_SENDOUT_TO_SUBSCRIBERS',$PNSL["lang"]["str"]["sendout_to_subscribers"] );
-$tpl->assign('STR_ONLINE_MAILINGLOG',$PNSL["lang"]["str"]["online_mailinglog"]);  
-$tpl->assign('ALERT_ERROR_SERVER',$PNSL["lang"]["alert"]["error_server"]);
+$tpl->assign('STR_TIME', $PNSL["lang"]["str"]["time"]);
+$tpl->assign('STR_TIME_LEFT', $PNSL["lang"]["str"]["time_left"]);
+$tpl->assign('STR_TIME_PASSED', $PNSL["lang"]["str"]["time_passed"]);
+$tpl->assign('STR_SEND_TEST_EMAIL', $PNSL["lang"]["str"]["send_test_email"]);
+$tpl->assign('STR_TOTAL', $PNSL["lang"]["str"]["total"]);
+$tpl->assign('STR_GOOD', $PNSL["lang"]["str"]["good"]);
+$tpl->assign('STR_BAD', $PNSL["lang"]["str"]["bad"]);
+$tpl->assign('STR_SENDOUT_TO_SUBSCRIBERS', $PNSL["lang"]["str"]["sendout_to_subscribers"] );
+$tpl->assign('STR_ONLINE_MAILINGLOG', $PNSL["lang"]["str"]["online_mailinglog"]);  
+$tpl->assign('ALERT_ERROR_SERVER', $PNSL["lang"]["alert"]["error_server"]);
 
 $tpl->assign('STR_ACTION', $PNSL["lang"]["str"]["action"]);
 $tpl->assign('STR_ACTIVATE', $PNSL["lang"]["str"]["activate"]);
@@ -158,7 +171,7 @@ $tpl->assign('STR_REMOVE', $PNSL["lang"]["str"]["remove"]);
 $tpl->assign('STR_APPLY', $PNSL["lang"]["str"]["apply"]);
 
 //pagination
-$number = $data->getTotal();
+$number = $data->getTotal($pnumber);
 $page = $data->getPageNumber();
 
 if($page != 1) {
@@ -178,6 +191,7 @@ if($page + 1 <= $number) $page1right = '<a href="./?page='.($page + 1).'">'.($pa
 
 if($number > 1){
 	$paginationBlock = $tpl->fetch('pagination');
+	$paginationBlock->assign('STR_PNUMBER', $PNSL["lang"]["str"]["pnumber"]);
 	$paginationBlock->assign('CURRENT_PAGE', '<a>'.$page.'</a>');
 	$paginationBlock->assign('PAGE1RIGHT', $page1right);
 	$paginationBlock->assign('PAGE2RIGHT', $page2right);
@@ -191,6 +205,7 @@ if($number > 1){
 	$paginationBlock->assign('NEXTPAGE', $nextpage);
 	$paginationBlock->assign('NEXT', $next);
 	
+	$paginationBlock->assign('PNUMBER', $pnumber);
 	$tpl->assign('pagination', $paginationBlock);	
 }
 

@@ -1,7 +1,7 @@
 <?php
 
 /********************************************
-* PHP Newsletter 4.0.16
+* PHP Newsletter 4.1.3
 * Copyright (c) 2006-2015 Alexander Yanitsky
 * Website: http://janicky.com
 * E-mail: janickiy@mail.ru
@@ -38,19 +38,19 @@ else{
 	$total = 0;
 }
 
-$aSheet->setCellValue('A1',"".$PNSL["lang"]["str"]["total"].": ".count($arr)." \n".$PNSL["lang"]["str"]["sent"].": ".intval($count)." %\n".$PNSL["lang"]["str"]["spent_time"].": ".$totaltime."\n".$PNSL["lang"]["str"]["read"].": ".$readmail."");
+$aSheet->setCellValue('A1', "".$PNSL["lang"]["str"]["total"].": ".count($arr)." \n".$PNSL["lang"]["str"]["sent"].": ".intval($count)." %\n".$PNSL["lang"]["str"]["spent_time"].": ".$totaltime."\n".$PNSL["lang"]["str"]["read"].": ".$readmail."");
 $aSheet->getStyle('A1')->getAlignment()->setWrapText(true);
 
-$aSheet->setCellValue('A2',$PNSL["lang"]["str"]["email"]);
-$aSheet->setCellValue('B2',$PNSL["lang"]["str"]["time"]);
-$aSheet->setCellValue('C2',$PNSL["lang"]["str"]["status"]);
+$aSheet->setCellValue('A2', $PNSL["lang"]["str"]["email"]);
+$aSheet->setCellValue('B2', $PNSL["lang"]["str"]["time"]);
+$aSheet->setCellValue('C2', $PNSL["lang"]["str"]["status"]);
 
-$aSheet->setCellValue('A2',$PNSL["lang"]["str"]["mailer"]);
-$aSheet->setCellValue('B2',$PNSL["lang"]["str"]["email"]);
-$aSheet->setCellValue('C2',$PNSL["lang"]["str"]["time"]);
-$aSheet->setCellValue('D2',$PNSL["lang"]["str"]["status"]);
-$aSheet->setCellValue('E2',$PNSL["lang"]["str"]["read"]);
-$aSheet->setCellValue('F2',$PNSL["lang"]["str"]["error"]);
+$aSheet->setCellValue('A2', $PNSL["lang"]["str"]["mailer"]);
+$aSheet->setCellValue('B2', $PNSL["lang"]["str"]["email"]);
+$aSheet->setCellValue('C2', $PNSL["lang"]["str"]["time"]);
+$aSheet->setCellValue('D2', $PNSL["lang"]["str"]["status"]);
+$aSheet->setCellValue('E2', $PNSL["lang"]["str"]["read"]);
+$aSheet->setCellValue('F2', $PNSL["lang"]["str"]["error"]);
 $aSheet->mergeCells('A1:F1');
 $aSheet->getStyle('A2')->getFill()->getStartColor()->setRGB('E3DA62');	
 $aSheet->getStyle('A1')->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID);
@@ -84,19 +84,19 @@ if(is_array($arr)){
 		$status = $row['success'] == 'yes' ? $PNSL["lang"]["str"]["send_status_yes"] : $PNSL["lang"]["str"]["send_status_no"]; 
 		$readmail = $row['readmail'] == 'yes' ? $PNSL["lang"]["str"]["yes"] : $PNSL["lang"]["str"]["no"]; 
 		
-		$aSheet->setCellValue('A'.$i,$row['email']);
-		$aSheet->setCellValue('B'.$i,$row['time']);
-		$aSheet->setCellValue('C'.$i,$status);		
+		$aSheet->setCellValue('A'.$i, $row['email']);
+		$aSheet->setCellValue('B'.$i, $row['time']);
+		$aSheet->setCellValue('C'.$i, $status);		
 		
 		$aSheet->getStyle('D'.$i)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
 		$aSheet->getStyle('E'.$i)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
 		
-		$aSheet->setCellValue('A'.$i,$row['name']);
-		$aSheet->setCellValue('B'.$i,$row['email']);
-		$aSheet->setCellValue('C'.$i,$row['time']);
-		$aSheet->setCellValue('D'.$i,$status);
-		$aSheet->setCellValue('E'.$i,$readmail);
-		$aSheet->setCellValue('F'.$i,$row['errormsg']);
+		$aSheet->setCellValue('A'.$i, $row['name']);
+		$aSheet->setCellValue('B'.$i, $row['email']);
+		$aSheet->setCellValue('C'.$i, $row['time']);
+		$aSheet->setCellValue('D'.$i, $status);
+		$aSheet->setCellValue('E'.$i, $readmail);
+		$aSheet->setCellValue('F'.$i, $row['errormsg']);
 	}
 }
 

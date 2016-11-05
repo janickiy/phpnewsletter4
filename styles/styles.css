@@ -431,14 +431,40 @@ background: url("../images/sort_asc.png") no-repeat scroll right center rgba(0, 
 }
 
 .icon-menu{
-font-size: 16px;
-    height: 16px;
-    width: 16px;
+	font-size: 16px;
+	height: 16px;
+	width: 16px;
 	padding-left: 6px;
 }
 
 .warning_msg{
-font-size: 14px;
-color: #B94A48;
-font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+	font-size: 14px;
+	color: #B94A48;
+	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+.startmailing{
+	background: url("../images/circle_green.png") no-repeat scroll 50% 50% rgba(0, 0, 0, 0);
+	cursor: pointer;
+	left: 120px;
+	top: 15px;
+	height: 16px;
+	width: 16px;
+	z-index: 1000;
+	position: absolute;
+}
+
+.stopmailing{
+	background: url("../images/square_red.png") no-repeat scroll 50% 50% rgba(0, 0, 0, 0);
+	left: 120px;
+	top: 15px;
+	height: 16px;
+	width: 16px;
+	z-index: 1000;
+	position: absolute;
+}
+
+#btn_refresh{
+	padding-top: 15px;
+	padding-bottom: 15px;
 }

@@ -400,6 +400,13 @@ function getRequestBody(oForm) {
 	return aParams.join("&");
 }
 
+function PnumberChange()
+{
+	var pnumber = document.getElementById("pnumber").value;
+	document.cookie = "pnumber=" + pnumber;
+	location.reload();
+}
+
 </script>
 
 <!-- IF '${INFO_ALERT}' != '' -->
@@ -413,7 +420,7 @@ ${INFO_ALERT}
   <button class="close" data-dismiss="alert">×</button>
   <strong>${STR_ERROR}!</strong> ${ERROR_ALERT} </div>
 <!-- END IF -->
-<form action="${PHP_SELF}" onSubmit="if(document.forms[0].action.value == 0){window.alert('${ALERT_SELECT_ACTION}');return false;}if(document.forms[0].action.value == 4){return confirm('${ALERT_CONFIRM_REMOVE}');} if(document.forms[0].action.value == 1) return false" method="post">
+<form action="${ACTION}" onSubmit="if(document.forms[0].action.value == 0){window.alert('${ALERT_SELECT_ACTION}');return false;}if(document.forms[0].action.value == 4){return confirm('${ALERT_CONFIRM_REMOVE}');} if(document.forms[0].action.value == 1) return false" method="post">
   <table class="table-hover table table-bordered" border="0" cellspacing="0" cellpadding="0" width="100%">
     <thead>
       <tr>
@@ -485,6 +492,18 @@ ${INFO_ALERT}
 
 </script>
 <!-- BEGIN pagination -->
+ <div class="form-inline">
+    <div class="control-group">
+		${STR_PNUMBER}: <select onchange="PnumberChange(this);" class="span1 form-control" id="pnumber" name="pnumber">
+        <option value="5"<!-- IF '${PNUMBER}' == 5 --> selected="selected"<!-- END IF -->> 5 </option>
+        <option value="10"<!-- IF '${PNUMBER}' == 10 --> selected="selected"<!-- END IF -->> 10 </option>
+		<option value="15"<!-- IF '${PNUMBER}' == 15 --> selected="selected"<!-- END IF -->> 15 </option>
+        <option value="20"<!-- IF '${PNUMBER}' == 20 --> selected="selected"<!-- END IF -->> 20 </option>
+		<option value="50"<!-- IF '${PNUMBER}' == 50 --> selected="selected"<!-- END IF -->> 50 </option>
+		<option value="100"<!-- IF '${PNUMBER}' == 100 --> selected="selected"<!-- END IF -->> 100 </option>
+      </select>
+      <span class="help-inline">
+
 <div class="pagination">
   <ul>
     <!-- IF '${PERVPAGE}' != '' -->
@@ -515,6 +534,8 @@ ${INFO_ALERT}
     <li>${NEXT}</li>
     <!-- END IF -->
   </ul>
+</div>
+</span> </div>
 </div>
 <!-- END pagination -->
 <!-- INCLUDE footer.tpl -->

@@ -22,7 +22,7 @@ ${MSG_ALERT}
 <!-- END IF -->
 
 <img src="./images/info-import.jpg" border="0" style="padding-bottom: 20px;">
-<form class="form-horizontal" enctype="multipart/form-data" action="${PHP_SELF}" method="post">
+<form class="form-horizontal" enctype="multipart/form-data" action="${ACTION}" method="post">
 
     <div class="control-group">
       <label class="control-label" for="file">${TABLE_DATABASE_FILE}:</label>

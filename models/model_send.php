@@ -1,7 +1,7 @@
 <?php
 
 /********************************************
-* PHP Newsletter 4.0.16
+* PHP Newsletter 4.1.3
 * Copyright (c) 2006-2015 Alexander Yanitsky
 * Website: http://janicky.com
 * E-mail: janickiy@mail.ru
@@ -78,7 +78,7 @@ class Model_send extends Model
 		$temp = array();
 
 		foreach($_REQUEST['activate'] as $id_template){
-			if(preg_match("|^[\d]+$|",$id_template)){
+			if(preg_match("|^[\d]+$|", $id_template)){
 				$temp[] = $id_template;
 			}
 		}
@@ -138,9 +138,9 @@ class Model_send extends Model
 			
 				$m->Subject = $subject;		
 			
-				if($send['prior'] == "1") 
+				if($send['prior'] == 1) 
 					$m->Priority = 1;
-				else if($send['prior'] == "2") 
+				else if($send['prior'] == 2) 
 					$m->Priority = 5;
 				else $m->Priority = 3;
 

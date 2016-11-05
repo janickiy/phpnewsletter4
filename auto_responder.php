@@ -1,7 +1,7 @@
 <?php
 
 /********************************************
-* PHP Newsletter 4.0.16
+* PHP Newsletter 4.1.3
 * Copyright (c) 2006-2015 Alexander Yanitsky
 * Website: http://janicky.com
 * E-mail: janickiy@mail.ru
@@ -66,7 +66,7 @@ $result->close();
 
 if($charset != 'utf-8') {
 	$from = iconv('utf-8',$charset,$from);
-	if(!empty($settings['organization'])) $settings['organization'] = iconv('utf-8',$charset,$settings['organization']);
+	if(!empty($settings['organization'])) $settings['organization'] = iconv('utf-8', $charset, $settings['organization']);
 }	
 		
 $from = $settings['email_name'] == '' ? $_SERVER["SERVER_NAME"] : $settings['email_name'];
@@ -220,7 +220,7 @@ if($result_send->num_rows>0){
 				
 			$query = "SELECT * FROM ".$PNSL["config"]["db"]["prefix"]."attach WHERE id_template=".$send['id_template'];
 		
-			$result_attach = $dbh->query($query);
+			$result_attach = $dbh->query($query);;
 				
 			while($row = $result_attach->fetch_array()){
 				if($fp = @fopen($row['path'],"rb")){

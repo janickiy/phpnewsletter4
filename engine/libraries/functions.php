@@ -1,7 +1,7 @@
 <?php
 
 /********************************************
-* PHP Newsletter 4.0.16
+* PHP Newsletter 4.1.3
 * Copyright (c) 2006-2015 Alexander Yanitsky
 * Website: http://janicky.com
 * E-mail: janickiy@mail.ru
@@ -22,8 +22,10 @@ function getRandomCode()
 
 function root()
 {
-	if(dirname($_SERVER['SCRIPT_NAME']) == '/' | dirname($_SERVER['SCRIPT_NAME']) == '\\') return '/';
-	else return dirname($_SERVER['SCRIPT_NAME']) . '/';
+	if(dirname($_SERVER['SCRIPT_NAME']) == '/' | dirname($_SERVER['SCRIPT_NAME']) == '\\') 
+		return '/';
+	else 
+		return dirname($_SERVER['SCRIPT_NAME']) . '/';
 }
 
 function error($msg)
@@ -525,18 +527,27 @@ function get_mime_type($ext) {
 
 function getIP()
 {
-	if (getenv("HTTP_CLIENT_IP") and strcasecmp(getenv("HTTP_CLIENT_IP"),"unknown"))
+	if (getenv("HTTP_CLIENT_IP") and strcasecmp(getenv("HTTP_CLIENT_IP"), "unknown"))
 		$ip = getenv("HTTP_CLIENT_IP"); 
-	elseif (getenv("HTTP_X_FORWARDED_FOR") && strcasecmp(getenv("HTTP_X_FORWARDED_FOR"),"unknown"))
+	elseif (getenv("HTTP_X_FORWARDED_FOR") && strcasecmp(getenv("HTTP_X_FORWARDED_FOR"), "unknown"))
 		$ip = getenv("HTTP_X_FORWARDED_FOR"); 
-	elseif (getenv("REMOTE_ADDR") and strcasecmp(getenv("REMOTE_ADDR"),"unknown"))
+	elseif (getenv("REMOTE_ADDR") and strcasecmp(getenv("REMOTE_ADDR"), "unknown"))
 		$ip = getenv("REMOTE_ADDR"); 
-	elseif (!empty($_SERVER['REMOTE_ADDR']) and strcasecmp($_SERVER['REMOTE_ADDR'],"unknown"))
+	elseif (!empty($_SERVER['REMOTE_ADDR']) and strcasecmp($_SERVER['REMOTE_ADDR'], "unknown"))
 		$ip = $_SERVER['REMOTE_ADDR'];
 	else
 		$ip = "unknown";
  
 	return($ip);
+}
+
+function get_current_version_code($version)
+{
+	preg_match("/(\d+)\.(\d+)\./", $version, $out);
+		
+	$current_version_code = ($out[1] * 10000 + $out[2] * 100);
+	
+	return $current_version_code;
 }
 
 ?>

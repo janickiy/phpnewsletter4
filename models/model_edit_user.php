@@ -1,7 +1,7 @@
 <?php
 
 /********************************************
-* PHP Newsletter 4.0.16
+* PHP Newsletter 4.1.3
 * Copyright (c) 2006-2015 Alexander Yanitsky
 * Website: http://janicky.com
 * E-mail: janickiy@mail.ru
@@ -61,11 +61,11 @@ class Model_edit_user extends Model
 		$result = $this->data->update($fields, $table, $where); 
 		
 		if($result){
-			if($this->data->delete($this->data->getTableName('subscription'),"id_user=".$id_user,'')){
+			if($this->data->delete($this->data->getTableName('subscription'), "id_user=".$id_user,'')){
 				if($_POST['id_cat']){
 					foreach($_POST['id_cat'] as $id){
 						if(preg_match("|^[\d]+$|",$id))	{
-							$insert = "INSERT INTO ".$this->data->getTableName('subscription')." (`id_sub`,`id_user`,`id_cat`) VALUES (0,".$id_user.",".$id.")";
+							$insert = "INSERT INTO ".$this->data->getTableName('subscription')." (`id_sub`,`id_user`,`id_cat`) VALUES (0, ".$id_user.", ".$id.")";
 							$this->data->querySQL($insert);
 						}
 					}

@@ -1,7 +1,7 @@
 <?php
 
 /********************************************
-* PHP Newsletter 4.0.16
+* PHP Newsletter 4.1.3
 * Copyright (c) 2006-2015 Alexander Yanitsky
 * Website: http://janicky.com
 * E-mail: janickiy@mail.ru
@@ -23,7 +23,7 @@ class Model_subscribers extends Model
 		return $this->data;
 	}
 	
-	public function getSubersArr($strtmp)
+	public function getSubersArr($strtmp,$pnumber)
 	{
 		$query = "SELECT * FROM ".$this->data->getTableName('settings')."";
 		$result = $this->data->querySQL($query);
@@ -32,7 +32,7 @@ class Model_subscribers extends Model
 		$this->data->tablename = $this->data->getTableName('users');
 		
 		if($_GET['search']){
-			$temp = strtok($_GET['search']," ");
+			$temp = strtok($_GET['search'], " ");
 			$temp = "%".$temp."%";
 			$logstr = "or";
 
@@ -57,7 +57,7 @@ class Model_subscribers extends Model
 			$this->data->order = "ORDER BY ".$strtmp."";
 		}	
 		
-		$this->data->pnumber = $settings['number_pos_users'];		
+		$this->data->pnumber = $pnumber;		
 		
 		return $this->data->get_page();
 	}
@@ -67,7 +67,7 @@ class Model_subscribers extends Model
 		$this->data->tablename = $this->data->getTableName('users');
 		
 		if($_GET['search']){
-			$temp = strtok($_GET['search']," ");
+			$temp = strtok($_GET['search'], " ");
 			$temp = "%".$temp."%";
 			$logstr = "or";
 
@@ -93,15 +93,11 @@ class Model_subscribers extends Model
 		return $this->data->getRecordCount($result);	
 	}
 	
-	public function getTotal()
+	public function getTotal($pnumber)
 	{
-		$query = "SELECT * FROM ".$this->data->getTableName('settings')."";
-		$result = $this->data->querySQL($query);
-		$settings = $this->data->getRow($result);	
-	
 		$table = $this->data->getTableName('users');
 		$this->data->tablename = $table;		
-		$this->data->pnumber = $settings['number_pos_users'];	
+		$this->data->pnumber = $pnumber;	
 		$number = intval(($this->data->get_total() - 1) / $this->data->pnumber) + 1;
 		
 		return $number;
@@ -112,19 +108,19 @@ class Model_subscribers extends Model
 		return $this->data->page;
 	}
 	
-	public function updateUsers()
+	public function updateUsers($status)
 	{
 		$temp = array();
 	
 		foreach($_POST['activate'] as $id_user){
-			if(preg_match("|^[\d]+$|",$id_user)){
+			if(preg_match("|^[\d]+$|", $id_user)){
 				$temp[] = $id_user;
 			}
 		}
 	
 		$fields = array();
-		$fields['status'] = 'active';
-		$where = "id_user IN (".implode(",",$temp).")";
+		$fields['status'] = $status;
+		$where = "id_user IN (".implode(",", $temp).")";
 		$table = $this->data->getTableName('users');
 		$result = $this->data->update($fields, $table, $where);
 		unset($temp);
@@ -137,14 +133,14 @@ class Model_subscribers extends Model
 		$temp = array();
 	
 		foreach($_POST['activate'] as $id_user){
-			if(preg_match("|^[\d]+$|",$id_user)){
+			if(preg_match("|^[\d]+$|", $id_user)){
 				$temp[] = $id_user;
 			}
 		}	
 	
-		$result = $this->data->delete($this->data->getTableName('users'),"id_user IN (".implode(",",$temp).")");
+		$result = $this->data->delete($this->data->getTableName('users'), "id_user IN (".implode(",",$temp).")");
 		if($result){
-			$result = $this->data->delete($this->data->getTableName('subscription'),"id_user IN (".implode(",",$temp).")");
+			$result = $this->data->delete($this->data->getTableName('subscription'), "id_user IN (".implode(",",$temp).")");
 			unset($temp);		
 		
 			return $result;

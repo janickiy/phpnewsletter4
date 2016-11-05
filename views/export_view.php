@@ -1,7 +1,7 @@
 <?php
 
 /********************************************
-* PHP Newsletter 4.0.16
+* PHP Newsletter 4.1.3
 * Copyright (c) 2006-2015 Alexander Yanitsky
 * Website: http://janicky.com
 * E-mail: janickiy@mail.ru
@@ -36,15 +36,15 @@ if($_POST["action"]){
 		$aSheet = $pExcel->getActiveSheet();
 		$aSheet->setTitle($PNSL["lang"]["str"]["emals_db"]);
 
-		$aSheet->setCellValue('A1',$PNSL["lang"]["str"]["user_email"]);
-		$aSheet->setCellValue('B1',$PNSL["lang"]["str"]["name"]);
+		$aSheet->setCellValue('A1', $PNSL["lang"]["str"]["user_email"]);
+		$aSheet->setCellValue('B1', $PNSL["lang"]["str"]["name"]);
 			
-		$i=1;
+		$i = 1;
 
 		foreach ($arr as $row){
 			$i++;
-			$aSheet->setCellValue('A'.$i,$row['email']);
-			$aSheet->setCellValue('B'.$i,$row['name']);
+			$aSheet->setCellValue('A'.$i, $row['email']);
+			$aSheet->setCellValue('B'.$i, $row['name']);
 		}
 			
 		$aSheet->getColumnDimension('A')->setWidth(20);
@@ -105,30 +105,35 @@ if($_POST["action"]){
 require_once $PNSL["system"]["dir_root"].$PNSL["system"]["dir_libs"]."html_template/SeparateTemplate.php";
 $tpl = SeparateTemplate::instance()->loadSourceFromFile($PNSL["system"]["template"]."export.tpl");
 
-$tpl->assign('TITLE_PAGE',$PNSL["lang"]["title_page"]["export"]);
-$tpl->assign('TITLE',$PNSL["lang"]["title"]["export"]);
+$tpl->assign('TITLE_PAGE', $PNSL["lang"]["title_page"]["export"]);
+$tpl->assign('TITLE', $PNSL["lang"]["title"]["export"]);
 
-$tpl->assign('SCRIPT_VERSION',$PNSL["system"]["version"]);
-$tpl->assign('INFO_ALERT',$PNSL["lang"]["info"]["export"]);
-//$tpl->assign('NAMESCRIPT',$PNSL["lang"]["script"]["name"]);
+$tpl->assign('SCRIPT_VERSION', $PNSL["system"]["version"]);
+$tpl->assign('INFO_ALERT', $PNSL["lang"]["info"]["export"]);
+$tpl->assign('STR_ERROR',$PNSL["lang"]["str"]["error"]);
+//$tpl->assign('NAMESCRIPT', $PNSL["lang"]["script"]["name"]);
 
 //menu
 include_once "menu.php";
 
-$tpl->assign('STR_BACK',$PNSL["lang"]["str"]["return_back"]);
+$tpl->assign('MAILING_STATUS', getCurrentMailingStatus());
+$tpl->assign('STR_LAUNCHEDMAILING', $PNSL["lang"]["str"]["launchedmailing"]);
+$tpl->assign('STR_STOPMAILING', $PNSL["lang"]["str"]["stopmailing"]);
+
+$tpl->assign('STR_BACK', $PNSL["lang"]["str"]["return_back"]);
 
 //form
-$tpl->assign('PHP_SELF',$_SERVER['REQUEST_URI']);
-$tpl->assign('STR_EXPORT',$PNSL["lang"]["str"]["export"]);
-$tpl->assign('STR_COMPRESSION',$PNSL["lang"]["str"]["compression"]);
+$tpl->assign('ACTION', $_SERVER['REQUEST_URI']);
+$tpl->assign('STR_EXPORT', $PNSL["lang"]["str"]["export"]);
+$tpl->assign('STR_COMPRESSION', $PNSL["lang"]["str"]["compression"]);
 
-$tpl->assign('STR_EXPORT_TEXT',$PNSL["lang"]["str"]["export_type_text"]);
-$tpl->assign('STR_EXPORT_CSV',$PNSL["lang"]["str"]["export_type_cvs"]);
-$tpl->assign('STR_EXPORT_EXCEL',$PNSL["lang"]["str"]["excel"]);
-$tpl->assign('STR_COMPRESSION_OPTION_1',$PNSL["lang"]["str"]["compression_option_1"]);
-$tpl->assign('STR_COMPRESSION_OPTION_2',$PNSL["lang"]["str"]["compression_option_2"]);
+$tpl->assign('STR_EXPORT_TEXT', $PNSL["lang"]["str"]["export_type_text"]);
+$tpl->assign('STR_EXPORT_CSV', $PNSL["lang"]["str"]["export_type_cvs"]);
+$tpl->assign('STR_EXPORT_EXCEL', $PNSL["lang"]["str"]["excel"]);
+$tpl->assign('STR_COMPRESSION_OPTION_1', $PNSL["lang"]["str"]["compression_option_1"]);
+$tpl->assign('STR_COMPRESSION_OPTION_2', $PNSL["lang"]["str"]["compression_option_2"]);
 
-$tpl->assign('BUTTON_APPLY',$PNSL["lang"]["button"]["apply"]);
+$tpl->assign('BUTTON_APPLY', $PNSL["lang"]["button"]["apply"]);
 
 //footer
 include_once "footer.php";

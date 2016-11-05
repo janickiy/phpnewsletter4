@@ -1,7 +1,7 @@
 <?php
 
 /********************************************
-* PHP Newsletter 4.0.16
+* PHP Newsletter 4.1.3
 * Copyright (c) 2006-2015 Alexander Yanitsky
 * Website: http://janicky.com
 * E-mail: janickiy@mail.ru
@@ -75,7 +75,7 @@ class DBParser {
 		if($this->page <= 0 || $this->page > $number) return 0;
 
 		$arr = array();
-		$first = ($this->page - 1)*$this->pnumber;
+		$first = ($this->page - 1) * $this->pnumber;
 
 		$query = "SELECT {$this->parameters} FROM {$this->tablename}
 					{$this->where}
@@ -87,7 +87,7 @@ class DBParser {
 
 		if(!$result)
 		{
-			Route::ShowMySQLError($this->dbh->error,$query,"Error executing SQL query!");
+			Route::ShowMySQLError($this->dbh->error, $query, "Error executing SQL query!");
 		}
 
 		if($result->num_rows)
@@ -112,7 +112,7 @@ class DBParser {
 
 		if(!$tot)
 		{
-			Route::ShowMySQLError($this->dbh->error,$query,"Error executing SQL query!");
+			Route::ShowMySQLError($this->dbh->error, $query, "Error executing SQL query!");
 		}
 
 		$count = $tot->fetch_row();
@@ -156,7 +156,7 @@ class DBParser {
 		$result = $this->dbh->query($query);
 		
 		if(!$result) {
-			Route::ShowMySQLError($this->dbh->error,$query,"Error executing SQL query!");
+			Route::ShowMySQLError($this->dbh->error, $query, "Error executing SQL query!");
 		}
 		
 		return $result;
@@ -200,7 +200,7 @@ class DBParser {
 			if($this->dbh->query($query))
 				return true;
 			else
-				return Route::ShowMySQLError($this->dbh->error,$query,"Error executing SQL query!");			
+				return Route::ShowMySQLError($this->dbh->error, $query, "Error executing SQL query!");			
 		}
 	}
 	
@@ -208,7 +208,7 @@ class DBParser {
 		if($query){
 			$result = $this->dbh->query($query);
 			if(!$result)
-				Route::ShowMySQLError($this->dbh->error,$query,"Error executing SQL query!");
+				Route::ShowMySQLError($this->dbh->error, $query, "Error executing SQL query!");
 			else
 				return $result;
 		}
@@ -229,11 +229,11 @@ class DBParser {
         }
 		
         $sql = "INSERT INTO $table ($columns) VALUES ($values)";
-        if(!$this->dbh->query($sql)) return Route::ShowMySQLError($this->dbh->error, $sql,"Error executing SQL query!");
+        if(!$this->dbh->query($sql)) return Route::ShowMySQLError($this->dbh->error, $sql, "Error executing SQL query!");
         return $this->dbh->insert_id;
     }
 	
-	public function delete($table,$where='',$fields='') {
+	public function delete($table, $where='', $fields='') {
 		if (!$table)
 			return false;
 		else {
@@ -243,7 +243,7 @@ class DBParser {
 			$result = $this->dbh->query($query);
 			
 			if(!$result)
-				Route::ShowMySQLError($this->dbh->error,$query,"Error executing SQL query!");
+				Route::ShowMySQLError($this->dbh->error, $query, "Error executing SQL query!");
 			else
 				return true;			
 		}

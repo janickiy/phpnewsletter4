@@ -1,31 +1,23 @@
 <p>« <a href="./?task=subscribers">${RETURN_BACK}</a></p>
 <!-- IF '${INFO_ALERT}' != '' -->
-<div class="alert alert-info">
-${INFO_ALERT}
-</div>
+<div class="alert alert-info"> ${INFO_ALERT} </div>
 <!-- END IF -->
-
 <!-- IF '${ERROR_ALERT}' != '' -->
 <div class="alert alert-error">
-<button class="close" data-dismiss="alert">×</button>
-<strong>${STR_ERROR}!</strong>
-${ERROR_ALERT}
-</div>
+  <button class="close" data-dismiss="alert">×</button>
+  <strong>${STR_ERROR}!</strong> ${ERROR_ALERT} </div>
 <!-- END IF -->
-
 <!-- BEGIN show_errors -->
-<div class="alert alert-error">
-<a class="close" href="#" data-dismiss="alert">×</a>
-<h4 class="alert-heading">${STR_IDENTIFIED_FOLLOWING_ERRORS}:</h4>
-<ul>
+<div class="alert alert-error"> <a class="close" href="#" data-dismiss="alert">×</a>
+  <h4 class="alert-heading">${STR_IDENTIFIED_FOLLOWING_ERRORS}:</h4>
+  <ul>
     <!-- BEGIN row -->
-   <li> ${ERROR}</li>
+    <li> ${ERROR}</li>
     <!-- END row -->
-</ul>
+  </ul>
 </div>
 <!-- END show_errors -->
-
-<form class="form-horizontal" action="${PHP_SELF}" method="post">
+<form class="form-horizontal" action="${ACTION}" method="post">
   <!-- IF '${ID_USER}' != '' -->
   <input type="hidden" name="id_user" value="${ID_USER}">
   <!-- END IF -->
@@ -46,6 +38,7 @@ ${ERROR_ALERT}
     <!-- BEGIN row -->
     <label class="checkbox">
     <div class="controls"> <input type="checkbox" value="${ID_CAT}" name="id_cat[]" 
+      
       <!-- IF '${CHECKED}' != '' -->
       checked="checked"
       <!-- END IF -->

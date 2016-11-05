@@ -1,7 +1,7 @@
 <?php
 
 /********************************************
-* PHP Newsletter 4.0.16
+* PHP Newsletter 4.1.3
 * Copyright (c) 2006-2015 Alexander Yanitsky
 * Website: http://janicky.com
 * E-mail: janickiy@mail.ru
@@ -24,29 +24,21 @@ class Model_template extends Model
 		return $this->data;
 	}
 	
-	public function getListArr()
+	public function getListArr($pnumber)
 	{
-		$query = "SELECT * FROM ".$this->data->getTableName('settings')."";
-		$result = $this->data->querySQL($query);
-		$settings = $this->data->getRow($result);	
-	
 		$table = "".$this->data->getTableName('template')." tmpl LEFT JOIN ".$this->data->getTableName('category')." cat ON cat.id_cat=tmpl.id_cat";
 		$this->data->parameters = "*,cat.name as catname, tmpl.name as tmplname";
 		$this->data->tablename = $table;
-		$this->data->order = 'ORDER BY pos';
-		$this->data->pnumber = $settings['number_pos'];
+		$this->data->order = 'ORDER BY pos DESC';
+		$this->data->pnumber = $pnumber;
 		
 		return $this->data->get_page();
 	}
 	
-	public function getTotal()
+	public function getTotal($pnumber)
 	{
-		$query = "SELECT * FROM ".$this->data->getTableName('settings')."";
-		$result = $this->data->querySQL($query);
-		$settings = $this->data->getRow($result);
-	
 		$this->data->tablename = $this->data->getTableName('template');
-		$this->data->pnumber = $settings['number_pos'];
+		$this->data->pnumber = $pnumber;
 		
 		$number = intval(($this->data->get_total() - 1) / $this->data->pnumber) + 1;
 		
@@ -62,13 +54,13 @@ class Model_template extends Model
 	{
 		$temp = array();
 		foreach($_POST['activate'] as $id){
-			if(preg_match("|^[\d]+$|",$id)){
+			if(preg_match("|^[\d]+$|", $id)){
 				$temp[] = $id;
 			}
 		}
 		
 		$table = $this->data->getTableName('template');
-		$where = "id_template IN (".implode(",",$temp).")";
+		$where = "id_template IN (".implode(",", $temp).")";
 		$result = $this->data->update($fields, $table, $where);
 		
 		unset($temp);	
@@ -92,12 +84,12 @@ class Model_template extends Model
 			$arr = $this->data->getColumnArray($result);
 		
 			if(is_array($arr)){
-				for($i=0; $i<count($arr); $i++){
+				for($i = 0; $i < count($arr); $i++){
 					if(file_exists($arr[$i]['path'])) @unlink($arr[$i]['path']);
 				}
 			}
 			
-			$result = $this->data->delete($this->data->getTableName('template'),"id_template IN (".implode(",",$temp).")",'');	
+			$result = $this->data->delete($this->data->getTableName('template'), "id_template IN (".implode(",",$temp).")",'');	
 			unset($temp);
 			
 			return $result;			

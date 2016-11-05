@@ -6,7 +6,6 @@ ${INFO_ALERT}
 <!-- END IF -->
 
 <!-- IF '${ERROR_ALERT}' != '' -->
-
 <div class="alert alert-error">
   <button class="close" data-dismiss="alert">×</button>
   <strong>${STR_ERROR}!</strong> ${ERROR_ALERT} </div>

@@ -50,7 +50,7 @@ ${INFO_ALERT}
   <button class="close" data-dismiss="alert">×</button>
   ${MSG_ALERT} </div>
 <!-- END IF -->
-<form class="form-horizontal" action="${PHP_SELF}" method="post">
+<form class="form-horizontal" action="${ACTION}" method="post">
   <div id="tabs">
     <ul>
       <li><a href="#interface">${SET_INTERFACE_SETTINGS}</a></li>
@@ -68,18 +68,6 @@ ${INFO_ALERT}
         </div>
       </div>
       <div class="control-group">
-        <label class="control-label-large" for="number_pos">${SET_NUMBER_POS}:</label>
-        <div class="controls-large">
-          <input type="text" class="span1 focused" value="${NUMBER_POS}" name="number_pos">
-        </div>
-      </div>
-      <div class="control-group">
-        <label class="control-label-large" for="number_pos_users">${SET_NUMBER_POS_USERS}:</label>
-        <div class="controls-large">
-          <input type="text" class="span1 focused" value="${NUMBER_POS_USERS}" name="number_pos_users">
-        </div>
-      </div>
-      <div class="control-group">
         <label class="control-label-large" for="email">${SET_EMAIL}:</label>
         <div class="controls-large">
           <input type="text" class="span4 focused" value="${EMAIL}" name="email">
@@ -88,7 +76,6 @@ ${INFO_ALERT}
       <div class="control-group">
         <label class="control-label-large" for="show_email">${SET_SHOW_EMAIL}:</label>
         <div class="controls-large"> <input type=checkbox name="show_email"
-        
           <!-- IF '${SHOW_EMAIL}' == 'yes' -->
           checked="checked"
           <!-- END IF -->
@@ -126,13 +113,21 @@ ${INFO_ALERT}
           <textarea rows="5" name="textconfirmation" class="span5">${TEXTCONFIRMATION}</textarea>
         </div>
       </div>
+	   <div class="control-group">
+        <label class="control-label-large" for="require_confirmation">${SET_REQUIRE_CONFIRMATION}:</label>
+        <div class="controls-large"> <input type=checkbox name="require_confirmation"
+          <!-- IF '${REQUIRE_CONFIRMATION}' == 'yes' -->
+          checked="checked"
+          <!-- END IF -->
+          > </div>
+      </div>
       <div class="control-group">
         <label class="control-label-large" for="unsublink">${SET_UNSUBLINK}:</label>
         <div class="controls-large">
           <textarea rows="5" name="unsublink" class="span5">${UNSUBLINK}</textarea>
         </div>
       </div>
-    </div>
+    </div>	
     <div id="smtp">
       <div class="control-group">
         <label class="control-label-large" for="smtp_host">${SET_SMTP_HOST}:</label>

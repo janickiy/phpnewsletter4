@@ -1,7 +1,7 @@
 <?php
 
 /********************************************
-* PHP Newsletter 4.0.16
+* PHP Newsletter 4.1.3
 * Copyright (c) 2006-2015 Alexander Yanitsky
 * Website: http://janicky.com
 * E-mail: janickiy@mail.ru
@@ -123,8 +123,8 @@ class Model_subform extends Model
 			if($charset != 'utf-8') {
 				$settings['textconfirmation'] = iconv('utf-8', $charset, $settings['textconfirmation']);
 				$settings['subjecttextconfirm'] = iconv('utf-8', $charset, $settings['subjecttextconfirm']);
-				if(!empty($settings['organization'])) $settings['organization'] = iconv('utf-8',$charset,$settings['organization']);
-				$from_mail = iconv('utf-8',$charset,$from_mail);
+				if(!empty($settings['organization'])) $settings['organization'] = iconv('utf-8', $charset, $settings['organization']);
+				$from_mail = iconv('utf-8', $charset, $from_mail);
 			}
 			
 			$m->Subject = $settings['subjecttextconfirm'];
@@ -148,14 +148,14 @@ class Model_subform extends Model
 			
 			if($settings['newsubscribernotify'] == 'yes'){
 				if($charset != 'utf-8') 
-					$subject = iconv('utf-8',$charset,$PNSL["lang"]["subject"]["notification_newuser"]);
+					$subject = iconv('utf-8', $charset, $PNSL["lang"]["subject"]["notification_newuser"]);
 				else
 					$subject = $PNSL["lang"]["subject"]["notification_newuser"];
 	
 				$msg = "".$PNSL["lang"]["msg"]["notification_newuser"]."\nName: ".$_POST['name']." \nE-mail: ".$_POST['email']."\n";
 				$msg = str_replace('%SITE%', $_SERVER['SERVER_NAME'], $msg);
 		
-				if($charset != 'utf-8') $msg = iconv('utf-8',$charset,$msg);
+				if($charset != 'utf-8') $msg = iconv('utf-8', $charset,$msg);
 
 				$m->From = $settings['email'];
 				$m->AddAddress($settings['email']);				

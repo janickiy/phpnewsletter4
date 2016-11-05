@@ -22,13 +22,10 @@ function del_pole(btn)
 
 </script>
 <!-- IF '${INFO_ALERT}' != '' -->
-<div class="alert alert-info">
-${INFO_ALERT}
-</div>
+
+<div class="alert alert-info"> ${INFO_ALERT} </div>
 <!-- END IF -->
-
 <!-- IF '${ERROR_ALERT}' != '' -->
-
 <div class="alert alert-error">
   <button class="close" data-dismiss="alert">×</button>
   <strong>${STR_ERROR}!</strong> ${ERROR_ALERT} </div>
@@ -43,7 +40,7 @@ ${INFO_ALERT}
   </ul>
 </div>
 <!-- END show_errors -->
-<form id="tmplForm" class="form-horizontal" enctype="multipart/form-data" action="${PHP_SELF}" method="post">
+<form id="tmplForm" class="form-horizontal" enctype="multipart/form-data" action="${ACTION}" method="post">
   <!-- IF '${ID_TEMPLATE}' != '' -->
   <input type="hidden" name="id_template" value="${ID_TEMPLATE}">
   <!-- END IF -->
@@ -89,7 +86,9 @@ CKEDITOR.replace('tmplBody');
     <label for="id_cat" class="control-label">${STR_FORM_CATEGORY_SUBSCRIBERS}:</label>
     <div class="controls">
       <select class="span3 form-control" name="id_cat">
+        
         ${OPTION}
+      
       </select>
     </div>
   </div>
@@ -98,17 +97,20 @@ CKEDITOR.replace('tmplBody');
     <div class="controls">
       <label class="radio inline"> <input type="radio" name="prior" value="3" 
         
+        
         <!-- IF '${PRIOR3_CHECKED}' != '' -->
         checked="checked"
         <!-- END IF -->
         >${STR_FORM_PRIORITY_NORMAL} </label>
       <label class="radio inline"> <input type="radio" name="prior" value="2" 
         
+        
         <!-- IF '${PRIOR2_CHECKED}' != '' -->
         checked="checked"
         <!-- END IF -->
         >${STR_FORM_PRIORITY_LOW} </label>
       <label class="radio inline"> <input type="radio" name="prior" value="1" 
+        
         
         <!-- IF '${PRIOR1_CHECKED}' != '' -->
         checked="checked"

@@ -1,7 +1,7 @@
 <?php
 
 /********************************************
-* PHP Newsletter 4.0.16
+* PHP Newsletter 4.1.3
 * Copyright (c) 2006-2015 Alexander Yanitsky
 * Website: http://janicky.com
 * E-mail: janickiy@mail.ru
@@ -15,9 +15,10 @@ Auth::authorization();
 require_once $PNSL["system"]["dir_root"].$PNSL["system"]["dir_libs"]."html_template/SeparateTemplate.php";
 $tpl = SeparateTemplate::instance()->loadSourceFromFile($PNSL["system"]["template"]."import.tpl");
 
-$tpl->assign('STR_WARNING',$PNSL["lang"]["str"]["warning"]);
-$tpl->assign('SCRIPT_VERSION',$PNSL["system"]["version"]);
-$tpl->assign('INFO_ALERT',$PNSL["lang"]["info"]["import"]);
+$tpl->assign('STR_WARNING', $PNSL["lang"]["str"]["warning"]);
+$tpl->assign('SCRIPT_VERSION', $PNSL["system"]["version"]);
+$tpl->assign('INFO_ALERT', $PNSL["lang"]["info"]["import"]);
+$tpl->assign('STR_ERROR', $PNSL["lang"]["str"]["error"]);
 
 $error = '';
 
@@ -35,14 +36,20 @@ if($_POST["action"]){
 		
 		if(!$result) $error = $PNSL["lang"]["error"]["no_import"];
 	}
-	else $error = $PNSL["lang"]["error"]["no_import_file"];	
+	else {
+		$error = $PNSL["lang"]["error"]["no_import_file"];
+	}
 }
 
-$tpl->assign('TITLE_PAGE',$PNSL["lang"]["title_page"]["import"]);
-$tpl->assign('TITLE',$PNSL["lang"]["title"]["import"]);
+$tpl->assign('TITLE_PAGE', $PNSL["lang"]["title_page"]["import"]);
+$tpl->assign('TITLE', $PNSL["lang"]["title"]["import"]);
 
 //menu
 include_once "menu.php";
+
+$tpl->assign('MAILING_STATUS', getCurrentMailingStatus());
+$tpl->assign('STR_LAUNCHEDMAILING', $PNSL["lang"]["str"]["launchedmailing"]);
+$tpl->assign('STR_STOPMAILING', $PNSL["lang"]["str"]["stopmailing"]);
 
 $temp = array();
 $temp[] = 'iso-8859-1';
@@ -85,31 +92,30 @@ foreach($charset as $key => $value){
 	$option .= '<option value="'.$key.'">'.$value.'</option>';
 }
 
-$tpl->assign('STR_BACK',$PNSL["lang"]["str"]["return_back"]);
+$tpl->assign('STR_BACK', $PNSL["lang"]["str"]["return_back"]);
 
 //alert
 if(!empty($error)) {
-	$tpl->assign('STR_ERROR',$PNSL["lang"]["str"]["error"]);
-	$tpl->assign('ERROR_ALERT',$error);
+	$tpl->assign('ERROR_ALERT', $error);
 }
 
 if(!empty($result)){ 
-	$tpl->assign('MSG_ALERT',str_replace('%COUNT%',$result,$PNSL["lang"]["msg"]["imported_emails"]));
+	$tpl->assign('MSG_ALERT', str_replace('%COUNT%', $result, $PNSL["lang"]["msg"]["imported_emails"]));
 }
 
 //form
-$tpl->assign('PHP_SELF',$_SERVER['REQUEST_URI']);
-$tpl->assign('TABLE_DATABASE_FILE',$PNSL["lang"]["table"]["database_file"]);
-$tpl->assign('BUTTON_ADD',$PNSL["lang"]["button"]["import"]);
-$tpl->assign('TABLE_CATEGORY',$PNSL["lang"]["table"]["category"]);
-$tpl->assign('OPTION',$option);
-$tpl->assign('STR_CHARSET',$PNSL["lang"]["str"]["charset"]);
-$tpl->assign('STR_NO',$PNSL["lang"]["str"]["no"]);
+$tpl->assign('ACTION', $_SERVER['REQUEST_URI']);
+$tpl->assign('TABLE_DATABASE_FILE', $PNSL["lang"]["table"]["database_file"]);
+$tpl->assign('BUTTON_ADD', $PNSL["lang"]["button"]["import"]);
+$tpl->assign('TABLE_CATEGORY', $PNSL["lang"]["table"]["category"]);
+$tpl->assign('OPTION', $option);
+$tpl->assign('STR_CHARSET', $PNSL["lang"]["str"]["charset"]);
+$tpl->assign('STR_NO', $PNSL["lang"]["str"]["no"]);
 
 foreach ($data->getCategoryList() as $row){
 	$rowBlock = $tpl->fetch('row');
-	$rowBlock->assign('ID_CAT',$row['id']);
-	$rowBlock->assign('NAME',$row['name']);
+	$rowBlock->assign('ID_CAT', $row['id']);
+	$rowBlock->assign('NAME', $row['name']);
 	$tpl->assign('row', $rowBlock);
 }
 

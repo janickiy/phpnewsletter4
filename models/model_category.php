@@ -1,7 +1,7 @@
 <?php
 
 /********************************************
-* PHP Newsletter 4.0.16
+* PHP Newsletter 4.1.3
 * Copyright (c) 2006-2015 Alexander Yanitsky
 * Website: http://janicky.com
 * E-mail: janickiy@mail.ru
@@ -53,10 +53,10 @@ class Model_category extends Model
 	public function removeCategory($id_cat)
 	{
 		$id_cat = $this->data->escape($id_cat);
-		$result = $this->data->delete($this->data->getTableName('category'),"id_cat=".$id_cat,'');
+		$result = $this->data->delete($this->data->getTableName('category'), "id_cat=".$id_cat,'');
 		
 		if($result)
-			return $this->data->delete($this->data->getTableName('subscription'),"id_cat=".$id_cat,'');
+			return $this->data->delete($this->data->getTableName('subscription'), "id_cat=".$id_cat,'');
 		else
 			return false;		
 	}

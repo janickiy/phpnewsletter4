@@ -6,7 +6,7 @@ ${INFO_ALERT}
 </div>
 <!-- END IF -->
 
-<form class="form-horizontal" action="${PHP_SELF}" target=_blank method="post">
+<form class="form-horizontal" action="${ACTION}" target=_blank method="post">
   <div class="control-group">
     <label class="control-label" for="export_type">${STR_EXPORT}:</label>
     <div class="controls">

@@ -1,7 +1,7 @@
 <?php
 
 /********************************************
-* PHP Newsletter 4.0.16
+* PHP Newsletter 4.1.3
 * Copyright (c) 2006-2015 Alexander Yanitsky
 * Website: http://janicky.com
 * E-mail: janickiy@mail.ru
@@ -20,7 +20,7 @@ if($_POST['action']){
 	$settings = $data->getSetting();
 	
 	$token = getRandomCode();
-	$status = $settings['require_confirm'] == 'yes' ? 'active' : 'noactive';
+	$status = $settings['require_confirmation'] == 'yes' ? 'noactive' : 'active';
 	
 	$fields = array();
 	$fields['id_user']   = 0;
@@ -36,7 +36,7 @@ if($_POST['action']){
 	
 	if($insert_id){
 		$isert = $data->insertSubs($insert_id);
-		$result = $data->sendNotification($insert_id,$token);
+		$result = $data->sendNotification($insert_id, $token);
 
 		echo '<!DOCTYPE html>';
 		echo "<html>\n";
@@ -48,7 +48,7 @@ if($_POST['action']){
 	
 		echo '<p style="text-align: center">';
 	
-		if($settings['require_confirm'] == "yes")
+		if($settings['require_confirmation'] == "yes")
 			echo $PNSL["lang"]["msg"]["add_subscribe1"];
 		else 
 			echo $PNSL["lang"]["msg"]["add_subscribe2"];
@@ -70,18 +70,18 @@ require_once $PNSL["system"]["dir_root"].$PNSL["system"]["dir_libs"]."html_templ
 $tpl = SeparateTemplate::instance()->loadSourceFromFile($PNSL["system"]["template"]."subform.tpl");
 
 //form
-$tpl->assign('TITLE_SUBSCRIBE',$PNSL["lang"]["title"]["subscribe"]);
-$tpl->assign('ACTION',"http://".$_SERVER["SERVER_NAME"].root()."?task=subform");
-$tpl->assign('STR_NAME',$PNSL["lang"]["table"]["name"]);
-$tpl->assign('STR_EMAIL',$PNSL["lang"]["table"]["email"]);
-$tpl->assign('BUTTON_SUBSCRIBE',$PNSL["lang"]["button"]["subscribe"]);
+$tpl->assign('TITLE_SUBSCRIBE', $PNSL["lang"]["title"]["subscribe"]);
+$tpl->assign('ACTION', "http://".$_SERVER["SERVER_NAME"].root()."?task=subform");
+$tpl->assign('STR_NAME', $PNSL["lang"]["table"]["name"]);
+$tpl->assign('STR_EMAIL', $PNSL["lang"]["table"]["email"]);
+$tpl->assign('BUTTON_SUBSCRIBE', $PNSL["lang"]["button"]["subscribe"]);
 
 $arr = $data->getCategoryList();
 
 foreach($arr as $row){
 	$rowBlock = $tpl->fetch('row');
-	$rowBlock->assign('ID_CAT',$row['id_cat']);
-	$rowBlock->assign('NAME',$row['name']);
+	$rowBlock->assign('ID_CAT', $row['id_cat']);
+	$rowBlock->assign('NAME', $row['name']);
 	$tpl->assign('row', $rowBlock);
 }
 

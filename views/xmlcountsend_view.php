@@ -1,7 +1,7 @@
 <?php
 
 /********************************************
-* PHP Newsletter 4.0.16
+* PHP Newsletter 4.1.3
 * Copyright (c) 2006-2015 Alexander Yanitsky
 * Website: http://janicky.com
 * E-mail: janickiy@mail.ru
@@ -26,7 +26,7 @@ if($_GET['id_log']){
 }
 
 $sleep = $settings['sleep'] == 0 ? 0.5 : $settings['sleep'];
-$timesec = intval(($totalmails-($successmails+$unsuccessfulmails))*$sleep);
+$timesec = intval(($totalmails - ($successmails + $unsuccessfulmails)) * $sleep);
 
 $datetime = new DateTime();        
 $datetime->setTime(0, 0, $timesec);     

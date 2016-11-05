@@ -1,7 +1,7 @@
 <?php
 
 /********************************************
-* PHP Newsletter 4.0.16
+* PHP Newsletter 4.1.3
 * Copyright (c) 2006-2015 Alexander Yanitsky
 * Website: http://janicky.com
 * E-mail: janickiy@mail.ru
@@ -11,13 +11,24 @@
 if(empty($_GET['id'])) error($PNSL["lang"]["error"]["unsubscribe"]);
 if(empty($_GET['token'])) error($PNSL["lang"]["error"]["unsubscribe"]);
 
-$token = $data->getToken();
+if($_GET['token'] != 'test') $token = $data->getToken();
+
+$error = null;
 
 if($token == $_GET['token']){
 	$result = $data->makeUnsubscribe();
 	
-	if(!$result) error($PNSL["lang"]["error"]["unsubscribe"]);
-	
+	if(!$result) 
+		$error = true;
+	else	
+		$error = false;
+}
+else if($_GET['token'] == 'test') 
+	$error = false;
+else 
+	$error = true;
+
+if(!$error){ 
 	echo '<!DOCTYPE html>';
 	echo "<html>\n";
 	echo "<head>\n";
@@ -30,5 +41,6 @@ if($token == $_GET['token']){
 	echo "</html>";	
 }
 else error($PNSL["lang"]["error"]["unsubscribe"]);
+
 
 ?>

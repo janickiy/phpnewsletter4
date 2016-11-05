@@ -1,7 +1,7 @@
 <?php
 
 /********************************************
-* PHP Newsletter 4.0.16
+* PHP Newsletter 4.1.3
 * Copyright (c) 2006-2015 Alexander Yanitsky
 * Website: http://janicky.com
 * E-mail: janickiy@mail.ru
@@ -15,8 +15,8 @@ class Update {
 		$str = $this->getDataNewVersion();		
 		$newversion = $this->getVersion($str);
 		
-		preg_match("/(\d+)\.(\d+)\.(\d+)/",$currenversion,$out1);
-		preg_match("/(\d+)\.(\d+)\.(\d+)/",$newversion,$out2);
+		preg_match("/(\d+)\.(\d+)\.(\d+)/", $currenversion, $out1);
+		preg_match("/(\d+)\.(\d+)\.(\d+)/", $newversion, $out2);
 		
 		$v1 = ($out1[1] * 10000 + $out1[2] * 100 + $out1[3]);
 		$v2 = ($out2[1] * 10000 + $out2[2] * 100 + $out2[3]);
@@ -54,7 +54,7 @@ class Update {
 	public function getVersion()
 	{
 		$str = $this->getDataNewVersion(); 	
-		preg_match("/<version>([^<]+)<\/version>/i",$str,$out);
+		preg_match("/<version>([^<]+)<\/version>/i", $str, $out);
 		
 		return $out[1];
 	}
@@ -62,7 +62,7 @@ class Update {
 	public function getDownloadLink()
 	{
 		$str = $this->getDataNewVersion(); 
-		preg_match("/<download>([^<]+)<\/download>/i",$str,$out);
+		preg_match("/<download>([^<]+)<\/download>/i", $str, $out);
 		
 		return $out[1];
 	}
@@ -70,10 +70,32 @@ class Update {
 	public function getCreated()
 	{
 		$str = $this->getDataNewVersion(); 
-		preg_match("/<created>([^<]+)<\/created>/i",$str,$out);
+		preg_match("/<created>([^<]+)<\/created>/i", $str, $out);
 		
 		return $out[1];
 	}
+	
+	public function getUpdate()
+	{
+		$str = $this->getDataNewVersion(); 
+		preg_match("/<update>([^<]+)<\/update>/i", $str, $out);
+		
+		return $out[1];
+	}
+	
+	public function checkTree($currenversion)
+	{
+		$str = $this->getDataNewVersion();		
+		$newversion = $this->getVersion($str);
+		
+		preg_match("/(\d+)\.(\d+)\.(\d+)/", $currenversion, $out1);
+		preg_match("/(\d+)\.(\d+)\.(\d+)/", $newversion, $out2);
+		
+		if($out1[1] < $out1[2])
+			return false;
+		else
+			return true;	
+	}	
 }
 
 ?>

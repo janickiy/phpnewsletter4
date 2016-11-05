@@ -1,7 +1,7 @@
 <?php
 
 /********************************************
-* PHP Newsletter 4.0.16
+* PHP Newsletter 4.1.3
 * Copyright (c) 2006-2015 Alexander Yanitsky
 * Website: http://janicky.com
 * E-mail: janickiy@mail.ru
@@ -38,7 +38,7 @@ class Model_create_template extends Model
 		global $PNSL;
 		$parameters = 'MAX(pos)';
 		$from = $this->data->getTableName('template');
-		$result = $this->data->select($parameters,$from,'','','','');
+		$result = $this->data->select($parameters, $from, '', '', '', '');
 		
 		$total = $this->data->getRow($result, 'assoc');
 		

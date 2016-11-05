@@ -31,7 +31,7 @@ ${ERROR_ALERT}
 ${MSG_ALERT}
 </div>
 <!-- END IF -->
-<form class="form-horizontal" action="${PHP_SELF}" method="post">
+<form class="form-horizontal" action="${ACTION}" method="post">
   <div class="control-group">
     <label for="current_password" class="control-label">${STR_CURRENT_PASSWORD}:</label>
     <div class="controls">

@@ -1,7 +1,7 @@
 <?php
 
 /********************************************
-* PHP Newsletter 4.0.16
+* PHP Newsletter 4.1.3
 * Copyright (c) 2006-2015 Alexander Yanitsky
 * Website: http://janicky.com
 * E-mail: janickiy@mail.ru
@@ -25,7 +25,7 @@ if(empty($email)) $error[] = $PNSL["lang"]["error"]["empty_email"];
 if(!empty($email) and check_email($email)) $error[] = $PNSL["lang"]["error"]["wrong_email"];
 
 if(count($error) == 0){
-	$result = $data->sendTestEmail($email,$subject,$body,$prior);
+	$result = $data->sendTestEmail($email, $subject, $body, $prior);
 
 	if($result)
 		show_success_alert($PNSL["lang"]["msg"]["letter_was_sent"]);

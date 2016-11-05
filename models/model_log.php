@@ -1,7 +1,7 @@
 <?php
 
 /********************************************
-* PHP Newsletter 4.0.16
+* PHP Newsletter 4.1.3
 * Copyright (c) 2006-2015 Alexander Yanitsky
 * Website: http://janicky.com
 * E-mail: janickiy@mail.ru
@@ -23,22 +23,22 @@ class Model_log extends Model
 		return $this->data;
 	}
 	
-	public function getLogArr()
+	public function getLogArr($pnumber)
 	{
 		$table = $this->data->getTableName('log');
 		$this->data->parameters = "*,DATE_FORMAT(time,'%d.%m.%Y %H:%i') as send_time";
 		$this->data->tablename = "".$this->data->getTableName('log')."";
 		$this->data->order = 'ORDER BY id_log desc';
-		$this->data->pnumber = 20;
+		$this->data->pnumber = $pnumber;
 		
 		return $this->data->get_page();
 	}
 	
-	public function getTotal()
+	public function getTotal($pnumber)
 	{
 		$this->data->order = '';
 		$this->data->tablename = $this->data->getTableName('log');
-		$this->data->pnumber = 20;
+		$this->data->pnumber = $pnumber;
 		$number = intval(($this->data->get_total() - 1) / $this->data->pnumber) + 1;
 		
 		return $number;		
@@ -49,7 +49,7 @@ class Model_log extends Model
 		return $this->data->page;
 	}
 	
-	public function getDetaillog($strtmp)
+	public function getDetaillog($strtmp, $limit)
 	{
 		$id_log = $this->data->escape($_GET['id_log']);
 	
@@ -58,7 +58,8 @@ class Model_log extends Model
 					LEFT JOIN ".$this->data->getTableName('template')." s ON a.id_template=s.id_template
 					LEFT JOIN ".$this->data->getTableName('category')." c ON s.id_cat=c.id_cat
 					WHERE id_log=".$id_log."
-					ORDER BY ".$strtmp."";
+					ORDER BY ".$strtmp."
+					LIMIT ".$limit."";
 					
 		$result = $this->data->querySQL($query);			
 					

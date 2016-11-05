@@ -11,7 +11,7 @@ ${INFO_ALERT}
 ${ERROR_ALERT}
 </div>
 <!-- END IF -->
-<form class="form-horizontal" action="${PHP_SELF}" method="post">
+<form class="form-horizontal" action="${ACTION}" method="post">
   <!-- IF '${ID_CAT}' != '' -->
   <input type="hidden" name="id_cat" value="${ID_CAT}">
   <!-- END IF -->

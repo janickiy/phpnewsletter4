@@ -1,7 +1,7 @@
 <?php
 
 /********************************************
-* PHP Newsletter 4.0.16
+* PHP Newsletter 4.1.3
 * Copyright (c) 2006-2015 Alexander Yanitsky
 * Website: http://janicky.com
 * E-mail: janickiy@mail.ru
@@ -21,18 +21,21 @@ $PNSL["system"]["dir_config"] = "config/";// Config
 $PNSL["system"]["dir_controllers"] = "controllers/";//controllers
 $PNSL["system"]["dir_engine"] = "engine/";// Engine
 $PNSL["system"]["dir_templates"] = "templates/";//templates
+$PNSL["system"]["dir_tmp"] = "tmp/"; //temporary folder
 $PNSL["system"]["dir_libs"] = "libraries/";//libraries
 $PNSL["system"]["dir_controllers"] = "controllers/";
 $PNSL["system"]["dir_models"] = "models/";
 $PNSL["system"]["dir_views"] = "views/";
 $PNSL["system"]["dir_classes"] = "classes/";
+
 $PNSL["path"] = str_replace("//","/", "/" .trim(str_replace(chr(92),"/", substr($PNSL["system"]["dir_root"],strlen($_SERVER["DOCUMENT_ROOT"]))),"/")."/");
 													
 //Script version
-$PNSL["system"]["version"] = "4.0.16";
+$PNSL["system"]["version"] = "4.1.3";
 
 //require libs
 require_once $PNSL["system"]["dir_root"].$PNSL["system"]["dir_engine"].$PNSL["system"]["dir_libs"]."functions.php";
+require_once $PNSL["system"]["dir_root"].$PNSL["system"]["dir_engine"].$PNSL["system"]["dir_libs"]."get.mailingstatus.php";
 
 //require engine
 require_once $PNSL["system"]["dir_root"].$PNSL["system"]["dir_engine"]."model.php";
@@ -51,12 +54,12 @@ require_once $PNSL["system"]["dir_root"].$PNSL["system"]["dir_engine"].$PNSL["sy
 
 //get settings
 require_once $PNSL["system"]["dir_root"].$PNSL["system"]["dir_engine"].$PNSL["system"]["dir_libs"]."get.settings.php";
-$settings = get_settings($PNSL);
+$settings = get_settings();
 
 if($settings["language"])
-	$lang_file = $PNSL["system"]["dir_root"].$PNSL["system"]["dir_config"]."language/".$settings["language"].".php";
+	$lang_file = $PNSL["system"]["dir_root"].$PNSL["system"]["dir_templates"]."language/".$settings["language"].".php";
 else 
-	$lang_file = $PNSL["system"]["dir_root"].$PNSL["system"]["dir_config"]."language/en.php";
+	$lang_file = $PNSL["system"]["dir_root"].$PNSL["system"]["dir_templates"]."language/en.php";
 
 if(file_exists($lang_file))
 	include $lang_file;
@@ -65,6 +68,7 @@ else
 
 require_once $PNSL["system"]["dir_root"].$PNSL["system"]["dir_engine"].$PNSL["system"]["dir_classes"]."class.authorization.php";
 require_once $PNSL["system"]["dir_root"].$PNSL["system"]["dir_engine"].$PNSL["system"]["dir_classes"]."class.update.php";
+require_once $PNSL["system"]["dir_root"].$PNSL["system"]["dir_engine"].$PNSL["system"]["dir_classes"]."class.upzipper.php";
 
 // check install
 if(is_file($PNSL["system"]["dir_root"].$PNSL["system"]["dir_config"]."/config.php") && is_dir($PNSL["system"]["dir_root"]."install")){

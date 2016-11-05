@@ -52,8 +52,6 @@ CREATE TABLE `%prefix%ready_send` (
 
 CREATE TABLE `%prefix%settings` (
   `language` varchar(10) NOT NULL,
-  `number_pos` tinyint(4) NOT NULL DEFAULT '0',
-  `number_pos_users` tinyint(4) NOT NULL DEFAULT '0',
   `email` varchar(200) NOT NULL,
   `email_name` varchar(200) NOT NULL,
   `show_email` enum('no','yes') NOT NULL DEFAULT 'yes',
@@ -79,6 +77,7 @@ CREATE TABLE `%prefix%settings` (
   `show_unsubscribe_link` enum('yes','no') NOT NULL,
   `subjecttextconfirm` varchar(200) NOT NULL,
   `textconfirmation` text NOT NULL,
+  `require_confirmation` enum('yes','no') NOT NULL DEFAULT 'no',
   `unsublink` text NOT NULL,
   `interval_type` enum('no','m','h','d') NOT NULL DEFAULT 'no',
   `interval_number` int(6) NOT NULL,
