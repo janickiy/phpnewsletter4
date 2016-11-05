@@ -1,5 +1,5 @@
 <strong>Q: How to make the possibility to send emails on a schedule and use the script as autoresponder?</strong>
-<p>A: To use the script as an autoresponder you need to set the path: http://your_website/phpnewsletter/auto_responder.php in CRON</p>
+<p>A: To use the script as an autoresponder you need to set the path: http://your_website/phpnewsletter/cron.php in CRON</p>
 <strong>Q:How can I personalize my emails?</strong>
 <p>A: Yes, you can. To do this, put %NAME% in the letter template. The next mailing letters, each time it will be replaced by the name of the subscriber.</p>
 <strong>Q: Why don't I get emails to Gmail's Box?</strong>

@@ -1,5 +1,4 @@
 <!-- INCLUDE header.tpl -->
-<script type="text/javascript" src="./js/jquery.hide_alertblock.js"></script>
 <script type="text/javascript">
 
 (function($) {
@@ -68,6 +67,7 @@
 
 					if(data == "") { 
 						$("#msgShow").html($settings.error);
+						$("#msgShow").addClass("disabled");
 					}
 					else {
 					    offset = offset+$settings.nop; 

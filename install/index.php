@@ -1,8 +1,8 @@
 <?php
 
 /********************************************
-* PHP Newsletter 4.1.3
-* Copyright (c) 2006-2015 Alexander Yanitsky
+* PHP Newsletter 4.2.11
+* Copyright (c) 2006-2016 Alexander Yanitsky
 * Website: http://janicky.com
 * E-mail: janickiy@mail.ru
 * Skype: janickiy
@@ -12,7 +12,7 @@ error_reporting(0);
 session_start();
 
 $INSTALL = array();
-$INSTALL["version"] = '4.1.3';
+$INSTALL["version"] = '4.2.10';
 
 $INSTALL["system"]["dir_config"] = 'config/';
 $SCRIPT_URL = substr($_SERVER['SCRIPT_NAME'], 0, strpos($_SERVER['SCRIPT_NAME'],"install/"));
@@ -209,7 +209,12 @@ if($INSTALL['step'] == 5){
 				if (in_array('require_confirmation', $tables['settings'])) {
 					$INSTALL['version_detect'] = '4.1.0';
 					$INSTALL['version_code'] = 40100;
-                }				
+                }	
+
+				if (in_array('random', $tables['settings'])) {
+					$INSTALL['version_detect'] = '4.2.0';
+					$INSTALL['version_code'] = 40200;				
+				}				
 			}	
 			
 			$INSTALL['type'] = 'install';
@@ -233,6 +238,9 @@ if($INSTALL['step'] == 5){
 					if ($INSTALL['version_code'] == 40000) {
                         import_data('update/update_4_0_'.$INSTALL['language'].'.sql', $_POST['prefix']);
                     }
+					else if($INSTALL['version_code'] == 40100){
+						import_data('update/update_4_1_'.$INSTALL['language'].'.sql', $_POST['prefix']);
+					}
 					
 					if(count($INSTALL['errors']) == 0){
 					$_SESSION['name'] = $_POST["name"];
@@ -414,10 +422,9 @@ header('Content-Type: text/html; charset=utf-8');
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title><?php echo "".$INSTALL["lang"]["script"]["name"]."  ".$INSTALL["version"]." | ".$INSTALL["lang"]["str"]["install"].""; ?></title>
-<link href="../styles/bootstrap.min.css" rel="stylesheet" media="screen">
-<link href="../styles/styles.css" rel="stylesheet" media="screen">
+<link href="../templates/themes/default/styles/bootstrap.min.css" rel="stylesheet" media="screen">
+<link href="../templates/themes/default/styles/styles.css" rel="stylesheet" media="screen">
 <script type="text/javascript" src="../js/jquery.min.js"></script>
-<script type="text/javascript" src="../js/jquery.hide_alertblock.js"></script>
 </head>
 <body>
 <div class="navbar navbar-fixed-top">
@@ -484,7 +491,7 @@ else if($INSTALL['step'] == 2){
 <script type="text/javascript">
 $(document).ready(function(){
 	$("#license_key").change(function(){ 
-
+	
 		var licensekey = $("#license_key").val();
 	
 		$.ajax({
@@ -497,49 +504,45 @@ $(document).ready(function(){
 					var result = $(this).find("result").text();				
 
 					if(result == 'no'){
-						$(".alert-error").show();
 						$("#error_msg").text('<?php echo $INSTALL["lang"]["error"]["wrong_license_key"]; ?>');
 						$(".btn-primary").attr("disabled","disabled");
 					}
 					else{
-						//$("#error_msg").text('');
-						setTimeout(function(){$('.alert-error').fadeOut('700')},500);
+						$("#error_msg").text('');
 						$('.btn-primary').removeAttr("disabled");
 					}
 				});
 			}
 		});		
-	});	
+	});
 });			
+	
 </script>
-<div style="display:none;" class="alert alert-error">
-<button  class="close" data-dismiss="alert">×</button>
-<span id="error_msg"></span>
-</div>
 <form class="form-horizontal" action="?" method="post">
 	<input type="hidden" name="step" value="2" />
-        <fieldset>
-          <legend><?php echo $INSTALL["lang"]["str"]["license_key"]; ?></legend>
-          <div class="control-group">
-            <div class="controls">
-              <label class="radio">
-				<input type="radio" onclick="document.getElementById('license_key').disabled='disabled'; this.form.forward.disabled=!this.checked;" name="license_key_type" value="demo" checked="checked"> <?php echo $INSTALL["lang"]["str"]["demo_version"]; ?>
-              </label>
-              <label class="radio">
-                <input type="radio" onclick="document.getElementById('license_key').disabled=''; this.form.forward.disabled=this.checked;" name="license_key_type" value="license_key"> <?php echo $INSTALL["lang"]["str"]["commercial_version"]; ?>
-              </label>
-            </div>
+	<fieldset>
+		<legend><?php echo $INSTALL["lang"]["str"]["license_key"]; ?></legend>
+		<div class="control-group">
+			<div class="controls">
+				<label class="radio">
+					<input type="radio" onclick="document.getElementById('license_key').disabled='disabled'; this.form.forward.disabled=!this.checked;" name="license_key_type" value="demo" checked="checked"> <?php echo $INSTALL["lang"]["str"]["demo_version"]; ?>
+				</label>
+				<label class="radio">
+					<input type="radio" onclick="document.getElementById('license_key').disabled=''; this.form.forward.disabled=this.checked;" name="license_key_type" value="license_key"> <?php echo $INSTALL["lang"]["str"]["commercial_version"]; ?>
+				</label>
+			</div>
 			<div class="control-group">
-               <label class="control-label-large" for="license_key"><?php echo $INSTALL["lang"]["str"]["license_key"]; ?></label>
-			   <div class="controls-large">
-                 <input id="license_key" class="span4 focused" type="text" name="license_key" disabled='disabled' value="DEMO">
-               </div>			   
-		    </div>			
-          </div>
-        <div class="form-actions">
-          <input type="submit" name="forward" class="btn btn-primary" value="<?php echo $INSTALL["lang"]["str"]["next"]; ?>" />
-          <input type="button" class="btn" value="<?php echo $INSTALL["lang"]["str"]["cancel"]; ?>" onclick="location.href='../'" />
-        </div>
+				<label class="control-label-large" for="license_key"><?php echo $INSTALL["lang"]["str"]["license_key"]; ?></label>
+				<div class="controls-large">
+					<input id="license_key" class="span4 focused" type="text" name="license_key" disabled='disabled' value="DEMO"><span id="error_msg"></span>
+				</div>			   
+			</div>			
+		</div>
+	</fieldset>	
+	<div class="form-actions">
+		<input type="submit" name="forward" class="btn btn-primary" value="<?php echo $INSTALL["lang"]["str"]["next"]; ?>" />
+		<input type="button" class="btn" value="<?php echo $INSTALL["lang"]["str"]["cancel"]; ?>" onclick="location.href='../'" />
+	</div>	
 </form> 
 <?php
 
@@ -558,28 +561,29 @@ else if($INSTALL['step'] == 3){
 	}
 
 ?>
-      <form class="form-horizontal" action="?" method="post">
-        <input type="hidden" name="step" value="3" />
-        <fieldset>
-          <legend><?php echo $INSTALL["lang"]["str"]["license"]; ?></legend>
-          <div class="control-group">
+<form class="form-horizontal" action="?" method="post">
+	<input type="hidden" name="step" value="3" />
+	<fieldset>
+		<legend><?php echo $INSTALL["lang"]["str"]["license"]; ?></legend>
+		<div class="control-group">
             <div class="controls">
-              <h5><?php echo $INSTALL["lang"]["str"]["read_license"]; ?></h5>
-              <textarea class="span7" name="readonly" rows="20"><?php echo $contents; ?></textarea>
-            </div>
-          </div>
-          <div class="control-group">
-            <label class="control-label" for="accept_license"><?php echo $INSTALL["lang"]["str"]["accept_license"]; ?>:</label>
-            <div class="controls">
-              <input type="checkbox" id="accept_license" name="accept_license" style="vertical-align: middle;" onclick="this.form.forward.disabled=!this.checked;" />
-            </div>
-          </div>
-        </fieldset>
-        <div class="form-actions">
-          <input type="submit" name="forward" class="btn btn-primary"  value="<?php echo $INSTALL["lang"]["str"]["next"]; ?>" disabled="disabled"/>
-          <input type="button" class="btn" value="<?php echo $INSTALL["lang"]["str"]["cancel"]; ?>" onclick="location.href='../'" />
-        </div>
-      </form>
+				<h5><?php echo $INSTALL["lang"]["str"]["read_license"]; ?></h5>
+				<textarea class="span7" name="readonly" rows="20"><?php echo $contents; ?></textarea>
+			</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label" for="accept_license"><?php echo $INSTALL["lang"]["str"]["accept_license"]; ?>:</label>
+				<div class="controls">
+					<input type="checkbox" id="accept_license" name="accept_license" style="vertical-align: middle;" onclick="this.form.forward.disabled=!this.checked;" />
+				</div>
+			</div>	
+		</div>
+	</fieldset>
+	<div class="form-actions">
+		<input type="submit" name="forward" class="btn btn-primary"  value="<?php echo $INSTALL["lang"]["str"]["next"]; ?>" disabled="disabled"/>
+		<input type="button" class="btn" value="<?php echo $INSTALL["lang"]["str"]["cancel"]; ?>" onclick="location.href='../'" />
+	</div>
+</form>
 <?php
 
 }
@@ -603,10 +607,10 @@ else if($INSTALL['step'] == 4){
     if (ini_get('register_globals') == 1) {
 	
 ?>
-      <div class="alert alert-block"> <a class="close" href="#" data-dismiss="alert">×</a>
-        <p><?php echo $INSTALL["lang"]["warning"]["register_globals_on"] ; ?></p>
-        <p><strong><?php echo $INSTALL["lang"]["str"]["can_continue_install"]; ?></strong></p>
-      </div>
+<div class="alert alert-block"> <a class="close" href="#" data-dismiss="alert">×</a>
+	<p><?php echo $INSTALL["lang"]["warning"]["register_globals_on"] ; ?></p>
+	<p><strong><?php echo $INSTALL["lang"]["str"]["can_continue_install"]; ?></strong></p>
+</div>
 <?php
 
     }
@@ -614,20 +618,20 @@ else if($INSTALL['step'] == 4){
     if(in_array(false, $check)) {
 	
 ?>
-      <div class="alert alert-block">
-        <p><?php echo $INSTALL["lang"]["warning"]["system_req_warning"]; ?></p>
-        <p><strong><?php echo $INSTALL["lang"]["str"]["can_continue_install"]; ?></strong></p>
-      </div>
+<div class="alert alert-block">
+	<p><?php echo $INSTALL["lang"]["warning"]["system_req_warning"]; ?></p>
+	<p><strong><?php echo $INSTALL["lang"]["str"]["can_continue_install"]; ?></strong></p>
+</div>
 <?php
 
     }
 	
 ?>
-      <form class="form-horizontal" action="?" method="post">
-        <input type="hidden" name="step" value="4" />
-        <fieldset>
-          <legend><?php echo $INSTALL["lang"]["str"]["check_result"]; ?></legend>
-          <table class="table table-striped table-bordered table-hover dataTable" width="100%" cellspacing="0" cellpadding="0" border="0">
+<form class="form-horizontal" action="?" method="post">
+	<input type="hidden" name="step" value="4" />
+	<fieldset>
+		<legend><?php echo $INSTALL["lang"]["str"]["check_result"]; ?></legend>
+			<table class="table table-striped table-bordered table-hover dataTable" width="100%" cellspacing="0" cellpadding="0" border="0">
             <tbody>
               <tr>
                 <td width="250">PHP 5.3 + </td>
@@ -887,5 +891,3 @@ function import_scheme($filename, $prefix) {
         }
     }
 }
-
-?>

@@ -1,8 +1,8 @@
 <?php
 
 /********************************************
-* PHP Newsletter 4.1.3
-* Copyright (c) 2006-2015 Alexander Yanitsky
+* PHP Newsletter 4.2.11
+* Copyright (c) 2006-2016 Alexander Yanitsky
 * Website: http://janicky.com
 * E-mail: janickiy@mail.ru
 * Skype: janickiy
@@ -97,17 +97,43 @@ class Model_template extends Model
 		else return false;
 	}
 	
+	public function downPosition($id_template)
+    {
+		$id_template = $this->data->escape($id_template);
+
+		$query = "SELECT * FROM " . $this->data->getTableName('template') . " ORDER BY pos DESC";
+		$result = $this->data->querySQL($query);
+
+		while($row = $this->data->getRow($result)){
+			if($row["id_template"] == $id_template){
+				$pos = $row["pos"];
+				$row = $this->data->getRow($result);
+				$id_next = $row["id_template"];
+				$posnext = $row["pos"];
+			}
+		} 
+
+		if($id_next){
+			$update1 = "UPDATE " . $this->data->getTableName('template') . " SET pos=".$pos." WHERE id_template=".$id_next;
+			$update2 = "UPDATE " . $this->data->getTableName('template') . " SET pos=".$posnext." WHERE id_template=".$id_template;
+
+			if($this->data->querySQL($update1) && $this->data->querySQL($update2))
+				return true; 
+			else
+				return false;
+			}
+			else return true;
+        }
+
 	public function upPosition($id_template)
 	{
 		$id_template = $this->data->escape($id_template);
-		$parameters = '*';
-		$order = 'ORDER BY pos DESC';
-		$from = $this->data->getTableName('template');
-		
-		$result = $this->data->select($parameters, $from, '', '', $order, '');
-		
+
+		$query = "SELECT * FROM " . $this->data->getTableName('template') . " ORDER BY pos";
+		$result = $this->data->querySQL($query);
+
 		while($row = $this->data->getRow($result)){
-			if($row["id_template"] == $_GET['id_template'])	{
+			if($row["id_template"] == $id_template){
 				$pos = $row["pos"];
 				$row = $this->data->getRow($result);
 				$id_next = $row["id_template"];
@@ -116,43 +142,14 @@ class Model_template extends Model
 		}
 
 		if($id_next){
-			$query1 = "UPDATE ".$this->data->getTableName('template')." SET pos=".$pos." WHERE id_template=".$id_next;
-			$query2 = "UPDATE ".$this->data->getTableName('template')." SET pos=".$posnext." WHERE id_template=".$_GET['id_template'];
+			$update1 = "UPDATE " . $this->data->getTableName('template') . " SET pos=".$pos." WHERE id_template=".$id_next;
+			$update2 = "UPDATE " . $this->data->getTableName('template') . " SET pos=".$posnext." WHERE id_template=".$id_template;
 
-			if($this->data->querySQL($query1) AND $this->data->querySQL($query2))
-				return true;
-			else
-				return false;			
-		}	
-	}
-	
-	public function downPosition($id_template)
-	{
-		$id_template = $this->data->escape($id_template);
-	
-		$query = "SELECT * FROM ".$this->data->getTableName('template')." ORDER BY pos DESC";
-		$result = $this->data->querySQL($query);
-		
-		while($row = $this->data->getRow($result))
-		{
-			if($row["id_template"] == $_GET['id_template']){
-				$pos = $row["pos"];
-				$row = $this->data->getRow($result);
-				$id_next = $row["id_template"];
-				$posnext = $row["pos"];
-			}
-		}
-		
-		if($id_next){		
-			$query1 = "UPDATE ".$this->data->getTableName('template')." SET pos=".$pos." WHERE id_template=".$id_next;
-			$query2 = "UPDATE ".$this->data->getTableName('template')." SET pos=".$posnext." WHERE id_template=".$_GET['id_template'];
-
-			if($this->data->querySQL($query1) AND $this->data->querySQL($query2))
+			if($this->data->querySQL($update1) && $this->data->querySQL($update2))
 				return true;
 			else
 				return false;
-		}	
+		}
+		else return true;
 	}
 }
-
-?>

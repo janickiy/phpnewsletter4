@@ -1,8 +1,8 @@
 <?php
 
 /********************************************
-* PHP Newsletter 4.1.3
-* Copyright (c) 2006-2015 Alexander Yanitsky
+* PHP Newsletter 4.2.11
+* Copyright (c) 2006-2016 Alexander Yanitsky
 * Website: http://janicky.com
 * E-mail: janickiy@mail.ru
 * Skype: janickiy
@@ -15,10 +15,11 @@ Auth::authorization();
 require_once $PNSL["system"]["dir_root"].$PNSL["system"]["dir_libs"]."html_template/SeparateTemplate.php";
 $tpl = SeparateTemplate::instance()->loadSourceFromFile($PNSL["system"]["template"]."faq.tpl");
 
-$tpl->assign('STR_WARNING', $PNSL["lang"]["str"]["warning"]);
 $tpl->assign('SCRIPT_VERSION', $PNSL["system"]["version"]);
-$tpl->assign('INFO_ALERT', $PNSL["lang"]["info"]["faq"]);
+$tpl->assign('STR_WARNING', $PNSL["lang"]["str"]["warning"]);
+$tpl->assign('INFO_ALERT', $PNSL["lang"]["info"]["edit_user"]);
 $tpl->assign('STR_ERROR', $PNSL["lang"]["str"]["error"]);
+$tpl->assign('STR_LOGOUT', $PNSL["lang"]["str"]["logout"]);
 
 $tpl->assign('TITLE_PAGE', $PNSL["lang"]["title_page"]["faq"]);
 $tpl->assign('TITLE', $PNSL["lang"]["title"]["faq"]);
@@ -37,5 +38,3 @@ include_once "footer.php";
 
 // display content
 $tpl->display();
-
-?>

@@ -1,8 +1,8 @@
 <?php
 
 /********************************************
-* PHP Newsletter 4.1.3
-* Copyright (c) 2006-2015 Alexander Yanitsky
+* PHP Newsletter 4.2.11
+* Copyright (c) 2006-2016 Alexander Yanitsky
 * Website: http://janicky.com
 * E-mail: janickiy@mail.ru
 * Skype: janickiy
@@ -106,6 +106,11 @@ class Model_edit_template extends Model
 		
 		return $this->data->delete($this->data->getTableName('attach'),$where,'');
 	}
+	
+	public function getSetting(){
+		$query = "SELECT * FROM ".$this->data->getTableName('settings')."";
+		$result = $this->data->querySQL($query);
+		
+		return $this->data->getRow($result);	
+	}
 }
-
-?>

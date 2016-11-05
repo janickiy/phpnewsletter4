@@ -1,8 +1,8 @@
 <?php
 
 /********************************************
-* PHP Newsletter 4.1.3
-* Copyright (c) 2006-2015 Alexander Yanitsky
+* PHP Newsletter 4.2.11
+* Copyright (c) 2006-2016 Alexander Yanitsky
 * Website: http://janicky.com
 * E-mail: janickiy@mail.ru
 * Skype: janickiy
@@ -48,7 +48,7 @@ class Model_logstatxls extends Model
 	public function getTotaltime()
 	{
 		$id_log = $this->data->escape($_GET['id_log']);
-		$query = "SELECT *,sec_to_time(UNIX_TIMESTAMP(max(time)) - UNIX_TIMESTAMP(min(time))) as totaltime FROM ".$this->data->getTableName('ready_send')." WHERE id_log =".$_GET['id_log']."";
+		$query = "SELECT *,sec_to_time(UNIX_TIMESTAMP(max(time)) - UNIX_TIMESTAMP(min(time))) as totaltime FROM ".$this->data->getTableName('ready_send')." WHERE id_log=".$_GET['id_log']."";
 
 		$result = $this->data->querySQL($query);
 		$row = $this->data->getRow($result);
@@ -74,12 +74,10 @@ class Model_logstatxls extends Model
 	{
 		$id_log = $this->data->escape($_GET['id_log']);	
 	
-		$query = "SELECT COUNT(*) FROM ".$this->data->getTableName('ready_send')." WHERE id_log =".$id_log." AND readmail='yes'";
+		$query = "SELECT COUNT(*) FROM ".$this->data->getTableName('ready_send')." WHERE id_log=".$id_log." AND readmail='yes'";
 		$result = $this->data->querySQL($query);
 		$total = $this->data->getRow($result, 'assoc');
 		
 		return $total['COUNT(*)'];
 	}	
 }
-
-?>

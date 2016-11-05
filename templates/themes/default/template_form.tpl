@@ -23,7 +23,7 @@ function del_pole(btn)
 </script>
 <!-- IF '${INFO_ALERT}' != '' -->
 
-<div class="alert alert-info"> ${INFO_ALERT} </div>
+<div class="alert alert-info"><span class="icon icon-exclamation-sign"></span> ${INFO_ALERT} </div>
 <!-- END IF -->
 <!-- IF '${ERROR_ALERT}' != '' -->
 <div class="alert alert-error">
@@ -40,6 +40,10 @@ function del_pole(btn)
   </ul>
 </div>
 <!-- END show_errors -->
+<script type="text/javascript">//<![CDATA[
+window.CKEDITOR_BASEPATH='./js/ckeditor/';
+CKEDITOR.lang.languages={"${LANGUAGE}":1};
+//]]></script>
 <form id="tmplForm" class="form-horizontal" enctype="multipart/form-data" action="${ACTION}" method="post">
   <!-- IF '${ID_TEMPLATE}' != '' -->
   <input type="hidden" name="id_template" value="${ID_TEMPLATE}">
@@ -54,10 +58,7 @@ function del_pole(btn)
     <label for="body" class="control-label">${STR_FORM_CONTENT}:</label>
     <div class="controls">
       <textarea id="tmplBody" name="body">${CONTENT}</textarea>
-      <script type="text/javascript">//<![CDATA[
-window.CKEDITOR_BASEPATH='./js/ckeditor/';
-//]]></script>
-      <script type="text/javascript" src="./js/ckeditor/ckeditor.js"></script>
+
       <script type="text/javascript">//<![CDATA[
 CKEDITOR.replace('tmplBody');
 //]]></script>
@@ -86,9 +87,7 @@ CKEDITOR.replace('tmplBody');
     <label for="id_cat" class="control-label">${STR_FORM_CATEGORY_SUBSCRIBERS}:</label>
     <div class="controls">
       <select class="span3 form-control" name="id_cat">
-        
         ${OPTION}
-      
       </select>
     </div>
   </div>
@@ -96,26 +95,12 @@ CKEDITOR.replace('tmplBody');
     <label for="prior" class="control-label">${FORM_PRIORITY}:</label>
     <div class="controls">
       <label class="radio inline"> <input type="radio" name="prior" value="3" 
-        
-        
         <!-- IF '${PRIOR3_CHECKED}' != '' -->
         checked="checked"
         <!-- END IF -->
         >${STR_FORM_PRIORITY_NORMAL} </label>
-      <label class="radio inline"> <input type="radio" name="prior" value="2" 
-        
-        
-        <!-- IF '${PRIOR2_CHECKED}' != '' -->
-        checked="checked"
-        <!-- END IF -->
-        >${STR_FORM_PRIORITY_LOW} </label>
-      <label class="radio inline"> <input type="radio" name="prior" value="1" 
-        
-        
-        <!-- IF '${PRIOR1_CHECKED}' != '' -->
-        checked="checked"
-        <!-- END IF -->
-        >${STR_FORM_PRIORITY_HIGH} </label>
+      <label class="radio inline"> <input type="radio" name="prior" value="2" <!-- IF '${PRIOR2_CHECKED}' != '' -->checked="checked"<!-- END IF -->>${STR_FORM_PRIORITY_LOW} </label>
+      <label class="radio inline"> <input type="radio" name="prior" value="1" <!-- IF '${PRIOR1_CHECKED}' != '' -->checked="checked"<!-- END IF -->>${STR_FORM_PRIORITY_HIGH} </label>
     </div>
   </div>
   <div class="form-actions">
@@ -164,10 +149,45 @@ $(document).ready(function(){
 			type: "POST",
 			url: "./?task=sendtest",
 			data: sendData,
-			success: function(msg){
-				$("#resultSend").html(msg); 
+			dataType: "xml",
+			success: function(xml){
+				$(xml).find("document").each(function () {
+					var result = $(this).find("result").text();	
+					var msg = $(this).find("msg").text();
+					var alert_msg = '';
+
+					if(result == 'success'){
+						alert_msg += '<div class="alert alert-success">';
+						alert_msg += '<button class="close" data-dismiss="alert">×</button>';
+						alert_msg += msg;
+						alert_msg += '</div>';					
+					}
+					else if(result == 'error'){
+						alert_msg += '<div class="alert alert-error">';
+						alert_msg += '<button class="close" data-dismiss="alert">×</button>';
+						alert_msg += '<strong>${STR_ERROR}!</strong>';
+						alert_msg += msg;
+						alert_msg += '</div>';											
+					}
+					else if(result == 'errors'){
+						alert_msg += '<div class="alert alert-error">';
+						alert_msg += '<a class="close" href="#" data-dismiss="alert">×</a>';
+						alert_msg += '<h4 class="alert-heading">${STR_IDENTIFIED_FOLLOWING_ERRORS}:</h4>';
+						alert_msg += '<ul>';
+						
+						var arr = msg.split(',');
+						
+						for (var i = 0; i < arr.length; i++){
+							alert_msg += '<li> ' + arr[i] + '</li>';
+						}
+				
+						alert_msg += '</ul>';
+						alert_msg += '</div>';
+					}				
+					
+					$("#resultSend").html(alert_msg); 
+				});
 			}
-			
 		}); 
 	});	
 });

@@ -1,8 +1,8 @@
 <?php
 
 /********************************************
-* PHP Newsletter 4.1.3
-* Copyright (c) 2006-2015 Alexander Yanitsky
+* PHP Newsletter 4.2.11
+* Copyright (c) 2006-2016 Alexander Yanitsky
 * Website: http://janicky.com
 * E-mail: janickiy@mail.ru
 * Skype: janickiy
@@ -29,7 +29,9 @@ class Update {
 
 	public function getDataNewVersion() 
 	{ 
-		$headers = "GET /scripts/index.php?s=newsletter HTTP/1.1\r\n";
+		global $PNSL;	
+	
+		$headers = "GET /scripts/index.php?s=newsletter&version=".$PNSL["system"]["version"]." HTTP/1.1\r\n";
 		$headers .= "Host: janicky.com\r\n";
 		$headers .= "User-Agent: ".$_SERVER['HTTP_USER_AGENT']."\r\n";
 		$headers .= "Accept: */*\r\n";
@@ -95,7 +97,7 @@ class Update {
 			return false;
 		else
 			return true;	
-	}	
+	}
 }
 
 ?>

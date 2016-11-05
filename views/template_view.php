@@ -1,8 +1,8 @@
 <?php
 
 /********************************************
-* PHP Newsletter 4.1.3
-* Copyright (c) 2006-2015 Alexander Yanitsky
+* PHP Newsletter 4.2.11
+* Copyright (c) 2006-2016 Alexander Yanitsky
 * Website: http://janicky.com
 * E-mail: janickiy@mail.ru
 * Skype: janickiy
@@ -15,10 +15,11 @@ Auth::authorization();
 require_once $PNSL["system"]["dir_root"].$PNSL["system"]["dir_libs"]."html_template/SeparateTemplate.php";
 $tpl = SeparateTemplate::instance()->loadSourceFromFile($PNSL["system"]["template"]."template.tpl");
 
-$tpl->assign('STR_WARNING', $PNSL["lang"]["str"]["warning"]);
 $tpl->assign('SCRIPT_VERSION', $PNSL["system"]["version"]);
-$tpl->assign('INFO_ALERT', $PNSL["lang"]["info"]["template"]);
+$tpl->assign('STR_WARNING', $PNSL["lang"]["str"]["warning"]);
+$tpl->assign('INFO_ALERT', $PNSL["lang"]["info"]["edit_user"]);
 $tpl->assign('STR_ERROR', $PNSL["lang"]["str"]["error"]);
+$tpl->assign('STR_LOGOUT', $PNSL["lang"]["str"]["logout"]);
 
 if($_POST["action"]){
 	if($_POST["action"] == 2){
@@ -64,8 +65,7 @@ if($_GET['pos'] == 'down'){
 
 $tpl->assign('TITLE_PAGE', $PNSL["lang"]["title_page"]["template"]);
 $tpl->assign('TITLE', $PNSL["lang"]["title"]["template"]);
-
-//$tpl->assign('NAMESCRIPT',$PNSL["lang"]["script"]["name"]);
+$tpl->assign('INFO_ALERT', $PNSL["lang"]["info"]["template"]);
 
 //menu
 include_once "menu.php";
@@ -93,42 +93,42 @@ else
 
 $arr = $data->getListArr($pnumber);
 
-if(is_array($arr)){
+if($arr){
 
 	//fetch row block from root template
 	$rowBlock = $tpl->fetch('row');
 	
-	for($i = 0; $i < count($arr); $i++){
+	foreach($arr as $row){
 	
 		//fetch column block from row block
 		$columnBlock = $rowBlock->fetch('column');
 		
-		if($arr[$i]['id_cat'] == 0) { $arr[$i]['catname'] = $PNSL["lang"]["str"]["general"]; }
+		if($row['id_cat'] == 0) { $row['catname'] = $PNSL["lang"]["str"]["general"]; }
 
-		$active = $arr[$i]['active'] == 'yes' ? $PNSL["lang"]["str"]["yes"] : $PNSL["lang"]["str"]["no"];
+		$active = $row['active'] == 'yes' ? $PNSL["lang"]["str"]["yes"] : $PNSL["lang"]["str"]["no"];
         
-		$arr[$i]['body'] = preg_replace('/<br(\s\/)?>/siU', "\n", $arr[$i]['body']);
-		$arr[$i]['body'] = remove_html_tags($arr[$i]['body']);
-		$arr[$i]['body'] = preg_replace('/\n/sU', "<br>", $arr[$i]['body']);
-		$pos = strpos(substr($arr[$i]['body'],500), " ");			
+		$row['body'] = preg_replace('/<br(\s\/)?>/siU', "", $row['body']);
+		$row['body'] = remove_html_tags($row['body']);
+		$row['body'] = preg_replace('/\n/sU', "", $row['body']);
+		$pos = strpos(substr($row['body'],500), " ");			
 
-		if(strlen($arr[$i]['body']) > 500) 
+		if(strlen($row['body']) > 500) 
 			$srttmpend = "...";
 		else 
 			$strtmpend = "";
 			
-		$class_noactive = $arr[$i]['active'] == 'no' ? ' error' : '';	
+		$class_noactive = $row['active'] == 'no' ? ' error' : '';	
 			
 		$columnBlock->assign('CLASS_NOACTIVE', $class_noactive);				
-		
-		$template = substr($arr[$i]['body'], 0, 500 + $pos).$srttmpend; 		
-		$columnBlock->assign('ROW_ID_TEMPLATE', $arr[$i]['id_template']);
-		$columnBlock->assign('ROW_CONTENT', $template);			
+	
+		$columnBlock->assign('ROW_ID_TEMPLATE', $row['id_template']);
+		$columnBlock->assign('ROW_CONTENT', substr($row['body'], 0, 500 + $pos).$srttmpend);			
 		$columnBlock->assign('STR_SEND', $PNSL["lang"]["str"]["send"]);	
 		$columnBlock->assign('STR_UP', $PNSL["lang"]["str"]["up"]);	
-		$columnBlock->assign('STR_DOWN', $PNSL["lang"]["str"]["down"]);			
-		$columnBlock->assign('ROW_CATNAME', $arr[$i]['catname']);	
-		$columnBlock->assign('ROW_TMPLNAME', $arr[$i]['tmplname']);		
+		$columnBlock->assign('STR_DOWN', $PNSL["lang"]["str"]["down"]);
+		$columnBlock->assign('ROW_POS', $row['pos']);
+		$columnBlock->assign('ROW_CATNAME', $row['catname']);	
+		$columnBlock->assign('ROW_TMPLNAME', $row['tmplname']);		
 		$columnBlock->assign('ROW_ACTIVE', $active);		
 		
 		//assign modified column block back to row block
@@ -214,5 +214,3 @@ include_once "footer.php";
 		
 //display content
 $tpl->display();
-
-?>

@@ -1,8 +1,8 @@
 <?php
 
 /********************************************
-* PHP Newsletter 4.1.3
-* Copyright (c) 2006-2015 Alexander Yanitsky
+* PHP Newsletter 4.2.11
+* Copyright (c) 2006-2016 Alexander Yanitsky
 * Website: http://janicky.com
 * E-mail: janickiy@mail.ru
 * Skype: janickiy
@@ -129,14 +129,7 @@ class Model_send extends Model
 		
 			while($send = $this->data->getRow($result))
 			{			
-				$subject = $send['name'];
-				$m->CharSet = $charset;
-			
-				if($charset != 'utf-8'){
-					$subject = iconv('utf-8',$charset,$subject);
-				}
-			
-				$m->Subject = $subject;		
+				$m->CharSet = $charset;					
 			
 				if($send['prior'] == 1) 
 					$m->Priority = 1;
@@ -163,42 +156,41 @@ class Model_send extends Model
 				else if($settings['interval_type'] == 'd')
 					$interval = "AND (time_send < NOW() - INTERVAL '".$settings['interval_number']."' DAY)";
 				else  
-					$interval = '';
-
+					$interval = '';					
+				
+				$order = $settings['random'] == "yes" ? 'ORDER BY RAND()' : '';	 
 				$limit = $settings['make_limit_send'] == "yes" ? "LIMIT ".$settings['limit_number']."" : "";			
 			
 				if($_GET['typesend'] == 2){
 					if($send['id_cat'] == 0) 
 						$query_users = "SELECT *,u.id_user as id FROM ".$this->data->getTableName('users')." u 
 						LEFT JOIN ".$this->data->getTableName('ready_send')." r ON (u.id_user=r.id_user) AND (r.success='yes') AND (r.id_template=".$send['id_template'].")
-						WHERE (r.id_user IS NULL) AND (status='active') ".$limit."";
+						WHERE (r.id_user IS NULL) AND (status='active') ".$order." ".$limit."";
 					else	
 						$query_users = "SELECT *,u.id_user as id FROM ".$this->data->getTableName('users')." u
 						LEFT JOIN ".$this->data->getTableName('subscription')." s ON u.id_user=s.id_user
 						LEFT JOIN ".$this->data->getTableName('ready_send')." r ON (u.id_user=r.id_user) AND (r.success='yes') AND (r.id_template=".$send['id_template'].")
-						WHERE (r.id_user IS NULL) AND (id_cat=".$send['id_cat'].") AND (status='active') ".$limit."";
+						WHERE (r.id_user IS NULL) AND (id_cat=".$send['id_cat'].") AND (status='active') ".$order." ".$limit."";
 				}
 				else{
 					if($settings['re_send'] == "no") { 
 						if($send['id_cat'] == 0) 
 							$query_users = "SELECT *,u.id_user as id FROM ".$this->data->getTableName('users')." u 
 							LEFT JOIN ".$this->data->getTableName('ready_send')." r ON u.id_user=r.id_user AND r.id_template=".$send['id_template']." 
-							WHERE (r.id_user IS NULL) AND (status='active') ".$interval." ".$limit."";		
+							WHERE (r.id_user IS NULL) AND (status='active') ".$interval." ".$order." ".$limit."";		
 						else 
 							$query_users = "SELECT *,u.id_user as id FROM ".$this->data->getTableName('users')." u 
 							LEFT JOIN ".$this->data->getTableName('subscription')." s ON u.id_user=s.id_user
 							LEFT JOIN ".$this->data->getTableName('ready_send')." r ON u.id_user=r.id_user AND r.id_template=".$send['id_template']." 
-							WHERE (r.id_user IS NULL) AND (id_cat=".$send['id_cat'].") AND (status='active') ".$interval." 
-							".$limit."";									
+							WHERE (r.id_user IS NULL) AND (id_cat=".$send['id_cat'].") AND (status='active') ".$interval." ".$order." ".$limit."";									
 					}
 					else{
 						if($send['id_cat'] == 0) 
-							$query_users = "SELECT *,id_user as id FROM ".$this->data->getTableName('users')." WHERE status='active' ".$interval." ".$limit."";
+							$query_users = "SELECT *,id_user as id FROM ".$this->data->getTableName('users')." WHERE status='active' ".$interval." ".$order." ".$limit."";
 						else 
 							$query_users = "SELECT *,u.id_user as id FROM ".$this->data->getTableName('users')." u 
 							LEFT JOIN ".$this->data->getTableName('subscription')." s ON u.id_user=s.id_user 
-							WHERE (id_cat=".$send['id_cat'].") AND (status='active') ".$interval."
-							".$limit."";	
+							WHERE (id_cat=".$send['id_cat'].") AND (status='active') ".$interval." ".$order." ".$limit."";	
 					}						
 				}
 			
@@ -206,6 +198,16 @@ class Model_send extends Model
 		
 				while($user = $this->data->getRow($result_users))
 				{	
+					$subject = $send['name'];
+				
+					$subject = str_replace('%NAME%', $user['name'], $subject);
+			
+					if($charset != 'utf-8'){
+						$subject = iconv('utf-8',$charset,$subject);
+					}
+					
+					$m->Subject = $subject;				
+				
 					if($this->getStatusProcess() == 'stop' OR $this->getStatusProcess() == 'pause') break;
 					if($settings['sleep'] and $settings['sleep'] > 0) sleep($settings['sleep']);
 					
@@ -299,7 +301,7 @@ class Model_send extends Model
 					
 						$insert = $this->data->insert($fields, $this->data->getTableName("ready_send"));
 					
-						$query = "UPDATE ".$this->data->getTableName("users")." SET time_send = NOW() WHERE id_user=".$user['id'];
+						$query = "UPDATE ".$this->data->getTableName("users")." SET time_send=NOW() WHERE id_user=".$user['id'];
 						$update = $this->data->querySQL($query);
 
 						$mailcount = $mailcount+1;						
@@ -331,5 +333,3 @@ class Model_send extends Model
 		return $mailcount;	
 	}
 }
-
-?>

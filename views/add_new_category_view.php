@@ -1,8 +1,8 @@
 <?php
 
 /********************************************
-* PHP Newsletter 4.1.3
-* Copyright (c) 2006-2015 Alexander Yanitsky
+* PHP Newsletter 4.2.11
+* Copyright (c) 2006-2016 Alexander Yanitsky
 * Website: http://janicky.com
 * E-mail: janickiy@mail.ru
 * Skype: janickiy
@@ -17,17 +17,19 @@ $tpl = SeparateTemplate::instance()->loadSourceFromFile($PNSL["system"]["templat
 
 $tpl->assign('SCRIPT_VERSION', $PNSL["system"]["version"]);
 $tpl->assign('STR_WARNING', $PNSL["lang"]["str"]["warning"]);
-$tpl->assign('INFO_ALERT', $PNSL["lang"]["info"]["add_new_category"]);
+$tpl->assign('INFO_ALERT', $PNSL["lang"]["info"]["edit_user"]);
+$tpl->assign('STR_ERROR', $PNSL["lang"]["str"]["error"]);
+$tpl->assign('STR_LOGOUT', $PNSL["lang"]["str"]["logout"]);
 
 if($_POST['action']){
-	$_POST['name'] = trim(htmlspecialchars($_POST['name']));
+	$name = trim(htmlspecialchars($_POST['name']));
 
-	if(empty($_POST['name'])) $alert_error = $PNSL["lang"]["error"]["empty_category_name"];
-	if(!empty($_POST['name']) and $data->checkExistCatName($_POST['name'])) $alert_error = $PNSL["lang"]["error"]["cat_name_exist"];
+	if(empty($name)) $alert_error = $PNSL["lang"]["error"]["empty_category_name"];
+	if(!empty($name) && $data->checkExistCatName($name)) $alert_error = $PNSL["lang"]["error"]["cat_name_exist"];
 	
 	if(!$alert_error){
 		$fields = array();
-		$fields['name'] = $_POST['name'];	
+		$fields['name'] = $name;	
 	
 		$result = $data->addNewCategory($fields);
 	
@@ -43,8 +45,7 @@ if($_POST['action']){
 
 $tpl->assign('TITLE_PAGE', $PNSL["lang"]["title_page"]["add_category"]);
 $tpl->assign('TITLE', $PNSL["lang"]["title"]["add_category"]);
-
-//$tpl->assign('NAMESCRIPT', $PNSL["lang"]["script"]["name"]);
+$tpl->assign('INFO_ALERT', $PNSL["lang"]["info"]["add_category"]);
 
 //error alert
 if(!empty($alert_error)) {
@@ -71,5 +72,3 @@ include_once "footer.php";
 
 // display content
 $tpl->display();
-
-?>

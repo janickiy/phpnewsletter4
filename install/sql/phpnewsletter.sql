@@ -52,6 +52,7 @@ CREATE TABLE `%prefix%ready_send` (
 
 CREATE TABLE `%prefix%settings` (
   `language` varchar(10) NOT NULL,
+  `theme` enum('default', 'dark') NOT NULL DEFAULT 'default',
   `email` varchar(200) NOT NULL,
   `email_name` varchar(200) NOT NULL,
   `show_email` enum('no','yes') NOT NULL DEFAULT 'yes',
@@ -84,6 +85,7 @@ CREATE TABLE `%prefix%settings` (
   `limit_number` int(6) NOT NULL,
   `precedence` enum('no','bulk','junk','list') NOT NULL DEFAULT 'bulk',
   `sleep` int(6) NOT NULL,
+  `random` enum('yes','no') NOT NULL DEFAULT 'no',
   `add_dkim` enum('no','yes') NOT NULL DEFAULT 'no',
   `dkim_domain` varchar(255) NOT NULL,
   `dkim_private` varchar(255) NOT NULL,
@@ -104,7 +106,7 @@ CREATE TABLE `%prefix%subscription` (
 CREATE TABLE `%prefix%template` (
   `id_template` int(7) NOT NULL AUTO_INCREMENT,
   `name` varchar(200) NOT NULL,
-  `body` text NOT NULL,
+  `body` mediumtext NOT NULL,
   `prior` enum('1','2','3') NOT NULL DEFAULT '3',
   `pos` int(7) NOT NULL,
   `id_cat` int(7) NOT NULL,

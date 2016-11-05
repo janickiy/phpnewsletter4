@@ -1,6 +1,6 @@
 <p>« <a href="./?task=subscribers">${RETURN_BACK}</a></p>
 <!-- IF '${INFO_ALERT}' != '' -->
-<div class="alert alert-info"> ${INFO_ALERT} </div>
+<div class="alert alert-info"><span class="icon icon-exclamation-sign"></span> ${INFO_ALERT} </div>
 <!-- END IF -->
 <!-- IF '${ERROR_ALERT}' != '' -->
 <div class="alert alert-error">

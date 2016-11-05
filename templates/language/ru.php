@@ -79,7 +79,7 @@ $PNSL["lang"]["table"]["category"] = "Категория";
 $PNSL["lang"]["table"]["edit"]     = "Редактировать";
 $PNSL["lang"]["table"]["remove"]   = "Удалить";
 $PNSL["lang"]["table"]["mailer"]   = "Рассылка";
-$PNSL["lang"]["table"]["position"] = "Позиция";
+$PNSL["lang"]["table"]["position"] = "Порядок";
 $PNSL["lang"]["table"]["read"]     = "Прочитано";
 $PNSL["lang"]["table"]["download_report"]    = "Отчёт в формате excel";
 $PNSL["lang"]["table"]["number_subscribers"] = "Количество подписчиков";
@@ -160,7 +160,7 @@ $PNSL["lang"]["str"]["user_email"] = "E-mail получателя";
 $PNSL["lang"]["str"]["name"]      = "Имя";
 $PNSL["lang"]["str"]["charset"]   = "Кодировка";
 $PNSL["lang"]["str"]["clear_log"] = "Очистить журнал";
-$PNSL["lang"]["str"]["logo"]   = '© 2006-2015 <a href="http://janicky.com/">PHP Newsletter</a>';
+$PNSL["lang"]["str"]["logo"]   = '© 2006-2016 <a href="http://janicky.com/">PHP Newsletter</a>';
 $PNSL["lang"]["str"]["author"] = "Яницкий Александр";
 $PNSL["lang"]["str"]["current_password"] = 'Текущий пароль';
 $PNSL["lang"]["str"]["password"] = "Пароль";
@@ -191,6 +191,7 @@ $PNSL["lang"]["str"]["there_are_no_more_entries"] = "Записей больше
 $PNSL["lang"]["str"]["show_more"] = "Показать больше";
 $PNSL["lang"]["str"]["click"] = "Кликни";
 $PNSL["lang"]["str"]["loading_data"] = "Загрузка данных";
+$PNSL["lang"]["str"]["logout"] = "Выйти";
 
 $PNSL["lang"]["form"]["choose_action"] = "Выберите действие";
 $PNSL["lang"]["form"]["subject"] = "Тема";
@@ -307,6 +308,8 @@ $PNSL["lang"]["set"]["dkim_selector"] = "Селектор";
 $PNSL["lang"]["set"]["dkim_passphrase"] = "Ключевое слово";
 $PNSL["lang"]["set"]["dkim_identity"] = "Подписанная личность (E-mail)";
 $PNSL["lang"]["set"]["sleep"] = "Задержка между отправки писем (сек.)";
+$PNSL["lang"]["set"]["theme"] = "Тема";
+$PNSL["lang"]["set"]["random"] = "Рандомизация подписчиков";
 
 $PNSL["lang"]["subject"]["notification_newuser"] = 'Зарегистрирован новый подписчик';
 $PNSL["lang"]["subject"]["subscription"] = "Подписка на рассылку";

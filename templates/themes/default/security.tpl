@@ -1,5 +1,4 @@
 <!-- INCLUDE header.tpl -->
-<script type="text/javascript" src="./js/jquery.hide_alertblock.js"></script>
 <!-- IF '${INFO_ALERT}' != '' -->
 <div class="alert alert-info">
 ${INFO_ALERT}

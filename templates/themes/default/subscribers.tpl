@@ -3,11 +3,6 @@
 
 var DOM = (typeof(document.getElementById) != 'undefined');
 
-function Check_action()
-{
-	if(document.forms[1].action.value == 0) { window.alert('${ALERT_CONFIRM_REMOVE}'); }
-}
-
 function CheckAll_Activate(Element,Name)
 {
 	if(DOM){
@@ -74,7 +69,7 @@ function PnumberChange()
 <!-- IF '${ERROR_ALERT}' != '' -->
 <div class="alert alert-error">
   <button class="close" data-dismiss="alert">×</button>
-  <strong>${STR_ERROR}!</strong> ${ERROR_ALERT} </div>
+   <strong>${STR_ERROR}!</strong> ${ERROR_ALERT} </div>
 <!-- END IF -->
 <!-- IF '${MSG_ALERT}' != '' -->
 <div class="alert alert-success">
@@ -82,7 +77,7 @@ function PnumberChange()
   ${MSG_ALERT} </div>
 <!-- END IF -->
 <!-- BEGIN row -->
-<form class="form-horizontal" action="${ACTION}" onSubmit="if(document.forms[1].action.value == 0){window.alert('${ALERT_SELECT_ACTION}');return false;}if(document.forms[1].action.value == 3){return confirm('${ALERT_CONFIRM_REMOVE}');}" method="post">
+<form class="form-horizontal" action="${ACTION}" onSubmit="if(this.action.value == 0){window.alert('${ALERT_SELECT_ACTION}');return false;}if(this.action.value == 3){return confirm('${ALERT_CONFIRM_REMOVE}');}" method="post">
   <table class="table table-striped table-bordered table-hover dataTable" border="0" cellspacing="0" cellpadding="0" width="100%">
     <thead>
       <tr>
@@ -97,7 +92,7 @@ function PnumberChange()
     </thead>
     <tbody>
       <!-- BEGIN column -->
-      <tr class="td-middle${STATUS_CLASS}">
+      <tr class="td-middle<!-- IF '${STATUS_CLASS}' == 'noactive' --> error<!-- END IF -->">
         <td><input type="checkbox" onclick="Count_checked();" title="${STR_CHECK_BOX}" value="${ID_USER}" name="activate[]"></td>
         <td style="text-align: left;">${NAME}</td>
         <td style="text-align: left;">${EMAIL}</td>
@@ -105,6 +100,7 @@ function PnumberChange()
         <td><a title="${PROMPT_IP_INFO}" href="./?task=whois&ip=${IP}">${IP}</a></td>
         <td>${STR_STAT}</td>
         <td><a class="btn" href="./?task=edit_user&id_user=${ID_USER}" title="${STR_EDIT}"> <i class="icon-pencil"></i>${STR_EDIT}</a> <a class="btn" href="./?task=subscribers&remove=${ID_USER}" title="${STR_REMOVE}"> <i class="icon-trash"></i> ${STR_REMOVE} </a>
+		</td>
       </tr>
       <!-- END column -->
     </tbody>

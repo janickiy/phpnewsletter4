@@ -1,8 +1,8 @@
 <?php
 
 /********************************************
-* PHP Newsletter 4.1.3
-* Copyright (c) 2006-2015 Alexander Yanitsky
+* PHP Newsletter 4.2.11
+* Copyright (c) 2006-2016 Alexander Yanitsky
 * Website: http://janicky.com
 * E-mail: janickiy@mail.ru
 * Skype: janickiy
@@ -15,10 +15,11 @@ Auth::authorization();
 require_once $PNSL["system"]["dir_root"].$PNSL["system"]["dir_libs"]."html_template/SeparateTemplate.php";
 $tpl = SeparateTemplate::instance()->loadSourceFromFile($PNSL["system"]["template"]."subscribers.tpl");
 
-$tpl->assign('STR_WARNING', $PNSL["lang"]["str"]["warning"]);
 $tpl->assign('SCRIPT_VERSION', $PNSL["system"]["version"]);
-$tpl->assign('INFO_ALERT', $PNSL["lang"]["info"]["subscribers"]);
+$tpl->assign('STR_WARNING', $PNSL["lang"]["str"]["warning"]);
+$tpl->assign('INFO_ALERT', $PNSL["lang"]["info"]["edit_user"]);
 $tpl->assign('STR_ERROR', $PNSL["lang"]["str"]["error"]);
+$tpl->assign('STR_LOGOUT', $PNSL["lang"]["str"]["logout"]);
 
 if($_POST['action']){
 	
@@ -67,6 +68,7 @@ else if($_GET['remove'] and preg_match("|^[\d]*$|",$_GET['remove'])) {
 
 $tpl->assign('TITLE_PAGE',$PNSL["lang"]["title_page"]["subscribers"]);
 $tpl->assign('TITLE',$PNSL["lang"]["title"]["subscribers"]);
+$tpl->assign('INFO_ALERT', $PNSL["lang"]["info"]["subscribers"]);
 
 //menu
 include_once "menu.php";
@@ -148,10 +150,9 @@ if(isset($_COOKIE['pnumber_subscribers']))
 else 
 	$pnumber = 20;
 
-$arr = array();
 $arr = $data->getSubersArr($strtmp, $pnumber);
 
-if(is_array($arr)){
+if($arr){
 	$return_backBlock = $tpl->fetch('show_return_back');	
 	$return_backBlock->assign('STR_BACK', $PNSL["lang"]["str"]["return_back"]);
 	
@@ -223,20 +224,20 @@ if(is_array($arr)){
 	$rowBlock->assign('TABLE_STATUS', $PNSL["lang"]["table"]["status"]);
 	$rowBlock->assign('TABLE_ACTION', $PNSL["lang"]["table"]["action"]);
 	
-	for($i = 0; $i < count($arr); $i++){
+	foreach($arr as $row){
 		$columnBlock = $rowBlock->fetch('column');
-		$str_stat = $arr[$i]['status'] == 'active' ? $PNSL["lang"]["str"]["activeuser"] : $PNSL["lang"]["str"]["noactive"];
-		$tr_status_class = $arr[$i]['status'] == 'noactive' ? ' error"' : '';
+		$str_stat = $row['status'] == 'active' ? $PNSL["lang"]["str"]["activeuser"] : $PNSL["lang"]["str"]["noactive"];
+		$tr_status_class = $row['status'] == 'noactive' ? 'noactive' : '';
 		
 		$columnBlock->assign('STATUS_CLASS',$tr_status_class);
 		
 		$columnBlock->assign('STR_CHECK_BOX', $PNSL["lang"]["str"]["check_box"]);
-		$columnBlock->assign('ID_USER', $arr[$i]['id_user']);
-		$columnBlock->assign('NAME', $arr[$i]['name']);
-		$columnBlock->assign('EMAIL', $arr[$i]['email']);
-		$columnBlock->assign('PUTDATE_FORMAT', $arr[$i]['putdate_format']);
-		$columnBlock->assign('IP', $arr[$i]['ip']);
-		$columnBlock->assign('GETHOSTBYADDR', $arr[$i]['ip']);
+		$columnBlock->assign('ID_USER', $row['id_user']);
+		$columnBlock->assign('NAME', $row['name']);
+		$columnBlock->assign('EMAIL', $row['email']);
+		$columnBlock->assign('PUTDATE_FORMAT', $row['putdate_format']);
+		$columnBlock->assign('IP', $row['ip']);
+		$columnBlock->assign('GETHOSTBYADDR', $row['ip']);
 		$columnBlock->assign('PROMPT_IP_INFO', $PNSL["lang"]["prompt"]["ip_info"]);			
 		
 		$columnBlock->assign('STR_STAT', $str_stat);		
@@ -292,5 +293,3 @@ include_once "footer.php";
 
 //display content
 $tpl->display();
-
-?>

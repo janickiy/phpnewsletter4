@@ -30,5 +30,3 @@ $tpl->assign('MENU_MAILING_OPTIONS_TITLE', $PNSL["lang"]["menu"]["mailing_option
 $tpl->assign('MENU_MAILING_OPTIONS', $PNSL["lang"]["menu"]["mailing_options"]);
 $tpl->assign('MENU_UPDATE_TITLE', $PNSL["lang"]["menu"]["update_title"]);
 $tpl->assign('MENU_UPDATE', $PNSL["lang"]["menu"]["update"]);
-
-?>

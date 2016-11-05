@@ -1,8 +1,8 @@
 <?php
 
 /********************************************
-* PHP Newsletter 4.1.3
-* Copyright (c) 2006-2015 Alexander Yanitsky
+* PHP Newsletter 4.2.11
+* Copyright (c) 2006-2016 Alexander Yanitsky
 * Website: http://janicky.com
 * E-mail: janickiy@mail.ru
 * Skype: janickiy
@@ -47,37 +47,19 @@ class Auth
 			}
 		}
 		else{
-			if($_SESSION['sess_admin'] != "ok"){
+			if($_SESSION['sess_admin'] != "ok"){			
+				// require temlate class
+				require_once $PNSL["system"]["dir_root"].$PNSL["system"]["dir_libs"]."html_template/SeparateTemplate.php";
+				$tpl = SeparateTemplate::instance()->loadSourceFromFile($PNSL["system"]["template"]."authorization.tpl");
 
-				echo '<!DOCTYPE html>
-				<html>
-				<head>
-				<title>'.$PNSL["lang"]["title"]["authorization"].'</title>
-				<meta http-equiv="content-type" content="text/html; charset=utf-8">
-				<link href="./styles/bootstrap.min.css" rel="stylesheet" media="screen">
-				<link href="./styles/bootstrap-responsive.min.css" rel="stylesheet" media="screen">
-				<link href="./styles/styles.css" rel="stylesheet" media="screen">
-				<link href="./styles/DT_bootstrap.css" rel="stylesheet" media="screen">				
-				</head>
-				<body>				
-				<div class="container">
-				<div class="row ">
-				<div class="row text-center ">
-				<div class="col-md-12">
-				<br>
-				<br>
-				<h2>'.$PNSL["lang"]["str"]["admin_area"].' '.$PNSL["lang"]["script"]["name"].'</h2>
-				<br>
-				</div>
-				</div>
-				<form class="form-signin" method="post">
-				<h4 class="form-signin-heading">'.$PNSL["lang"]["str"]["sign_in"].'</h4>
-				<input class="input-block-level" type="password" name="password" placeholder="'.$PNSL["lang"]["str"]["password"].'">
-				<input type="submit" class="btn btn-primary" name="admin" value=" OK ">
-				</form>
-				</div>
-				</body>
-				</html>';
+				$tpl->assign('TITLE', $PNSL["lang"]["title"]["authorization"]);
+				$tpl->assign('STR_ADMIN_AREA', $PNSL["lang"]["str"]["admin_area"]);
+				$tpl->assign('SCRIPT_NAME', $PNSL["lang"]["script"]["name"]);
+				$tpl->assign('STR_SIGN_IN', $PNSL["lang"]["str"]["sign_in"]);
+				$tpl->assign('STR_PASSWORD', $PNSL["lang"]["str"]["password"]);			
+				
+				// display content
+				$tpl->display();
 				
 				exit();
 			}

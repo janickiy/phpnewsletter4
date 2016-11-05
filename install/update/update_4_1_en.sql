@@ -1,0 +1,2 @@
+ALTER TABLE `%prefix%settings` ADD `theme` ENUM( 'default', 'dark' ) NOT NULL DEFAULT 'default' AFTER `language`;
+ALTER TABLE `%prefix%settings` ADD `random` ENUM( 'yes', 'no' ) NOT NULL DEFAULT 'no' AFTER `sleep`;

@@ -1,8 +1,8 @@
 <?php
 
 /********************************************
-* PHP Newsletter 4.1.3
-* Copyright (c) 2006-2015 Alexander Yanitsky
+* PHP Newsletter 4.2.11
+* Copyright (c) 2006-2016 Alexander Yanitsky
 * Website: http://janicky.com
 * E-mail: janickiy@mail.ru
 * Skype: janickiy
@@ -165,7 +165,7 @@ class Model_import extends Model
 				$email = strtolower($email);
 				$name = trim($name);
 				
-				if(strlen($name)>250) { $name = ''; }
+				if(strlen($name) > 250) { $name = ''; }
 				
 				if($email){
 					$query = "SELECT * FROM ".$this->data->getTableName('users')." WHERE email LIKE '".$email."'";
@@ -227,5 +227,3 @@ class Model_import extends Model
 		return $count;
 	}	
 }
-
-?>

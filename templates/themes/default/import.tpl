@@ -21,16 +21,14 @@ ${MSG_ALERT}
 </div>
 <!-- END IF -->
 
-<img src="./images/info-import.jpg" border="0" style="padding-bottom: 20px;">
+<span class="info-import"></span>
 <form class="form-horizontal" enctype="multipart/form-data" action="${ACTION}" method="post">
-
     <div class="control-group">
       <label class="control-label" for="file">${TABLE_DATABASE_FILE}:</label>
 	  <div class="controls">
       <input class="span6 input-xlarge focused" type="file" name="file" value="">
 	  </div>
-   </div>
-	
+   </div>	
    <div class="control-group">
       <label class="control-label" for="charset">${STR_CHARSET}:</label>
 	  <div class="controls">
@@ -39,8 +37,7 @@ ${MSG_ALERT}
 		${OPTION}      
       </select>
 	  </div>
-     </div>	
-	
+     </div>		
     <div class="control-group">
       <label class="control-label" for="id_cat[]">${TABLE_CATEGORY}:</label>
       <!-- BEGIN row -->
@@ -48,11 +45,9 @@ ${MSG_ALERT}
 	  <div class="controls">
       <input type="checkbox" value="${ID_CAT}" name="id_cat[]">${NAME}
 	  </div>
-	  </label>
-      
+	  </label>      
       <!-- END row -->
    </div>	
-	
     <div class="controls">
       <input class="btn btn-success" type="submit" name="action" value="${BUTTON_ADD}">
     </div>

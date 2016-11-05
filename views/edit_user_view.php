@@ -1,8 +1,8 @@
 <?php
 
 /********************************************
-* PHP Newsletter 4.1.3
-* Copyright (c) 2006-2015 Alexander Yanitsky
+* PHP Newsletter 4.2.11
+* Copyright (c) 2006-2016 Alexander Yanitsky
 * Website: http://janicky.com
 * E-mail: janickiy@mail.ru
 * Skype: janickiy
@@ -18,24 +18,23 @@ $tpl = SeparateTemplate::instance()->loadSourceFromFile($PNSL["system"]["templat
 $tpl->assign('SCRIPT_VERSION', $PNSL["system"]["version"]);
 $tpl->assign('STR_WARNING', $PNSL["lang"]["str"]["warning"]);
 $tpl->assign('INFO_ALERT', $PNSL["lang"]["info"]["edit_user"]);
-$tpl->assign('STR_ERROR',$PNSL["lang"]["str"]["error"]);
+$tpl->assign('STR_ERROR', $PNSL["lang"]["str"]["error"]);
+$tpl->assign('STR_LOGOUT', $PNSL["lang"]["str"]["logout"]);
 
 if($_POST['action']){
 
 	$error = array();
 
-	$_POST['name'] = htmlspecialchars(trim($_POST['name']));
-	$_POST['email'] = strtolower(trim($_POST['email']));
+	$name = htmlspecialchars(trim($_POST['name']));
+	$email = strtolower(trim($_POST['email']));
 	
-	//if(empty($_POST['name'])) $error[] = $PNSL["lang"]["error"]["empty_name"];
-	if(empty($_POST['email'])) $error[] = $PNSL["lang"]["error"]["empty_email"];
-	
-	if(!empty($_POST['email']) and check_email($_POST['email'])) $error[] = $PNSL["lang"]["error"]["wrong_email"];
+	if(empty($email)) $error[] = $PNSL["lang"]["error"]["empty_email"];
+	if(!empty($email) and check_email($_POST['email'])) $error[] = $PNSL["lang"]["error"]["wrong_email"];
 	
 	if(count($error) == 0){
 		$fields = array();
-		$fields['name'] = $_POST['name'];
-		$fields['email'] = $_POST['email'];	
+		$fields['name'] = $name;
+		$fields['email'] = $email;	
 	
 		$result = $data->editUser($fields, $_POST['id_user'], $_POST['id_cat']);
 
@@ -53,6 +52,7 @@ $user = $data->getUserEdit($_GET['id_user']);
 
 $tpl->assign('TITLE_PAGE', $PNSL["lang"]["title_page"]["edit_user"]);
 $tpl->assign('TITLE', $PNSL["lang"]["title"]["edit_user"]);
+$tpl->assign('INFO_ALERT', $PNSL["lang"]["info"]["edit_user"]);
 
 //error alert
 if(!empty($alert_error)) {
@@ -94,13 +94,13 @@ $tpl->assign('EMAIL', $email);
 
 $arr = $data->getGategoryList();
 
-if(is_array($arr)){
-	for($i=0; $i<count($arr); $i++){
+if($arr){
+	foreach($arr as $row){
 		$rowBlock = $tpl->fetch('row');
-		$rowBlock->assign('ID_CAT', $arr[$i]['id_cat']);
-		$rowBlock->assign('CATEGORY_NAME', $arr[$i]['name']);
+		$rowBlock->assign('ID_CAT', $row['id_cat']);
+		$rowBlock->assign('CATEGORY_NAME', $row['name']);
 		
-		if($data->checkUserSub($arr[$i]['id_cat'], $_GET['id_user'])>0){
+		if($data->checkUserSub($row['id_cat'], $_GET['id_user'])>0){
 			$rowBlock->assign('CHECKED', 'checked');
 		}
 		
@@ -115,5 +115,3 @@ include_once "footer.php";
 
 // display content
 $tpl->display();
-
-?>

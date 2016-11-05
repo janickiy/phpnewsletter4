@@ -41,7 +41,6 @@ $INSTALL["lang"]["str"]["admin_area"] = "Go to admin area";
 $INSTALL["lang"]["str"]["license_key"] = "License Key";
 $INSTALL["lang"]["str"]["demo_version"] = "Demoversion";
 $INSTALL["lang"]["str"]["commercial_version"] = "Commercial_version";
-$INSTALL["lang"]["str"]["error"] = "Error";
 $INSTALL["lang"]["error"]["must_be_enter_dbserver"] = "The database server name should be specified!";
 $INSTALL["lang"]["error"]["must_be_enter_dblogin"] = "The database user name should be specified!";
 $INSTALL["lang"]["error"]["must_be_enter_dbname"] = "The database name should be specified!";

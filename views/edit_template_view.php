@@ -1,8 +1,8 @@
 <?php
 
 /********************************************
-* PHP Newsletter 4.1.3
-* Copyright (c) 2006-2015 Alexander Yanitsky
+* PHP Newsletter 4.2.11
+* Copyright (c) 2006-2016 Alexander Yanitsky
 * Website: http://janicky.com
 * E-mail: janickiy@mail.ru
 * Skype: janickiy
@@ -15,23 +15,28 @@ Auth::authorization();
 require_once $PNSL["system"]["dir_root"].$PNSL["system"]["dir_libs"]."html_template/SeparateTemplate.php";
 $tpl = SeparateTemplate::instance()->loadSourceFromFile($PNSL["system"]["template"]."edit_template.tpl");
 
+$settings = $data->getSetting();
+
 $tpl->assign('SCRIPT_VERSION', $PNSL["system"]["version"]);
 $tpl->assign('STR_WARNING', $PNSL["lang"]["str"]["warning"]);
-$tpl->assign('INFO_ALERT', $PNSL["lang"]["info"]["edit_template"]);
+$tpl->assign('INFO_ALERT', $PNSL["lang"]["info"]["edit_user"]);
 $tpl->assign('STR_ERROR', $PNSL["lang"]["str"]["error"]);
+$tpl->assign('STR_LOGOUT', $PNSL["lang"]["str"]["logout"]);
+
+$tpl->assign('LANGUAGE', $settings['language']);
 
 if($_POST["action"]){
 	$error = array();
-	$_POST['name'] = trim($_POST['name']);
-	$_POST['body'] = trim($_POST['body']);
+	$name = trim($_POST['name']);
+	$body = trim($_POST['body']);
 	
-	if(empty($_POST['name'])) $error[] = $PNSL["lang"]["error"]["empty_subject"];
-	if(empty($_POST['body'])) $error[] = $PNSL["lang"]["error"]["empty_content"];
+	if(empty($name)) $error[] = $PNSL["lang"]["error"]["empty_subject"];
+	if(empty($body)) $error[] = $PNSL["lang"]["error"]["empty_content"];
 	
 	if(count($error) == 0){
 		$fields = array();
-		$fields['name'] = $_POST['name'];
-		$fields['body'] = $_POST['body'];
+		$fields['name'] = $name;
+		$fields['body'] = $body;
 		$fields['prior'] = $_POST['prior'];
 		$fields['id_cat'] = $_POST['id_cat'];
 	
@@ -57,8 +62,7 @@ if($_GET['remove']){
 
 $tpl->assign('TITLE_PAGE', $PNSL["lang"]["title_page"]["edit_template"]);
 $tpl->assign('TITLE', $PNSL["lang"]["title"]["edit_template"]);
-
-//$tpl->assign('NAMESCRIPT', $PNSL["lang"]["script"]["name"]);
+$tpl->assign('INFO_ALERT', $PNSL["lang"]["info"]["edit_template"]);
 
 //menu
 include_once "menu.php";
@@ -114,16 +118,16 @@ $tpl->assign('ID_TEMPLATE', $_GET['id_template']);
 
 $arr = $data->getAttachmentsList($_GET['id_template']);
 
-if(is_array($arr)){
+if($arr){
 	$attachBlock = $tpl->fetch('attach_list');
 	$attachBlock->assign('STR_ATTACH_LIST', $PNSL["lang"]["str"]["str_attach_list"]);
 	
-	for($i=0; $i<count($arr); $i++)
+	foreach($arr as $row)
 	{
 		$rowBlock = $attachBlock->fetch('row');		
-		$rowBlock->assign('ATTACHMENT_FILE', $arr[$i]['name']);
+		$rowBlock->assign('ATTACHMENT_FILE', $row['name']);
 		$rowBlock->assign('ID_TEMPLATE', $_GET['id_template']);
-		$rowBlock->assign('ID_ATTACHMENT', $arr[$i]['id_attachment']);		
+		$rowBlock->assign('ID_ATTACHMENT', $row['id_attachment']);		
 		$rowBlock->assign('STR_REMOVE', $PNSL["lang"]["str"]["remove"]);		
 		$attachBlock->assign('row', $rowBlock);
 	}
@@ -141,13 +145,13 @@ else
 $option = '';
 $arr = $data->getCategoryOptionList();
 
-if(is_array($arr)){
+if($arr){
 	$selected = $_POST['id_cat'] == 0 ? ' selected="selected"' : "";
 	$option .= "<option value=0".$selected.">".$PNSL["lang"]["form"]["sent_to_all"]."</option>";
 
-	for($i=0; $i<count($arr); $i++){
-		$selected = $_POST['id_cat'] == $arr[$i]['id_cat'] ? ' selected="selected"' : "";
-		$option .= "<option value=".$arr[$i]['id_cat']."".$selected.">".$arr[$i]['name']."</option>";
+	foreach($arr as $row){
+		$selected = $_POST['id_cat'] == $row['id_cat'] ? ' selected="selected"' : "";
+		$option .= "<option value=".$row['id_cat']."".$selected.">".$row['name']."</option>";
 	}
 }		
 
@@ -156,11 +160,10 @@ $tpl->assign('BUTTON', $PNSL["lang"]["button"]["edit"]);
 
 $tpl->assign('STR_SEND_TEST_EMAIL', $PNSL["lang"]["str"]["send_test_email"]);
 $tpl->assign('BUTTON_SEND', $PNSL["lang"]["button"]["send"]);
+$tpl->assign('STR_IDENTIFIED_FOLLOWING_ERRORS', $PNSL["lang"]["str"]["identified_following_errors"]);
 
 //footer
 include_once "footer.php";
 
 // display content
 $tpl->display();
-
-?>

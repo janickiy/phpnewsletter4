@@ -4,7 +4,6 @@
 ${INFO_ALERT}
 </div>
 <!-- END IF -->
-
 <!-- IF '${ERROR_ALERT}' != '' -->
 <div class="alert alert-error">
   <button class="close" data-dismiss="alert">×</button>
@@ -31,10 +30,7 @@ ${INFO_ALERT}
       <td width="300">
         <a title="${STR_EDIT}" href="./?task=edit_category&id_cat=${ID_CAT}" class="btn"> <i class="icon-pencil"></i> ${STR_EDIT} </a>
         <a class="btn" title="${STR_REMOVE}" href="./?task=category&remove=${ID_CAT}" 
-        <!-- IF '${ALERT_REMOVE_SUNBERS}' != '' -->
-        onclick="return confirm('${ALERT_REMOVE_SUNBERS}');"
-        <!-- END IF -->
-        >
+        <!-- IF '${ALERT_REMOVE_SUNBERS}' != '' -->onclick="return confirm('${ALERT_REMOVE_SUNBERS}');"<!-- END IF -->>
         <i class="icon-trash"></i> ${STR_REMOVE} </a></td>
     </tr>
     <!-- END row -->

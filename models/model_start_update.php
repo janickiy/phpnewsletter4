@@ -1,8 +1,8 @@
 <?php
 
 /********************************************
-* PHP Newsletter 4.1.3
-* Copyright (c) 2006-2015 Alexander Yanitsky
+* PHP Newsletter 4.2.11
+* Copyright (c) 2006-2016 Alexander Yanitsky
 * Website: http://janicky.com
 * E-mail: janickiy@mail.ru
 * Skype: janickiy
@@ -21,6 +21,13 @@ class Model_start_update extends Model
 		global $PNSL;
 		$this->data = new DBParser($PNSL);
 		return $this->data;
+	}
+	
+	public function getSetting(){
+		$query = "SELECT * FROM ".$this->data->getTableName('settings')."";
+		$result = $this->data->querySQL($query);
+		
+		return $this->data->getRow($result);	
 	}
 	
 	public function DownloadUpdate($path, $getfile)
@@ -116,18 +123,15 @@ class Model_start_update extends Model
 				
 			if (in_array('require_confirmation', $tables['settings'])) {
 				$version_code_detect = 40100;
-			}				
+			}
+
+			if (in_array('random', $tables['settings'])) {
+				$version_code_detect = 40200;
+			}
 		}
 
 		return $version_code_detect;	
 	}
 	
-	public function getSetting(){
-		$query = "SELECT * FROM ".$this->data->getTableName('settings')."";
-		$result = $this->data->querySQL($query);
-		
-		return $this->data->getRow($result);	
-	}
-}
 
-?>
+}

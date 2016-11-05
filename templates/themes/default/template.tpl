@@ -420,12 +420,13 @@ ${INFO_ALERT}
   <button class="close" data-dismiss="alert">×</button>
   <strong>${STR_ERROR}!</strong> ${ERROR_ALERT} </div>
 <!-- END IF -->
-<form action="${ACTION}" onSubmit="if(document.forms[0].action.value == 0){window.alert('${ALERT_SELECT_ACTION}');return false;}if(document.forms[0].action.value == 4){return confirm('${ALERT_CONFIRM_REMOVE}');} if(document.forms[0].action.value == 1) return false" method="post">
+<form action="${ACTION}" onSubmit="if(this.action.value == 0){window.alert('${ALERT_SELECT_ACTION}');return false;}if(this.action.value == 4){return confirm('${ALERT_CONFIRM_REMOVE}');} if(this.action.value == 1) return false" method="post">
   <table class="table-hover table table-bordered" border="0" cellspacing="0" cellpadding="0" width="100%">
     <thead>
       <tr>
         <th style="text-align: center;"><input type="checkbox" title="TABLECOLMN_CHECK_ALLBOX" onclick="CheckAll_Activate(this,'activate[]');"></th>
-        <th width="50%">${TH_TABLE_MAILER}</th>
+        <th width="5%">ID</th>
+	    <th width="50%">${TH_TABLE_MAILER}</th>
         <th>${TH_TABLE_CATEGORY}</th>
         <th>${TH_TABLE_ACTIVITY}</th>
         <th>${TH_TABLE_POSITION}</th>
@@ -437,15 +438,18 @@ ${INFO_ALERT}
       <!-- BEGIN column -->
       <tr class="td-middle${CLASS_NOACTIVE}">
         <td><input type="checkbox" onclick="Count_checked();" title="${TABLECOLMN_CHECKBOX}" value="${ROW_ID_TEMPLATE}" name=activate[]></td>
-        <td style="text-align: left;"><a title="${STR_EDIT_MAILINGTEXT}" href="./?task=edit_template&id_template=${ROW_ID_TEMPLATE}">${ROW_TMPLNAME}</a><br>
+        <td>${ROW_ID_TEMPLATE}</td>
+	    <td style="text-align: left;"><a title="${STR_EDIT_MAILINGTEXT}" href="./?task=edit_template&id_template=${ROW_ID_TEMPLATE}">${ROW_TMPLNAME}</a><br>
           <br>
           ${ROW_CONTENT}
           </div></td>
         <td>${ROW_CATNAME}</td>
         <td>${ROW_ACTIVE}</td>
-        <td><p><a href="./?id_template=${ROW_ID_TEMPLATE}&pos=up" class="btn" title="${STR_DOWN}"><i class="icon-arrow-up"></i></a>
-          <p>
-          <p><a href="./?id_template=${ROW_ID_TEMPLATE}&pos=down" class="btn" title="${STR_DOWN}"><i class="icon-arrow-down"></i></a></p></td>
+        <td><p><a href="./?id_template=${ROW_ID_TEMPLATE}&pos=up" class="btn" title="${STR_DOWN}"><i class="icon-arrow-up"></i></a></p>
+		<input class="span8" type="text" name="pos" value="${ROW_POS}">
+          <p><a href="./?id_template=${ROW_ID_TEMPLATE}&pos=down" class="btn" title="${STR_DOWN}"><i class="icon-arrow-down"></i></a></p>
+		  
+		</td>
         <td><a href="./?task=edit_template&id_template=${ROW_ID_TEMPLATE}" class="btn" title="${STR_EDIT}"><i class="icon-pencil"></i></a></td>
       </tr>
       <!-- END column -->
@@ -456,7 +460,7 @@ ${INFO_ALERT}
     <div class="control-group">
       <select id="select_action" class="span3 form-control" name="action">
         <option value="0">--${STR_ACTION}--</option>
-        <option value="1"  >${STR_SENDOUT}</option>
+        <option value="1">${STR_SENDOUT}</option>
         <option value="2">${STR_ACTIVATE}</option>
         <option value="3">${STR_DEACTIVATE}</option>
         <option value="4">${STR_REMOVE}</option>

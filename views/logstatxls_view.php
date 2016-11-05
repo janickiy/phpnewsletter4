@@ -1,8 +1,8 @@
 <?php
 
 /********************************************
-* PHP Newsletter 4.1.3
-* Copyright (c) 2006-2015 Alexander Yanitsky
+* PHP Newsletter 4.2.11
+* Copyright (c) 2006-2016 Alexander Yanitsky
 * Website: http://janicky.com
 * E-mail: janickiy@mail.ru
 * Skype: janickiy
@@ -115,5 +115,3 @@ header('Content-Type: application/vnd.ms-excel');
 header('Content-Disposition: attachment;filename="logstat_'.$timelog.'.xls"');
 header('Cache-Control: max-age=0');
 $objWriter->save('php://output');
-
-?>

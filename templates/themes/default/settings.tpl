@@ -16,23 +16,6 @@ $(function () {
      
 });
 </script>
-
-<script type="text/javascript">
-$(function () {
-    // Tabs
-    $('#tabs').tabs();
-
-    //hover states on the static widgets
-    $('#dialog_link, #modal_link, ul#icons li').hover(
-
-    function () {
-        $(this).addClass('ui-state-hover');
-    }, function () {
-        $(this).removeClass('ui-state-hover');
-    });
-     
-});
-</script>
 <!-- IF '${INFO_ALERT}' != '' -->
 <div class="alert alert-info">
 ${INFO_ALERT}
@@ -59,7 +42,7 @@ ${INFO_ALERT}
     </ul>	
     <div id="interface">
 	<div class="control-group">
-        <label class="control-label-large" for="number_pos">${SET_LANGUAGE}:</label>
+        <label class="control-label-large" for="language">${SET_LANGUAGE}:</label>
         <div class="controls-large">		 
 		 <select class="span3 form-control" name="language">
             <option value="ru" <!-- IF '${OPTION_LANG}' == 'ru' -->selected="selected"<!-- END IF -->>${SET_OPTION_RU}</option>
@@ -67,6 +50,17 @@ ${INFO_ALERT}
 		 </select>	
         </div>
       </div>
+	  
+	  	<div class="control-group">
+        <label class="control-label-large" for="theme">${SET_THEME}:</label>
+        <div class="controls-large">		 
+		 <select class="span3 form-control" name="theme">
+            <option value="default" <!-- IF '${OPTION_THEME}' == 'default' -->selected="selected"<!-- END IF -->>classic</option>
+			<option value="dark" <!-- IF '${OPTION_THEME}' == 'dark' -->selected="selected"<!-- END IF -->>dark</option>
+		 </select>	
+        </div>
+      </div>
+	  
       <div class="control-group">
         <label class="control-label-large" for="email">${SET_EMAIL}:</label>
         <div class="controls-large">
@@ -279,12 +273,24 @@ ${INFO_ALERT}
 		  <input type="checkbox" <!-- IF '${MAKE_LIMIT_SEND}' == 'yes' -->checked="checked"<!-- END IF --> name="make_limit_send">
         </div>
       </div>
+	  
       <div class="control-group">
         <label class="control-label-large" for="sleep">${SET_SLEEP}:</label>
         <div class="controls-large">
           <input type="text" class="span1 focused" value="${SLEEP}" name="sleep">
         </div>
       </div>
+	  
+	  <div class="control-group">
+        <label class="control-label-large" for="random">${SET_RANDOM}:</label>
+        <div class="controls-large"> <input type=checkbox name="random"
+        
+          <!-- IF '${RANDOM}' == 'yes' -->
+          checked="checked"
+          <!-- END IF -->
+          > </div>
+      </div>
+	  
       <div class="control-group">
         <label class="control-label-large" for="precedence">Precedence:</label>
         <div class="controls-large">

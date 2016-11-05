@@ -1,8 +1,8 @@
 <?php
 
 /********************************************
-* PHP Newsletter 4.1.3
-* Copyright (c) 2006-2015 Alexander Yanitsky
+* PHP Newsletter 4.2.11
+* Copyright (c) 2006-2016 Alexander Yanitsky
 * Website: http://janicky.com
 * E-mail: janickiy@mail.ru
 * Skype: janickiy
@@ -17,29 +17,31 @@ $tpl = SeparateTemplate::instance()->loadSourceFromFile($PNSL["system"]["templat
 
 $tpl->assign('SCRIPT_VERSION', $PNSL["system"]["version"]);
 $tpl->assign('STR_WARNING', $PNSL["lang"]["str"]["warning"]);
-$tpl->assign('INFO_ALERT', $PNSL["lang"]["info"]["add_user"]);
+$tpl->assign('INFO_ALERT', $PNSL["lang"]["info"]["edit_user"]);
+$tpl->assign('STR_ERROR', $PNSL["lang"]["str"]["error"]);
+$tpl->assign('STR_LOGOUT', $PNSL["lang"]["str"]["logout"]);
 
 if($_POST['action']){
 	$error = array();
 
-	$_POST['name'] = trim($_POST['name']);
-	$_POST['email'] = trim($_POST['email']);
+	$name = trim($_POST['name']);
+	$email = trim($_POST['email']);
 	
-	if(empty($_POST['email'])) $error[] = $PNSL["lang"]["error"]["empty_email"];
+	if(empty($email)) $error[] = $PNSL["lang"]["error"]["empty_email"];
 	
-	if(!empty($_POST['email']) and check_email($_POST['email'])){
+	if(!empty($email) && check_email($email)){
 		$error[] = $PNSL["lang"]["error"]["wrong_email"];
 	}
 	
-	if(!empty($_POST['email']) and $data->checkExistEmail($_POST['email'])){
+	if(!empty($email) && $data->checkExistEmail($email)){
 		$error[] = $PNSL["lang"]["error"]["subscribe_is_already_done"];
 	}
 	
 	if(count($error) == 0){
 		$fields = array();
 		$fields['id_user']   = 0;
-		$fields['name']      = $_POST['name'];
-		$fields['email']     = $_POST['email'];
+		$fields['name']      = $name;
+		$fields['email']     = $email;
 		$fields['ip']        = '';
 		$fields['token']     = getRandomCode();
 		$fields['time']      = date("Y-m-d H:i:s");	
@@ -57,8 +59,7 @@ if($_POST['action']){
 
 $tpl->assign('TITLE_PAGE', $PNSL["lang"]["title_page"]["add_user"]);
 $tpl->assign('TITLE', $PNSL["lang"]["title"]["add_user"]);
-
-//$tpl->assign('NAMESCRIPT',$PNSL["lang"]["script"]["name"]);
+$tpl->assign('INFO_ALERT', $PNSL["lang"]["info"]["add_user"]);
 
 // menu
 include_once "menu.php";
@@ -99,13 +100,13 @@ $tpl->assign('EMAIL', $_POST['email']);
 
 $arr = $data->getGategoryList();
 
-if(is_array($arr)){
-	for($i = 0; $i < count($arr); $i++){
+if($arr){
+	foreach($arr as $row){
 		$rowBlock = $tpl->fetch('row');
-		$rowBlock->assign('ID_CAT', $arr[$i]['id_cat']);
-		$rowBlock->assign('CATEGORY_NAME', $arr[$i]['name']);
+		$rowBlock->assign('ID_CAT', $row['id_cat']);
+		$rowBlock->assign('CATEGORY_NAME', $row['name']);
 		
-		if($data->checkSub($arr[$i]['id_cat'])) $rowBlock->assign('CHECKED','checked');
+		if($data->checkSub($row['id_cat'])) $rowBlock->assign('CHECKED','checked');
 	
 		$tpl->assign('row', $rowBlock);	
 	}
@@ -116,5 +117,3 @@ include_once "footer.php";
 
 // display content
 $tpl->display();
-
-?>

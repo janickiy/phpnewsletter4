@@ -1,8 +1,8 @@
 <?php
 
 /********************************************
-* PHP Newsletter 4.1.3
-* Copyright (c) 2006-2015 Alexander Yanitsky
+* PHP Newsletter 4.2.11
+* Copyright (c) 2006-2016 Alexander Yanitsky
 * Website: http://janicky.com
 * E-mail: janickiy@mail.ru
 * Skype: janickiy
@@ -31,7 +31,7 @@ $PNSL["system"]["dir_classes"] = "classes/";
 $PNSL["path"] = str_replace("//","/", "/" .trim(str_replace(chr(92),"/", substr($PNSL["system"]["dir_root"],strlen($_SERVER["DOCUMENT_ROOT"]))),"/")."/");
 													
 //Script version
-$PNSL["system"]["version"] = "4.1.3";
+$PNSL["system"]["version"] = "4.2.11";
 
 //require libs
 require_once $PNSL["system"]["dir_root"].$PNSL["system"]["dir_engine"].$PNSL["system"]["dir_libs"]."functions.php";
@@ -45,9 +45,6 @@ require_once $PNSL["system"]["dir_root"].$PNSL["system"]["dir_engine"]."controll
 //require congigs
 require_once $PNSL["system"]["dir_root"].$PNSL["system"]["dir_config"]."config.php";
 
-//equire template
-$PNSL["system"]["template"] =  $PNSL["system"]["dir_root"].$PNSL["system"]["dir_templates"]."themes/default/";
-
 //require db classes
 require_once $PNSL["system"]["dir_root"].$PNSL["system"]["dir_engine"].$PNSL["system"]["dir_classes"]."class.db.php";
 require_once $PNSL["system"]["dir_root"].$PNSL["system"]["dir_engine"].$PNSL["system"]["dir_classes"]."class.exception_mysql.php";
@@ -55,6 +52,12 @@ require_once $PNSL["system"]["dir_root"].$PNSL["system"]["dir_engine"].$PNSL["sy
 //get settings
 require_once $PNSL["system"]["dir_root"].$PNSL["system"]["dir_engine"].$PNSL["system"]["dir_libs"]."get.settings.php";
 $settings = get_settings();
+
+//equire template
+if($settings["theme"])
+	$PNSL["system"]["template"] = $PNSL["system"]["dir_root"].$PNSL["system"]["dir_templates"]."themes/".$settings["theme"]."/";
+else
+	$PNSL["system"]["template"] = $PNSL["system"]["dir_root"].$PNSL["system"]["dir_templates"]."themes/default/";
 
 if($settings["language"])
 	$lang_file = $PNSL["system"]["dir_root"].$PNSL["system"]["dir_templates"]."language/".$settings["language"].".php";

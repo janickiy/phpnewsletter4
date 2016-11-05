@@ -1,8 +1,8 @@
 <?php
 
 /********************************************
-* PHP Newsletter 4.1.3
-* Copyright (c) 2006-2015 Alexander Yanitsky
+* PHP Newsletter 4.2.11
+* Copyright (c) 2006-2016 Alexander Yanitsky
 * Website: http://janicky.com
 * E-mail: janickiy@mail.ru
 * Skype: janickiy
@@ -27,6 +27,10 @@ class Model_sendtest extends Model
 	public function sendTestEmail($email,$subject,$body,$prior)
 	{
 		global $PNSL;
+		
+		$user = 'USERNAME';
+		
+		$subject = str_replace('%NAME%', $user['name'], $subject);
 		
 		require_once $PNSL["system"]["dir_root"].$PNSL["system"]["dir_libs"]."PHPMailer/class.phpmailer.php";
 		
@@ -66,14 +70,14 @@ class Model_sendtest extends Model
 			$m->IsMail();
 		}		
 		
-		$query = "SELECT * FROM ".$this->data->getTableName('charset')." WHERE id_charset = ".$settings['id_charset'];
+		$query = "SELECT * FROM ".$this->data->getTableName('charset')." WHERE id_charset=".$settings['id_charset'];
 		$result = $this->data->querySQL($query);
 		$char = $this->data->getRow($result);
 		$charset = $char['charset'];
 		
 		$m->CharSet = $charset;
 
-		if($settings['email_name'] == '')
+		if(empty($settings['email_name']))
 			$from = $_SERVER["SERVER_NAME"];
 		else
 			$from = $settings['email_name'];
@@ -106,10 +110,9 @@ class Model_sendtest extends Model
 		else	
 			$m->isHTML(false);	
 	
-		$user = 'USERNAME';
 		$m->AddAddress($email);	
 	
-		if($settings['request_reply'] and $settings['email_reply'] != ''){
+		if($settings['request_reply'] and !empty($settings['email_reply'])){
 			$m->addCustomHeader("Disposition-Notification-To: ".$settings['email_reply']."");
 			$m->ConfirmReadingTo = $settings['email_reply'];
 		}
@@ -154,5 +157,3 @@ class Model_sendtest extends Model
 		}
 	}
 }
-
-?>

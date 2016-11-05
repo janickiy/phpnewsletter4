@@ -1,8 +1,8 @@
 <?php
 
 /********************************************
-* PHP Newsletter 4.1.3
-* Copyright (c) 2006-2015 Alexander Yanitsky
+* PHP Newsletter 4.2.11
+* Copyright (c) 2006-2016 Alexander Yanitsky
 * Website: http://janicky.com
 * E-mail: janickiy@mail.ru
 * Skype: janickiy
@@ -11,8 +11,17 @@
 // authorization
 Auth::authorization();
 
-if($_POST["action"]){		
-	$arr = $data->getUserList();	
+if($_POST["action"]){	
+
+	$arr_cat = array();
+	
+	foreach($_POST['id_cat'] as $id_cat){
+		if(preg_match("|^[\d]+$|",$id_cat)){
+			$arr_cat[] = $id_cat;
+		}
+	}
+	
+	$arr = $data->getUserList($arr_cat);	
 	
 	if($_POST['export_type'] == 1){ 
 		$ext = '.txt';
@@ -107,11 +116,13 @@ $tpl = SeparateTemplate::instance()->loadSourceFromFile($PNSL["system"]["templat
 
 $tpl->assign('TITLE_PAGE', $PNSL["lang"]["title_page"]["export"]);
 $tpl->assign('TITLE', $PNSL["lang"]["title"]["export"]);
+$tpl->assign('INFO_ALERT', $PNSL["lang"]["info"]["export"]);
 
 $tpl->assign('SCRIPT_VERSION', $PNSL["system"]["version"]);
-$tpl->assign('INFO_ALERT', $PNSL["lang"]["info"]["export"]);
-$tpl->assign('STR_ERROR',$PNSL["lang"]["str"]["error"]);
-//$tpl->assign('NAMESCRIPT', $PNSL["lang"]["script"]["name"]);
+$tpl->assign('STR_WARNING', $PNSL["lang"]["str"]["warning"]);
+$tpl->assign('INFO_ALERT', $PNSL["lang"]["info"]["edit_user"]);
+$tpl->assign('STR_ERROR', $PNSL["lang"]["str"]["error"]);
+$tpl->assign('STR_LOGOUT', $PNSL["lang"]["str"]["logout"]);
 
 //menu
 include_once "menu.php";
@@ -132,6 +143,14 @@ $tpl->assign('STR_EXPORT_CSV', $PNSL["lang"]["str"]["export_type_cvs"]);
 $tpl->assign('STR_EXPORT_EXCEL', $PNSL["lang"]["str"]["excel"]);
 $tpl->assign('STR_COMPRESSION_OPTION_1', $PNSL["lang"]["str"]["compression_option_1"]);
 $tpl->assign('STR_COMPRESSION_OPTION_2', $PNSL["lang"]["str"]["compression_option_2"]);
+$tpl->assign('TABLE_CATEGORY', $PNSL["lang"]["table"]["category"]);
+
+foreach ($data->getCategoryList() as $row){
+	$rowBlock = $tpl->fetch('row');
+	$rowBlock->assign('ID_CAT', $row['id']);
+	$rowBlock->assign('NAME', $row['name']);
+	$tpl->assign('row', $rowBlock);
+}
 
 $tpl->assign('BUTTON_APPLY', $PNSL["lang"]["button"]["apply"]);
 
@@ -140,5 +159,3 @@ include_once "footer.php";
 
 // display content
 $tpl->display();
-
-?>

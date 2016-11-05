@@ -9,17 +9,12 @@ class Route
 			$controller_name = 'template';
 			$action_name = 'index';
 		
-			$_GET['action'] = trim($_GET['action']);
 			$_GET['task'] = trim($_GET['task']);
 		
 			if(!empty($_GET['task'])){	
 				$controller_name = $_GET['task'];
 			}		
 		
-			if(!empty($_GET['action']))	{
-				$action_name = $_GET['action'];
-			}		
-
 			$model_name = 'Model_'.$controller_name;
 			$controller_name = 'Controller_'.$controller_name;
 			$action_name = 'action_'.$action_name;

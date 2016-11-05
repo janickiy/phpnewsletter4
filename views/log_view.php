@@ -1,8 +1,8 @@
 <?php
 
 /********************************************
-* PHP Newsletter 4.1.3
-* Copyright (c) 2006-2015 Alexander Yanitsky
+* PHP Newsletter 4.2.11
+* Copyright (c) 2006-2016 Alexander Yanitsky
 * Website: http://janicky.com
 * E-mail: janickiy@mail.ru
 * Skype: janickiy
@@ -15,10 +15,11 @@ Auth::authorization();
 require_once $PNSL["system"]["dir_root"].$PNSL["system"]["dir_libs"]."html_template/SeparateTemplate.php";
 $tpl = SeparateTemplate::instance()->loadSourceFromFile($PNSL["system"]["template"]."log.tpl");
 
-$tpl->assign('STR_WARNING', $PNSL["lang"]["str"]["warning"]);
 $tpl->assign('SCRIPT_VERSION', $PNSL["system"]["version"]);
-$tpl->assign('INFO_ALERT', $PNSL["lang"]["info"]["log"]);
+$tpl->assign('STR_WARNING', $PNSL["lang"]["str"]["warning"]);
+$tpl->assign('INFO_ALERT', $PNSL["lang"]["info"]["edit_user"]);
 $tpl->assign('STR_ERROR', $PNSL["lang"]["str"]["error"]);
+$tpl->assign('STR_LOGOUT', $PNSL["lang"]["str"]["logout"]);
 
 if(isset($_REQUEST['clear_log'])){
 	$result = $data->clearLog();
@@ -60,7 +61,7 @@ foreach($order as $parametr => $field){
 
 $tpl->assign('TITLE_PAGE', $PNSL["lang"]["title_page"]["log"]);
 $tpl->assign('TITLE', $PNSL["lang"]["title"]["log"]);
-
+$tpl->assign('INFO_ALERT', $PNSL["lang"]["info"]["log"]);
 
 //menu
 include_once "menu.php";
@@ -155,18 +156,18 @@ else{
 	
 	$arr = $data->getLogArr($pnumber);
 
-	if(is_array($arr)){	
-		for($i = 0; $i < count($arr); $i++){
+	if($arr){	
+		foreach($arr as $row){
 			$rowBlock = $blockLogList->fetch('row');
-			$rowBlock->assign('TIME', $arr[$i]['time']);
-			$rowBlock->assign('ID_LOG', $arr[$i]['id_log']);
-			$total = $data->countLetters($arr[$i]['id_log']);
-			$total_sent = $data->countSent($arr[$i]['id_log']);
+			$rowBlock->assign('TIME', $row['time']);
+			$rowBlock->assign('ID_LOG', $row['id_log']);
+			$total = $data->countLetters($row['id_log']);
+			$total_sent = $data->countSent($row['id_log']);
 			$total_nosent = $total - $total_sent;
 			$rowBlock->assign('TOTAL', $total);
 			$rowBlock->assign('TOTAL_SENT', $total_sent);
 			$rowBlock->assign('TOTAL_NOSENT', $total_nosent);
-			$total_read = $data->countRead($arr[$i]['id_log']);
+			$total_read = $data->countRead($row['id_log']);
 			$rowBlock->assign('TOTAL_READ', $total_read);
 			$rowBlock->assign('STR_DOWNLOAD', $PNSL["lang"]["str"]["download"]);
 			
@@ -205,7 +206,7 @@ else{
 		$paginationBlock->assign('NEXTPAGE', $nextpage);
 		$paginationBlock->assign('PERV', $perv);
 		$paginationBlock->assign('NEXT', $next);		
-		$paginationBlock->assign('PNUMBER',$pnumber);
+		$paginationBlock->assign('PNUMBER', $pnumber);
 		
 		$blockLogList->assign('pagination', $paginationBlock);			
 	}
@@ -218,5 +219,3 @@ include_once "footer.php";
 
 // display content
 $tpl->display();
-
-?>

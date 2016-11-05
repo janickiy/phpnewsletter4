@@ -161,7 +161,7 @@ $PNSL["lang"]["str"]["user_email"] = "E-mail of recipient";
 $PNSL["lang"]["str"]["name"]      = "Name";
 $PNSL["lang"]["str"]["charset"]   = "Charset";
 $PNSL["lang"]["str"]["clear_log"] = "Clear log";
-$PNSL["lang"]["str"]["logo"]   = '© 2006-2015 <a href="http://janicky.com/">PHP Newsletter</a>';
+$PNSL["lang"]["str"]["logo"]   = '© 2006-2016 <a href="http://janicky.com/">PHP Newsletter</a>';
 $PNSL["lang"]["str"]["author"] = "Alexander Yanitsky";
 $PNSL["lang"]["str"]["current_password"] = 'Current Password';
 $PNSL["lang"]["str"]["password"] = "Password";
@@ -191,6 +191,7 @@ $PNSL["lang"]["str"]["there_are_no_more_entries"] = "There are no more entries";
 $PNSL["lang"]["str"]["show_more"] = "show more";
 $PNSL["lang"]["str"]["click"] = "Click here";
 $PNSL["lang"]["str"]["loading_data"] = "Loading data";
+$PNSL["lang"]["str"]["logout"] = "Logout";
 
 $PNSL["lang"]["form"]["choose_action"] = "Choose action";
 $PNSL["lang"]["form"]["subject"] = "Subject";
@@ -305,6 +306,8 @@ $PNSL["lang"]["set"]["dkim_selector"] = "Selector";
 $PNSL["lang"]["set"]["dkim_passphrase"] = "DKIM Passphrase";
 $PNSL["lang"]["set"]["dkim_identity"] = "DKIM Identity (Email address)";
 $PNSL["lang"]["set"]["sleep"] = "The delay between the sending (sec.)";
+$PNSL["lang"]["set"]["theme"] = "Theme";
+$PNSL["lang"]["set"]["random"] = "Randomization of subscribers";
 
 $PNSL["lang"]["subject"]["notification_newuser"] = 'Registered new subscriber';
 $PNSL["lang"]["subject"]["subscription"] = "Subscribe to Newsletter";

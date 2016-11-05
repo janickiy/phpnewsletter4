@@ -1,8 +1,8 @@
 <?php
 
 /********************************************
-* PHP Newsletter 4.1.3
-* Copyright (c) 2006-2015 Alexander Yanitsky
+* PHP Newsletter 4.2.11
+* Copyright (c) 2006-2016 Alexander Yanitsky
 * Website: http://janicky.com
 * E-mail: janickiy@mail.ru
 * Skype: janickiy
@@ -11,20 +11,24 @@
 // authorization
 Auth::authorization();
 
+$settings = $data->getSetting();
+
 // require temlate class
 require_once $PNSL["system"]["dir_root"].$PNSL["system"]["dir_libs"]."html_template/SeparateTemplate.php";
 $tpl = SeparateTemplate::instance()->loadSourceFromFile($PNSL["system"]["template"]."settings.tpl");
 
-$tpl->assign('STR_WARNING', $PNSL["lang"]["str"]["warning"]);
 $tpl->assign('SCRIPT_VERSION', $PNSL["system"]["version"]);
-$tpl->assign('INFO_ALERT', $PNSL["lang"]["info"]["settings"]);
+$tpl->assign('STR_WARNING', $PNSL["lang"]["str"]["warning"]);
+$tpl->assign('INFO_ALERT', $PNSL["lang"]["info"]["edit_user"]);
 $tpl->assign('STR_ERROR', $PNSL["lang"]["str"]["error"]);
+$tpl->assign('STR_LOGOUT', $PNSL["lang"]["str"]["logout"]);
 
 if($_POST["action"]){
 
 	$fields = Array();
 
 	$fields['language'] = trim($_POST['language']);
+	$fields['theme'] = $_POST['theme'];	
 	$fields['email'] = trim($_POST['email']);
 	$fields['email_name'] = trim($_POST['email_name']);
 	$fields['show_email'] = $_POST['show_email'] == 'on' ? "yes" : "no";
@@ -44,6 +48,7 @@ if($_POST["action"]){
 	$fields['number_days'] = (int)$_POST['number_days'];
 	$fields['make_limit_send'] = $_POST['make_limit_send'] == 'on' ? "yes" : "no";
 	$fields['re_send'] = $_POST['re_send'] == 'on' ? "yes" : "no";
+	$fields['random'] = $_POST['random'] == 'on' ? "yes" : "no";
 	$fields['delete_subs'] = $_POST['delete_subs'] == 'on' ? "yes" : "no";
 	$fields['newsubscribernotify'] = $_POST['newsubscribernotify'] == 'on' ? "yes" : "no";
 	$fields['request_reply'] = $_POST['request_reply'] == 'on' ? "yes" : "no";
@@ -81,6 +86,7 @@ if($_POST["action"]){
 
 $tpl->assign('TITLE_PAGE', $PNSL["lang"]["title_page"]["settings"]);
 $tpl->assign('TITLE', $PNSL["lang"]["title"]["settings"]);
+$tpl->assign('INFO_ALERT', $PNSL["lang"]["info"]["settings"]);
 
 $settings = $data->getSetting();
 
@@ -102,8 +108,7 @@ if(!empty($success)){
 
 //value
 $tpl->assign('OPTION_LANG', $settings['language']);
-$tpl->assign('NUMBER_POS', $settings['number_pos']);
-$tpl->assign('NUMBER_POS_USERS', $settings['number_pos_users']);
+$tpl->assign('OPTION_THEME', $settings['theme']);
 $tpl->assign('EMAIL', $settings['email']);
 $tpl->assign('SHOW_EMAIL', $settings['show_email']);
 $tpl->assign('SUBSCRIBER_NOTIFY', $settings['newsubscribernotify']);
@@ -130,6 +135,7 @@ $tpl->assign('NUMBER_DAYS', $settings['number_days']);
 $tpl->assign('PRECEDENCE', $settings['precedence']);
 $tpl->assign('SENDMAIL', $settings['sendmail']);
 $tpl->assign('SLEEP', $settings['sleep']);
+$tpl->assign('RANDOM', $settings['random']);
 $tpl->assign('ADD_DKIM', $settings["add_dkim"]);
 $tpl->assign('DKIM_DOMEN', $settings["dkim_domain"]);
 $tpl->assign('DKIM_PRIVATE', $settings["dkim_private"]);
@@ -140,6 +146,7 @@ $tpl->assign('DKIM_IDENTITY', $settings["dkim_identity"]);
 //form
 $tpl->assign('ACTION', $_SERVER['REQUEST_URI']);
 $tpl->assign('SET_LANGUAGE', $PNSL["lang"]["set"]["language"]);
+$tpl->assign('SET_THEME',  $PNSL["lang"]["set"]["theme"]);
 $tpl->assign('SET_OPTION_RU', $PNSL["lang"]["set"]["option_ru"]);
 $tpl->assign('SET_OPTION_EN', $PNSL["lang"]["set"]["option_en"]);
 $tpl->assign('SET_INTERFACE_SETTINGS', $PNSL["lang"]["set"]["interface_settings"]);
@@ -194,6 +201,7 @@ $tpl->assign('SET_HOW_TO_SEND_OPTION_2', $PNSL["lang"]["set"]["how_to_send_optio
 $tpl->assign('SET_HOW_TO_SEND_OPTION_3', $PNSL["lang"]["set"]["how_to_send_option_3"]);
 $tpl->assign('SET_SENDMAIL_PATH', $PNSL["lang"]["set"]["sendmail"]);
 $tpl->assign('SET_SLEEP', $PNSL["lang"]["set"]["sleep"]);
+$tpl->assign('SET_RANDOM', $PNSL["lang"]["set"]["random"]);
 $tpl->assign('SET_ADD_DKIM', $PNSL["lang"]["set"]["add_dkim"]);
 $tpl->assign('SET_DKIM_DOMEN', $PNSL["lang"]["set"]["dkim_domen"]);
 $tpl->assign('SET_DKIM_PRIVATE', $PNSL["lang"]["set"]["dkim_private"]);
@@ -222,5 +230,3 @@ include_once "footer.php";
 
 // display content
 $tpl->display();
-
-?>
