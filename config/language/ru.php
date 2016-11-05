@@ -1,0 +1,391 @@
+<?php
+
+$PNSL["lang"]["title_page"]["template"] = "Шаблоны";
+$PNSL["lang"]["title"]["template"] = "Шаблоны";
+$PNSL["lang"]["info"]["template"] = "В этом разделе отображается список шаблонов, которые Вы можете использовать для рассылок.";
+
+$PNSL["lang"]["title_page"]["add_user"] = "Добавление подписчика";
+$PNSL["lang"]["title"]["add_user"] = "Добавление подписчика";
+$PNSL["lang"]["info"]["add_user"] = "";
+
+$PNSL["lang"]["title_page"]["category"] = "Категория подписчиков";
+$PNSL["lang"]["title"]["category"] = "Категория подписчиков";
+$PNSL["lang"]["info"]["category"] = "Категория подписчиков - это разделы используемые для сортировки подписчиков и на которые можно привязать тематику рассылку.";
+
+$PNSL["lang"]["title_page"]["edit_user"] = "Редактирование";
+$PNSL["lang"]["title"]["edit_user"] = "Редактирование";
+$PNSL["lang"]["info"]["edit_user"] = "";
+
+$PNSL["lang"]["title_page"]["edit_category"] = "Редактирование категории";
+$PNSL["lang"]["title"]["edit_category"] = "Редактирование категории";
+$PNSL["lang"]["info"]["edit_category"] = "";
+
+$PNSL["lang"]["title_page"]["add_category"] = 'Добавить новую категорию';
+$PNSL["lang"]["title"]["add_category"] = 'Добавить новую категорию';
+$PNSL["lang"]["info"]["add_category"] = "";
+
+$PNSL["lang"]["title_page"]["create_new_template"] = "Добавление шаблона";
+$PNSL["lang"]["title"]["create_new_template"] = "Добавление шаблона";
+$PNSL["lang"]["info"]["create_new_template"] = "";
+
+$PNSL["lang"]["title_page"]["edit_template"] = "Редактирование шаблона";
+$PNSL["lang"]["title"]["edit_template"] = "Редактирование шаблона";
+$PNSL["lang"]["info"]["edit_template"] = "";
+
+$PNSL["lang"]["title_page"]["export"] = "Экспорт";
+$PNSL["lang"]["title"]["export"] = "Экспорт";
+$PNSL["lang"]["info"]["export"] = "";
+
+$PNSL["lang"]["title_page"]["import"] = "Импорт";
+$PNSL["lang"]["title"]["import"] = "Импорт";
+$PNSL["lang"]["info"]["import"] = "Вы можете импортировать подписчиков из текстового файла, а также из MS Excel файла. Поддерживаются следующие форматы Excel: xls (Excel 97-2003) и xlsx (Excel 2007) Размер Excel файла не должен превышать 1 Мб. Формат ячеек файла приведен на рисунке внизу.";
+
+$PNSL["lang"]["title_page"]["log"] = "Журнал рассылки";
+$PNSL["lang"]["title"]["log"] = "Журнал рассылки";
+$PNSL["lang"]["info"]["log"] = "Здесь Вы можете просматривать статистику по каждой рассылки. Важно! Учёт количество прочитанных писем возможно только для исходящих писем в html формате, а также если почтовые клиенты не блокируют автоматическую загрузку изображений.";
+
+$PNSL["lang"]["title_page"]["settings"] = "Конфигурация";
+$PNSL["lang"]["title"]["settings"] = "Конфигурация";
+$PNSL["lang"]["info"]["settings"] = "";
+
+$PNSL["lang"]["title_page"]["subscribers"] = "Подписчики";
+$PNSL["lang"]["title"]["subscribers"] = "Подписчики";
+$PNSL["lang"]["info"]["subscribers"] = "Подписчик - это человек, который был добавлен или подписался в категорию подписчиков. Ваши существующие подписчики показаны ниже.";
+
+$PNSL["lang"]["title_page"]["security"] = "Изменить пароль";
+$PNSL["lang"]["title"]["security"] = "Изменить пароль";
+$PNSL["lang"]["info"]["security"] = "";
+
+$PNSL["lang"]["title_page"]["update"] = "Обновление";
+$PNSL["lang"]["title"]["update"] = "Обновление";
+$PNSL["lang"]["info"]["update"] = "";
+
+$PNSL["lang"]["title_page"]["whois"] = "Информация о IP адресе";
+$PNSL["lang"]["title"]["whois"] = "Информация о IP адресе";
+$PNSL["lang"]["info"]["whois"] = "";
+
+$PNSL["lang"]["title_page"]["faq"] = 'FAQ';
+$PNSL["lang"]["title"]["faq"] = 'FAQ';
+$PNSL["lang"]["info"]["faq"] = "";
+
+$PNSL["lang"]["title"]["error_authorization"] = "Неверные данные авторизации!";
+
+$PNSL["lang"]["title"]["authorization"] = "Авторизация";
+$PNSL["lang"]["title"]["subscribe"] = "Подписаться";
+
+$PNSL["lang"]["table"]["action"] = "Действия";
+$PNSL["lang"]["table"]["activity"] = "Активность";
+$PNSL["lang"]["table"]["category"] = "Категория";
+$PNSL["lang"]["table"]["edit"]     = "Редактировать";
+$PNSL["lang"]["table"]["remove"]   = "Удалить";
+$PNSL["lang"]["table"]["mailer"]   = "Рассылка";
+$PNSL["lang"]["table"]["position"] = "Позиция";
+$PNSL["lang"]["table"]["read"]     = "Прочитано";
+$PNSL["lang"]["table"]["download_report"]    = "Отчёт в формате excel";
+$PNSL["lang"]["table"]["number_subscribers"] = "Количество подписчиков";
+$PNSL["lang"]["table"]["database_file"]      = "Файл с базой данных";
+$PNSL["lang"]["table"]["send"]     = "Разослать";
+$PNSL["lang"]["table"]["name"]     = "Имя";
+$PNSL["lang"]["table"]["title"]    = "Название";
+$PNSL["lang"]["table"]["email"]    = "E-mail"; 
+$PNSL["lang"]["table"]["added"]    = "Добавлен"; 
+$PNSL["lang"]["table"]["status"]   = "Статус";
+$PNSL["lang"]["table"]["ip_info"]  = "Информация о IP адресе";
+$PNSL["lang"]["table"]["time"]     = "Время";
+$PNSL["lang"]["table"]["sent"]     = "Отправленых";
+$PNSL["lang"]["table"]["nosent"]   = "Неотправленых";
+$PNSL["lang"]["table"]["error"]    = "Ошибка";
+$PNSL["lang"]["table"]["total"]    = "Всего";
+
+$PNSL["lang"]["str"]["check_allbox"] = "Отметить все/Снять отметку у всех";
+$PNSL["lang"]["str"]["check_box"]    = "Отметить/Снять отметку";
+$PNSL["lang"]["str"]["send"]         = "Отправить";
+$PNSL["lang"]["str"]["sendout"]      = "Разослать";
+$PNSL["lang"]["str"]["up"]   = "Вверх на одну позицию";
+$PNSL["lang"]["str"]["down"] = "Вниз на одну позицию";
+$PNSL["lang"]["str"]["download"]      = "Скачать";
+$PNSL["lang"]["str"]["download_stat"] = "Cкачать отчёт";
+$PNSL["lang"]["str"]["sent"]          = "Отправлено";
+$PNSL["lang"]["str"]["spent_time"]    = "Затраченное время";
+$PNSL["lang"]["str"]["send_status_yes"] = "отправлено";
+$PNSL["lang"]["str"]["send_status_no"]  = "не отправлено";
+$PNSL["lang"]["str"]["number_of_subscribers"] = "Количество подписчиков";
+$PNSL["lang"]["str"]["email"]  = "E-mail";
+$PNSL["lang"]["str"]["status"] = "Статус";
+$PNSL["lang"]["str"]["mailing_report"] = "Отчёт рассылки";
+$PNSL["lang"]["str"]["general"]        = "Общая";
+$PNSL["lang"]["str"]["yes"] = "да";
+$PNSL["lang"]["str"]["no"]  = "нет";
+$PNSL["lang"]["str"]["action"]   = "Действие";
+$PNSL["lang"]["str"]["activate"] = "Активировать";
+$PNSL["lang"]["str"]["str_attach_list"] = "Вложения";
+$PNSL["lang"]["str"]["deactivate"]      = "Деактивировать";
+$PNSL["lang"]["str"]["remove"]          = "Удалить";
+$PNSL["lang"]["str"]["activeuser"]      = "Активен";
+$PNSL["lang"]["str"]["noactive"]        = "Не активен";
+$PNSL["lang"]["str"]["edit"]            = "Редактировать";
+$PNSL["lang"]["str"]["remove_all_subscribers"] = "Удалить всех";
+$PNSL["lang"]["str"]["return_back"] = "Вернуться обратно";
+$PNSL["lang"]["str"]["apply"]       = "Применить";
+$PNSL["lang"]["str"]["pages"]       = "Страницы";
+$PNSL["lang"]["str"]["fields"]      = "Поля";
+$PNSL["lang"]["str"]["compression"] = "Упаковать";
+$PNSL["lang"]["str"]["time"]  = "Время";
+$PNSL["lang"]["str"]["total"] = "Всего";
+$PNSL["lang"]["str"]["good"]  = "Хор.";
+$PNSL["lang"]["str"]["bad"]   = "Плох.";
+$PNSL["lang"]["str"]["time_left"]   = "Осталось";
+$PNSL["lang"]["str"]["time_passed"] = "Прошло";
+$PNSL["lang"]["str"]["send_test_email"]        = "Отправить себе тестовое письмо";
+$PNSL["lang"]["str"]["sendout_to_subscribers"] = "Разослать рассылку подписчикам";
+$PNSL["lang"]["str"]["pause_sending"] = "Остановить рассылку";
+$PNSL["lang"]["str"]["stop_sending"]  = "Отменить рассылку";
+$PNSL["lang"]["str"]["refresh_sending"]    = "Разослать по неотправленным";
+$PNSL["lang"]["str"]["online_mailinglog"]  = "Онлайн журнал рассылки";
+$PNSL["lang"]["str"]["smtp_secure_ssl"]    = "ssl";
+$PNSL["lang"]["str"]["smtp_secure_tls"]    = "tls";
+$PNSL["lang"]["str"]["title_unsubscribe"]  = "Отписка от рассылки";
+$PNSL["lang"]["str"]["title_activate_sub"] = "Активизация подписки";
+$PNSL["lang"]["str"]["mailer"] = "Рассылка";
+$PNSL["lang"]["str"]["read"]   = "Прочитано";
+$PNSL["lang"]["str"]["error"]  = "Ошибка";
+$PNSL["lang"]["str"]["export"] = "Экспорт";
+$PNSL["lang"]["str"]["export_type_text"] = "Text";
+$PNSL["lang"]["str"]["excel"] = "MS Excel";
+$PNSL["lang"]["str"]["compression_option_1"] = "нет";
+$PNSL["lang"]["str"]["compression_option_2"] = "zip";
+$PNSL["lang"]["str"]["license_key"] = "Лицензионный ключ";
+$PNSL["lang"]["str"]["emals_db"]   = "База email";
+$PNSL["lang"]["str"]["user_email"] = "E-mail получателя";
+$PNSL["lang"]["str"]["name"]      = "Имя";
+$PNSL["lang"]["str"]["charset"]   = "Кодировка";
+$PNSL["lang"]["str"]["clear_log"] = "Очистить журнал";
+$PNSL["lang"]["str"]["logo"]   = '© 2006-2015 <a href="http://janicky.com/">PHP Newsletter</a>';
+$PNSL["lang"]["str"]["author"] = "Яницкий Александр";
+$PNSL["lang"]["str"]["current_password"] = 'Текущий пароль';
+$PNSL["lang"]["str"]["password"] = "Пароль";
+$PNSL["lang"]["str"]["again_password"] = "Повтор пароля";
+$PNSL["lang"]["str"]["search_name"] = "E-mail или имя";
+$PNSL["lang"]["str"]["go_to_homepage"] = "На главную страницу";
+$PNSL["lang"]["str"]["identified_following_errors"] = "Выявлены следующие ошибки";
+$PNSL["lang"]["str"]["add_user"] = "Добавить";
+$PNSL["lang"]["str"]["remove_user"] = "Удалить";
+$PNSL["lang"]["str"]["import_user"] = "Импорт";
+$PNSL["lang"]["str"]["export_user"] = "Экспорт";
+$PNSL["lang"]["str"]["send_test_email"] = "Отправить себе тестовое письмо";
+$PNSL["lang"]["str"]["supported_tags_list"] = "%NAME% - имя подписчика, %UNSUB% - ссылка для удаления рассылки, %SERVER_NAME% - адрес сайта";
+$PNSL["lang"]["str"]["update_warning"] = 'Доступна более новая версия %SCRIPTNAME% и вам предлагается её использовать. Новейшая версия %VERSION%, выпущена %CREATED%. <a href="%DOWNLOADLINK%">Скачать</a>';
+$PNSL["lang"]["str"]["warning"] = 'Внимание';
+$PNSL["lang"]["str"]["install_msg"] = 'Если PHP Newsletter уже установлен, то удалите папку <strong>install</strong>, иначе запустите <a href="%URL%">мастер установки</a>.';
+$PNSL["lang"]["str"]["url_info"] = 'http://janicky.com/php-scripts/pochtovaya-rassylka';
+$PNSL["lang"]["str"]["empty"] = 'нет';
+
+$PNSL["lang"]["form"]["choose_action"] = "Выберите действие";
+$PNSL["lang"]["form"]["subject"] = "Тема";
+$PNSL["lang"]["form"]["content"] = "Шаблон";
+$PNSL["lang"]["form"]["supported_tags"]    = "Поддерживаемые теги";
+$PNSL["lang"]["form"]["attach_file"] = "Присоединить файл";
+$PNSL["lang"]["form"]["button_add"]  = "Добавить";
+$PNSL["lang"]["form"]["category_subscribers"] = "Категория подписчиков";
+$PNSL["lang"]["form"]["priority_normal"]      = "Нормальная";
+$PNSL["lang"]["form"]["priority_low"]  = "Низкая";
+$PNSL["lang"]["form"]["priority_high"] = "Высокая";
+$PNSL["lang"]["form"]["priority"]    = "Важность";
+$PNSL["lang"]["form"]["sent_to_all"] = "Разослать всем";
+$PNSL["lang"]["form"]["activate"]    = "Активировать";
+$PNSL["lang"]["form"]["deactivate"]  = "Деактивировать";
+$PNSL["lang"]["form"]["remove"]      = "Удалить";
+$PNSL["lang"]["form"]["search_name"] = "E-mail или имя";
+
+$PNSL["lang"]["button"]["apply"]        = "Применить";
+$PNSL["lang"]["button"]["add_category"] = "Добавить категорию";
+$PNSL["lang"]["button"]["by_default"]   = "По умолчанию";
+$PNSL["lang"]["button"]["import"] = "Импортировать";
+$PNSL["lang"]["button"]["find"]   = "Найти";
+$PNSL["lang"]["button"]["add"]    = "Добавить";
+$PNSL["lang"]["button"]["edit"]   = "Редактировать";
+$PNSL["lang"]["button"]["save"]   = "Сохранить";
+$PNSL["lang"]["button"]["subscribe"]   = "Подписаться";
+$PNSL["lang"]["button"]["send"] = "Отправить";
+
+$PNSL["lang"]["alert"]["clear_all"]      = "Вы действительно хотите удалить все адреса?";
+$PNSL["lang"]["alert"]["select_action"]  = "Выберите действие!";
+$PNSL["lang"]["alert"]["confirm_remove"] = "Вы действительно хотите удалить?";
+$PNSL["lang"]["alert"]["remove_subers"]  = "Эта категория содержит подписчиков!\nВы действительно хотите удалить эту категорию?";
+$PNSL["lang"]["alert"]["error_server"]   = "Ошибка сервера";
+$PNSL["lang"]["alert"]["maling_not_selected"] = "Ни одной рассылки не выбрано!";
+$PNSL["lang"]["alert"]["not_authorized"] = 'Извините, но Вы не прошли авторизацию.\nДоступ закрыт!';
+
+$PNSL["lang"]["msg"]["notfound"] = "По вашему запросу ничего не найдено!";
+$PNSL["lang"]["msg"]["changes_added"] = "Изменения добавлены";
+$PNSL["lang"]["msg"]["imported_emails"] = 'Импортировано %COUNT% адресов электронной почты';
+$PNSL["lang"]["msg"]["letter_was_sent"] = "Письмо отправлено";
+$PNSL["lang"]["msg"]["subscribe_removed"] = "Рассылка на данный адрес удалена";
+$PNSL["lang"]["msg"]["successful_activation"] = "Спасибо, активация подписки прошла успешно!";
+$PNSL["lang"]["msg"]["notification_newuser"] = "На Вашем сайте %SITE% зарегистрирован новый подписчик";
+$PNSL["lang"]["msg"]["add_subscribe1"] = "Сейчас на ваш e-mail будет выслано письмо, по указанной в нём ссылке можно будет активировать подписку.";
+$PNSL["lang"]["msg"]["add_subscribe2"] = "Спасибо за подписку!";
+$PNSL["lang"]["msg"]["password_has_been_changed"] = "Пароль изменён";
+$PNSL["lang"]["msg"]["clear_log"] = "Журнал рассылки очищен";
+$PNSL["lang"]["msg"]["selected_users_activated"] = "Выбранные подписчики активированы";
+$PNSL["lang"]["msg"]["selected_users_deleted"] =  "Выбранные подписчики удалены из базы данных";
+$PNSL["lang"]["msg"]["all_users_deleted"] = "Все подписчики удалены из базы данных";
+$PNSL["lang"]["msg"]["category_removed"] = "Категория удалена";
+
+$PNSL["lang"]["set"]["language"] = "Язык";
+$PNSL["lang"]["set"]["option_ru"] = "Русский (Russian)";
+$PNSL["lang"]["set"]["option_en"] = "English (English)";
+$PNSL["lang"]["set"]["interface_settings"] = "Настройки интерфейса";
+$PNSL["lang"]["set"]["number_pos"]         = "Показывать рассылок на странице администрирования";
+$PNSL["lang"]["set"]["number_pos_users"]   = "Показывать подписчиков на странице администрирования";
+$PNSL["lang"]["set"]["email"]      = "E-mail";
+$PNSL["lang"]["set"]["show_email"] = "Показывать e-mail администратора в отправляемых письмах";
+$PNSL["lang"]["set"]["subscriber_notify"] = "Уведомлять о новом подписчике";
+$PNSL["lang"]["set"]["email_name"]   = "Имя к E-mail администратора (from)";
+$PNSL["lang"]["set"]["organization"] = "Организация";
+$PNSL["lang"]["set"]["subject_textconfirm"] = "Тема подтверждения рассылки";
+$PNSL["lang"]["set"]["text_confirmation"]   = "Текст подтверждения рассылки";
+$PNSL["lang"]["set"]["unsublink"] = "Текст ссылки отписки от рассылки";
+$PNSL["lang"]["set"]["hint"]      = "Поддерживаемые теги: %NAME% - имя подписчика, %CONFIRM% - ссылка для подтверждения рассылки, %UNSUB% - ссылка для удаления рассылки, %SERVER_NAME% - адрес сайта";
+$PNSL["lang"]["set"]["smtp_settings"] = "Настройки SMTP сервера";
+$PNSL["lang"]["set"]["smtp_host"]     = "SMTP сервер";
+$PNSL["lang"]["set"]["username"] = "Логин";
+$PNSL["lang"]["set"]["password"] = "Пароль";
+$PNSL["lang"]["set"]["port"]    = "Порт smtp сервера";
+$PNSL["lang"]["set"]["timeout"] = "Таймаут соединения";
+$PNSL["lang"]["set"]["smtp_secure"] = "Подключаться через безопасное соединение";
+$PNSL["lang"]["set"]["smtp_aut"]    = "Метод аутентификации";
+$PNSL["lang"]["set"]["smtp_aut_login"] = "LOGIN (Низкая секретность)";
+$PNSL["lang"]["set"]["smtp_aut_plain"] = "PLAIN (Cредняя секретность)";
+$PNSL["lang"]["set"]["smtp_aut_cram"]  = "CRAM-MD5 (Высокая секретность)";
+$PNSL["lang"]["set"]["send_parameters"]       = "Параметры рассылки";
+$PNSL["lang"]["set"]["show_unsubscribe_link"] = "Показывать форму отписки от рассылки";
+$PNSL["lang"]["set"]["request_reply"]    = "Запрашивать уведомления о прочтении писем";
+$PNSL["lang"]["set"]["interval_type"]    = "Отправлять письма подписчику в инетервале";
+$PNSL["lang"]["set"]["interval_type_no"] = "нет";
+$PNSL["lang"]["set"]["interval_type_m"] = "минут";
+$PNSL["lang"]["set"]["interval_type_h"] = "часов";
+$PNSL["lang"]["set"]["interval_type_d"] = "дней";
+$PNSL["lang"]["set"]["re_send"] = "Отправлять одно и тоже письмо повторно";
+$PNSL["lang"]["set"]["number_limit"] =  "Отправлять не более писем за раз";
+$PNSL["lang"]["set"]["charset"]      = "Кодировка исходящих писем";
+$PNSL["lang"]["set"]["content_type"] = "Формат исходящих писем";
+$PNSL["lang"]["set"]["how_to_send"]  = "Способ отправки";
+$PNSL["lang"]["set"]["how_to_send_option_1"] = "PHP Mail";
+$PNSL["lang"]["set"]["how_to_send_option_2"] = "SMTP сервер";
+$PNSL["lang"]["set"]["how_to_send_option_3"] = "Sendmail";
+$PNSL["lang"]["set"]["sendmail"] = "Путь к Sendmail";
+$PNSL["lang"]["set"]["add_dkim"] = "Добавить подпись DKIM в заголовок письма";
+$PNSL["lang"]["set"]["dkim_domen"] = "Подписанный домен";
+$PNSL["lang"]["set"]["dkim_private"] = "Файл секретного ключа(dkim private)";
+$PNSL["lang"]["set"]["dkim_selector"] = "Селектор";
+$PNSL["lang"]["set"]["dkim_passphrase"] = "Ключевое слово";
+$PNSL["lang"]["set"]["dkim_identity"] = "Подписанная личность (E-mail)";
+$PNSL["lang"]["set"]["sleep"] = "Задержка между отправки писем (сек.)";
+
+$PNSL["lang"]["subject"]["notification_newuser"] = 'Зарегистрирован новый подписчик';
+$PNSL["lang"]["subject"]["subscription"] = "Подписка на рассылку";
+
+//errors
+$PNSL["lang"]["error"]["service_unavailable"] = "Сервис недоступен!";
+$PNSL["lang"]["error"]["empty_subject"]       = "Введите тему!";
+$PNSL["lang"]["error"]["empty_content"]       = "Введите содержание!";
+$PNSL["lang"]["error"]["empty_your_email"]    = "Введите Ваш email!";
+$PNSL["lang"]["error"]["empty_your_name"] = "Введите Ваше имя!";
+$PNSL["lang"]["error"]["empty_email"] = "Введите email!";
+$PNSL["lang"]["error"]["letter_wasnt_sent"]   = "Письмо не отправлено!";
+$PNSL["lang"]["error"]["unsubscribe"]         = "Ошибка при удалении подписки!";
+$PNSL["lang"]["error"]["activate_subscription"] = "Ошибка активации подписки!";
+$PNSL["lang"]["error"]["enter_current_passwd"] = "Введите текущий пароль!";
+$PNSL["lang"]["error"]["password_isnt_entered"] = "Пароль не введен!";
+$PNSL["lang"]["error"]["re_enter_password"] = "Введите повторно пароль!";
+$PNSL["lang"]["error"]["passwords_dont_match"] = "Пароли не совпадают!";
+$PNSL["lang"]["error"]["current_password_incorrect"] = "Текущий пароль не верен!";
+$PNSL["lang"]["error"]["wrong_email"] = "E-mail введён неверно!";
+$PNSL["lang"]["error"]["subscribe_is_already_done"] = "Подписка с таким E-mail уже произведена!";
+$PNSL["lang"]["error"]["subscribe"] = "Подписка не произошла!";
+$PNSL["lang"]["error"]["empty_category_name"] = "Введите название категории!";
+$PNSL["lang"]["error"]["no_category_added"] = 'Категория не была добавлена!';
+$PNSL["lang"]["error"]["cat_name_exist"] = 'Категория с таким именем уже есть в базе данных!';
+$PNSL["lang"]["error"]["edit_cat_name"] = 'Нвзвание категории не было изменено!';
+$PNSL["lang"]["error"]["no_import"] = "Импорт не выполнен!";
+$PNSL["lang"]["error"]["no_import_file"] = "Файл для импорта не выбран!";
+$PNSL["lang"]["error"]["change_password"] = "Пароль не был сменён!";
+$PNSL["lang"]["error"]["clear_log"] = "Журнал рассылки не был очищен!";
+$PNSL["lang"]["error"]["empty_name"] = 'Введите имя!';
+$PNSL["lang"]["error"]["empty_email"] = 'Введите E-mail!';
+$PNSL["lang"]["error"]["edit_user"] = 'Ошибка редактирования!';
+$PNSL["lang"]["error"]["web_apps_error"] = 'Ошибка веб приложения! Действия не были выполнены.';
+
+//CHARSET
+$PNSL["lang"]["charset"]["charutf8"] = "Юникод (UTF-8)";
+$PNSL["lang"]["charset"]["iso88591"] = "Западноевропейская (ISO)";
+$PNSL["lang"]["charset"]["iso88592"] = "Центральноевропейская (ISO)";
+$PNSL["lang"]["charset"]["iso88593"] = "Южноевропейская (ISO)";
+$PNSL["lang"]["charset"]["iso88594"] = "Балтийская (ISO)";
+$PNSL["lang"]["charset"]["iso88595"] = "Кириллица (ISO)";
+$PNSL["lang"]["charset"]["koi8r"] = "Кириллица (Рус. KOI8-R)";
+$PNSL["lang"]["charset"]["koi8u"] = "Кириллица (Укр. KOI8-U)";
+$PNSL["lang"]["charset"]["iso88596"] = "Арабская (ISO)";
+$PNSL["lang"]["charset"]["iso88598"] = "Иврит (ISO)";
+$PNSL["lang"]["charset"]["iso88597"] = "Греческая (ISO)";
+$PNSL["lang"]["charset"]["ISO88599"] = "Турецкая (ISO)";
+$PNSL["lang"]["charset"]["iso885910"] = "Скандинавская (ISO)";
+$PNSL["lang"]["charset"]["iso885913"] = "Эстонская (ISO)";
+$PNSL["lang"]["charset"]["iso885914"] = "Кельтская (ISO)";
+$PNSL["lang"]["charset"]["iso885915"] = "Латиница 9 (ISO)";
+$PNSL["lang"]["charset"]["iso885916"] = "Румынская (ISO)";
+$PNSL["lang"]["charset"]["windows1250"] = "Центральноевропейская (Windows)";
+$PNSL["lang"]["charset"]["windows1251"] = "Кириллица (Windows)";
+$PNSL["lang"]["charset"]["windows1252"] = "Западноевропейская (Windows)";
+$PNSL["lang"]["charset"]["windows1253"] = "Греческая (Windows)";
+$PNSL["lang"]["charset"]["windows1254"] = "Турецкая (Windows)";
+$PNSL["lang"]["charset"]["windows1255"] = "Иврит (Windows)";
+$PNSL["lang"]["charset"]["windows1256"] = "Арабская (Windows)";
+$PNSL["lang"]["charset"]["windows1257"] = "Балтийская (Windows)";
+$PNSL["lang"]["charset"]["windows1258"] = "Вьетнамская (Windows)";
+$PNSL["lang"]["charset"]["gb2312"]    = "Китайская (упрощенная)";
+$PNSL["lang"]["charset"]["big5"]      = "Китайская (традиционная)";
+$PNSL["lang"]["charset"]["iso2022jp"] = "Японская (ISO)";
+$PNSL["lang"]["charset"]["ksc56011987"] = "Корейская";
+$PNSL["lang"]["charset"]["euckr"]       = "Корейская (EUC)";
+$PNSL["lang"]["charset"]["windows874"]  = "Тайская (Windows)";
+
+//menu
+$PNSL["lang"]["menu"]["templates_title"] = "Email Шаблоны";
+$PNSL["lang"]["menu"]["templates_name"]  = "Email Шаблоны";
+$PNSL["lang"]["menu"]["create_new_template_title"] = "Создать новы шаблон";
+$PNSL["lang"]["menu"]["create_new_template_name"]  = "Создать шаблон";
+$PNSL["lang"]["menu"]["subscribers_title"] = "Управление подписчиками";
+$PNSL["lang"]["menu"]["subscribers_name"]  = "Подписчики";
+$PNSL["lang"]["menu"]["category_title"]    = "Категория подписчиков";
+$PNSL["lang"]["menu"]["category_name"]     = "Категория подписчиков";
+$PNSL["lang"]["menu"]["settings_title"]    = "Настройки";
+$PNSL["lang"]["menu"]["settings_name"]     = "Настройки";
+$PNSL["lang"]["menu"]["import_title"]      = "Импорт адресов электронной почты";
+$PNSL["lang"]["menu"]["import_name"]       = "Импорт";
+$PNSL["lang"]["menu"]["export_title"]      = "Экспорт адресов электронной почты";
+$PNSL["lang"]["menu"]["export_name"]       = "Экспорт";
+$PNSL["lang"]["menu"]["log_title"]         = "Журнал";
+$PNSL["lang"]["menu"]["log_name"]          = "Журнал рассылки";
+$PNSL["lang"]["menu"]["interface_settings_title"] = "Настройки интерфейса";
+$PNSL["lang"]["menu"]["interface_settings"]       = "Настройки интерфейса";
+$PNSL["lang"]["menu"]["smtp_title"]        = "Настройки SMTP сервера";
+$PNSL["lang"]["menu"]["smtp"]              = "Настройки SMTP";
+$PNSL["lang"]["menu"]["security_title"]    = "Изменить пароль";
+$PNSL["lang"]["menu"]["security"]          = "Пароль";
+$PNSL["lang"]["menu"]["update_title"] = "Обновление";
+$PNSL["lang"]["menu"]["update"]       = "Обновление";
+$PNSL["lang"]["menu"]["mailing_options_title"]    = "Параметры рассылки";
+$PNSL["lang"]["menu"]["mailing_options"]          = "Параметры рассылки";
+
+$PNSL["lang"]["prompt"]["add_user"] = "Добавить нового подписчика";
+$PNSL["lang"]["prompt"]["remove_subscribers"] = "Удалить выбранных подписчиков";
+$PNSL["lang"]["prompt"]["remove_all_subscribers"] = "Удалить всех подписчиков";
+$PNSL["lang"]["prompt"]["import_subscribers"] = "Импортировать подписчиков";
+$PNSL["lang"]["prompt"]["export_subscribers"] = "Экспортировать подписчиков";
+$PNSL["lang"]["prompt"]["ip_info"] = "Информация о IP адресе";
+
+$PNSL["lang"]["script"]["name"] = "PHP Newsletter";
+
+?>
